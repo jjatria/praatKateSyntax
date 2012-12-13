@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<!--
+  Prat syntax highlighting for Kate (and derivatives)
+  v.0.1
+  Author: Jose Joaquin Atria (j.atria.11@ucl.ac.uk
+
+  =TODO=
+  - Decide on proper formatting
+  - Tighten context definitions and rules
+  - Preety much everything else
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Library General Public
+  License version 2 as published by the Free Software Foundation.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Library General Public License for more details.
+
+  You should have received a copy of the GNU Library General Public License
+  along with this library; see the file COPYING.LIB.  If not, write to
+  the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+  Boston, MA 02110-1301, USA.
+-->
+<language name="Praat" version="5.3.04-0.1" kateversion="2.4" section="Scripts" extensions="*.Praat;*.praat;*.psc;*.praat-script;*.praatscript" author="Jose J. Atria (j.atria.11@ucl.ac.uk)" license="LGPL">
+  <highlighting>
+    <list name="methods">
+      <item> Bark </item>
+      <item> Bartlett </item>
+      <item> Cubic </item>
+      <item> Gaussian </item>
+      <item> Hamming </item>
+      <item> Hanning </item>
+      <item> Hertz </item>
+      <item> Kaiser2 </item>
+      <item> Linear </item>
+      <item> Nearest </item>
+      <item> None </item>
+      <item> Parabolic </item>
+      <item> Rectangular </item>
+      <item> Semitones </item>
+      <item> Sinc </item>
+      <item> Sinc70 </item>
+      <item> Sinc700 </item>
+      <item> Square </item>
+      <item> Welch </item>
+    </list>
+    <list name="keywords">
+      <item>from</item>
+      <item>to</item>
+      <item>if</item>
+      <item>else</item>
+      <item>elsif</item>
+      <item>elif</item>
+      <item>endif</item>
+      <item>fi</item>
+      <item>repeat</item>
+      <item>until</item>
+      <item>while</item>
+      <item>endwhile</item>
+      <item>for</item>
+      <item>endfor</item>
+      <item>proc</item>
+      <item>endproc</item>
+      <item>form</item>
+      <item>endform</item>
+      <item>word</item>
+      <item>text</item>
+      <item>choice</item>
+      <item>button</item>
+      <item>comment</item>
+      <item>real</item>
+      <item>natural</item>
+      <item>positive</item>
+      <item>integer</item>
+      <item>sentence</item>
+      <item>boolean</item>
+      <item>optionmenu</item>
+      <item>option</item>
+    </list>
+    <list name="objects">
+      <item> Collection </item>
+      <item> Strings </item>
+      <item> ManPages </item>
+      <item> SortedSetOfString </item>
+      <item> Sound </item>
+      <item> Matrix </item>
+      <item> Polygon </item>
+      <item> PointProcess </item>
+      <item> ParamCurve </item>
+      <item> Spectrum </item>
+      <item> Ltas </item>
+      <item> Spectrogram </item>
+      <item> Formant </item>
+      <item> Excitation </item>
+      <item> Cochleagram </item>
+      <item> VocalTract </item>
+      <item> FormantPoint </item>
+      <item> FormantTier </item>
+      <item> FormantGrid </item>
+      <item> Label </item>
+      <item> Tier </item>
+      <item> Autosegment </item>
+      <item> Intensity </item>
+      <item> Pitch </item>
+      <item> Harmonicity </item>
+      <item> Transition </item>
+      <item> RealPoint </item>
+      <item> RealTier </item>
+      <item> PitchTier </item>
+      <item> IntensityTier </item>
+      <item> DurationTier </item>
+      <item> AmplitudeTier </item>
+      <item> SpectrumTier </item>
+      <item> Manipulation </item>
+      <item> TextPoint </item>
+      <item> TextInterval </item>
+      <item> TextTier </item>
+      <item> IntervalTier </item>
+      <item> TextGrid </item>
+      <item> LongSound </item>
+      <item> WordList </item>
+      <item> SpellingChecker </item>
+      <item> Movie </item>
+      <item> Corpus </item>
+      <item> TableOfReal </item>
+      <item> Distributions </item>
+      <item> PairDistribution </item>
+      <item> Table </item>
+      <item> LinearRegression </item>
+      <item> LogisticRegression </item>
+      <item> Art </item>
+      <item> Artword </item>
+      <item> Speaker </item>
+      <item> Activation </item>
+      <item> BarkFilter </item>
+      <item> Categories </item>
+      <item> Cepstrum </item>
+      <item> CCA </item>
+      <item> ChebyshevSeries </item>
+      <item> ClassificationTable </item>
+      <item> Confusion </item>
+      <item> Correlation </item>
+      <item> Covariance </item>
+      <item> Discriminant </item>
+      <item> DTW </item>
+      <item> Eigen </item>
+      <item> Excitations </item>
+      <item> FormantFilter </item>
+      <item> Index </item>
+      <item> KlattTable </item>
+      <item> Permutation </item>
+      <item> ISpline </item>
+      <item> LegendreSeries </item>
+      <item> MelFilter </item>
+      <item> MSpline </item>
+      <item> Pattern </item>
+      <item> PCA </item>
+      <item> Polynomial </item>
+      <item> Roots </item>
+      <item> SimpleString </item>
+      <item> StringsIndex </item>
+      <item> SpeechSynthesizer </item>
+      <item> SPINET </item>
+      <item> SSCP </item>
+      <item> SVD </item>
+      <item> AffineTransform </item>
+      <item> Procrustes </item>
+      <item> ContingencyTable </item>
+      <item> Dissimilarity </item>
+      <item> Similarity </item>
+      <item> Configuration </item>
+      <item> Distance </item>
+      <item> Salience </item>
+      <item> ScalarProduct </item>
+      <item> Weight </item>
+      <item> KlattGrid </item>
+      <item> HMM </item>
+      <item> HMM_State </item>
+      <item> HMM_Observation </item>
+      <item> HMM_ObservationSequence </item>
+      <item> HMM_StateSequence </item>
+      <item> GaussianMixture </item>
+      <item> Diagonalizer </item>
+      <item> MixingMatrix </item>
+      <item> CrossCorrelationTable </item>
+      <item> CrossCorrelationTables </item>
+      <item> Network </item>
+      <item> OTGrammar </item>
+      <item> OTHistory </item>
+      <item> OTMulti </item>
+      <item> FFNet </item>
+      <item> Cepstrumc </item>
+      <item> LPC </item>
+      <item> LFCC </item>
+      <item> MFCC </item>
+      <item> ExperimentMFC </item>
+      <item> ResultsMFC </item>
+      <item> EEG </item>
+      <item> ERPTier </item>
+      <item> ERP </item>
+      <item> KNN </item>
+      <item> FeatureWeights </item>
+    </list>
+    <list name="stringDirectives">
+      <item>echo</item>
+      <item>exit</item>
+      <item>print</item>
+      <item>printline</item>
+      <item>pause</item>
+    </list>
+    <list name="directives">
+      <item>clearinfo</item>
+      <item>execute</item>
+      <item>minus</item>
+      <item>plus</item>
+      <item>select</item>
+      <item>sendpraat</item>
+    </list>
+    <list name="commands">
+      <item>Autocorrelate</item>
+      <item>Change</item>
+      <item>Combine</item>
+      <item>Concatenate</item>
+      <item>Convert</item>
+      <item>Convolve</item>
+      <item>Copy</item>
+      <item>Count</item>
+      <item>Create</item>
+      <item>Cross-correlate</item>
+      <item>De-emphasize</item>
+      <item>Deepen</item>
+      <item>Down</item>
+      <item>Draw</item>
+      <item>Duplicate</item>
+      <item>Extend</item>
+      <item>Extract</item>
+      <item>Filter</item>
+      <item>Filtering</item>
+      <item>Formula</item>
+      <item>Get</item>
+      <item>Hum</item>
+      <item>Info</item>
+      <item>Insert</item>
+      <item>Inspect</item>
+      <item>Interpolate</item>
+      <item>Is</item>
+      <item>Kill</item>
+      <item>Lengthen</item>
+      <item>List</item>
+      <item>Merge</item>
+      <item>Multiply</item>
+      <item>Override</item>
+      <item>Paint</item>
+      <item>Pitch</item>
+      <item>Play</item>
+      <item>Pre-emphasize</item>
+      <item>Record</item>
+      <item>Remove</item>
+      <item>Rename</item>
+      <item>Replace</item>
+      <item>Resample</item>
+      <item>Reverse</item>
+      <item>Scale</item>
+      <item>Set</item>
+      <item>Shift</item>
+      <item>Smooth</item>
+      <item>Sound</item>
+      <item>Speckle</item>
+      <item>Subtract</item>
+      <item>To</item>
+    </list>
+    <list name="operators">
+      <item> = </item>
+      <item> != </item>
+      <item> &gt;&lt; </item>
+      <item> += </item>
+      <item> -= </item>
+      <item> *= </item>
+      <item> /= </item>
+      <item> + </item>
+      <item> - </item>
+      <item> * </item>
+      <item> / </item>
+      <item> % </item>
+      <item> ^ </item>
+      <item> &lt; </item>
+      <item> &lt;= </item>
+      <item> &gt; </item>
+      <item> &gt;= </item>
+      <item> and </item>
+      <item> &amp; </item>
+      <item> or </item>
+      <item> | </item>
+      <item> not </item>
+      <item> ! </item>
+    </list>
+    <list name="numerical_functions">
+      <item>abs</item>
+      <item>round</item>
+      <item>floor</item>
+      <item>ceiling</item>
+      <item>sqrt</item>
+      <item>min</item>
+      <item>max</item>
+      <item>imin</item>
+      <item>imax</item>
+      <item>sin</item>
+      <item>cos</item>
+      <item>tan</item>
+      <item>arcsin</item>
+      <item>arccos</item>
+      <item>arctan</item>
+      <item>arctan2</item>
+      <item>sinc</item>
+      <item>sincpi</item>
+      <item>exp</item>
+      <item>ln</item>
+      <item>log10</item>
+      <item>log2</item>
+      <item>sinh</item>
+      <item>cosh</item>
+      <item>tanh</item>
+      <item>arcsinh</item>
+      <item>arccosh</item>
+      <item>actanh</item>
+      <item>sigmoid</item>
+      <item>invSigmoid</item>
+      <item>erf</item>
+      <item>erfc</item>
+      <item>randomUniform</item>
+      <item>randomInteger</item>
+      <item>randomGauss</item>
+      <item>randomPoisson</item>
+      <item>lnGamma</item>
+      <item>gaussP</item>
+      <item>gaussQ</item>
+      <item>invGaussQ</item>
+      <item>chiSquareP</item>
+      <item>chiSquareQ</item>
+      <item>invChiSquareQ</item>
+      <item>studentP</item>
+      <item>studentQ</item>
+      <item>invStudentQ</item>
+      <item>fisherP</item>
+      <item>fisherQ</item>
+      <item>invFisherQ</item>
+      <item>binomialP</item>
+      <item>binomialQ</item>
+      <item>invBinomialP</item>
+      <item>invBinomialQ</item>
+      <item>hertzToBark</item>
+      <item>barkToHerz</item>
+      <item>hertzToMel</item>
+      <item>melToHertz</item>
+      <item>hertzToSemitones</item>
+      <item>semitonesToHerz</item>
+      <item>erb</item>
+      <item>hertzToErb</item>
+      <item>erbToHertz</item>
+      <item>phonToDifferenceLimens</item>
+      <item>differenceLimensToPhon</item>
+      <item>beta</item>
+      <item>besselI</item>
+      <item>besselK</item>
+      <item>selected</item>
+      <item>numberOfSelected</item>
+      <item>variableExists</item>
+      <!--String functions that return numbers-->
+      <item>index</item>
+      <item>rindex</item>
+      <item>startsWith</item>
+      <item>endsWith</item>
+      <item>index_regex</item>
+      <item>rindex_regex</item>
+      <item>replace_regex</item>
+    </list>
+    <list name="string_functions">
+      <item>extractWord$</item>
+      <item>extractLine$</item>
+      <item>length$</item>
+      <item>left$</item>
+      <item>right$</item>
+      <item>mid$</item>
+      <item>replace$</item>
+      <item>selected$</item>
+    </list>
+    <contexts>
+      <context attribute="Normal Text" lineEndContext="#pop" name="Normal Text" >
+        <DetectChar attribute="Comments" char="#" firstNonSpace="true" context="comments"/>
+        <keyword attribute="Commands" context="commands" String="commands" />
+        <keyword attribute="Keyword" context="#stay" String="keywords" />
+        <keyword attribute="Keyword" context="#stay" String="directives" />
+        <keyword attribute="Keyword" context="stringDirectives" String="stringDirectives" />
+        <keyword attribute="Operator" context="#stay" String="operators" />
+        <keyword attribute="Functions" context="#stay" String="numerical_functions" />
+        <keyword attribute="Functions" context="#stay" String="string_functions" />
+        <DetectChar attribute="String" context="string" char="&quot;" />
+      </context>
+      <context attribute="String" lineEndContext="#pop" name="string" >
+        <DetectChar attribute="String" context="#pop" char="&quot;" />
+      </context>
+      <context attribute="Commands" lineEndContext="#pop" name="commands" >
+        <StringDetect attribute="Commands" context="#pop" String="..." />
+      </context>
+      <context attribute="Keyword" lineEndContext="#pop" name="directives" >
+      </context>
+      <context attribute="Keyword" lineEndContext="#pop" name="stringDirectives" >
+        <DetectChar attribute="String" context="string" char=' ' />
+      </context>
+      <context attribute="Comments" lineEndContext="#pop" name="comments" >
+      </context>
+    </contexts>
+    <itemDatas>
+      <itemData name="Normal Text" defStyleNum="dsNormal" />
+      <itemData name="Keyword" defStyleNum="dsKeyword" />
+      <itemData name="String" defStyleNum="dsString" />
+      <itemData name="Commands" defStyleNum="dsFunction" />
+      <itemData name="Functions" defStyleNum="dsFunction" />
+      <itemData name="Comments" defStyleNum="dsComment" />
+      <itemData name="Operator" defStyleNum="dsKeyword" color="#008000"/>
+    </itemDatas>
+  </highlighting>
+  <general>
+    <comments>
+      <comment name="singleLine" start="#" />
+    </comments>
+    <keywords casesensitive="1" />
+  </general>
+</language>
