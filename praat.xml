@@ -2,14 +2,18 @@
 <!DOCTYPE language SYSTEM "language.dtd">
 <!--
   Prat syntax highlighting for Kate (and derivatives)
-  v.0.1
-  Author: Jose Joaquin Atria (j.atria.11@ucl.ac.uk
+  v.0.11
+  Author: Jose Joaquin Atria (j.atria.11@ucl.ac.uk)
 
   =TODO=
-  - Decide on proper formatting
   - Tighten context definitions and rules
-  - Preety much everything else
+  - Pretty much everything else
 
+  =Changes=
+  - 0.11: * Gave up on variable identification
+          * Improved context definitions and identification rules
+          * Tidied up part of the code
+  
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
   License version 2 as published by the Free Software Foundation.
@@ -27,25 +31,25 @@
 <language name="Praat" version="5.3.04-0.1" kateversion="2.4" section="Scripts" extensions="*.Praat;*.praat;*.psc;*.praat-script;*.praatscript" author="Jose J. Atria (j.atria.11@ucl.ac.uk)" license="LGPL">
   <highlighting>
     <list name="methods">
-      <item> Bark </item>
-      <item> Bartlett </item>
-      <item> Cubic </item>
-      <item> Gaussian </item>
-      <item> Hamming </item>
-      <item> Hanning </item>
-      <item> Hertz </item>
-      <item> Kaiser2 </item>
-      <item> Linear </item>
-      <item> Nearest </item>
-      <item> None </item>
-      <item> Parabolic </item>
-      <item> Rectangular </item>
-      <item> Semitones </item>
-      <item> Sinc </item>
-      <item> Sinc70 </item>
-      <item> Sinc700 </item>
-      <item> Square </item>
-      <item> Welch </item>
+      <item>Bark</item>
+      <item>Bartlett</item>
+      <item>Cubic</item>
+      <item>Gaussian</item>
+      <item>Hamming</item>
+      <item>Hanning</item>
+      <item>Hertz</item>
+      <item>Kaiser2</item>
+      <item>Linear</item>
+      <item>Nearest</item>
+      <item>None</item>
+      <item>Parabolic</item>
+      <item>Rectangular</item>
+      <item>Semitones</item>
+      <item>Sinc</item>
+      <item>Sinc70</item>
+      <item>Sinc700</item>
+      <item>Square</item>
+      <item>Welch</item>
     </list>
     <list name="keywords">
       <item>from</item>
@@ -79,130 +83,133 @@
       <item>boolean</item>
       <item>optionmenu</item>
       <item>option</item>
+      <item>warn</item>
+      <item>nocheck</item>
+      <item>endeditor</item>
     </list>
     <list name="objects">
-      <item> Collection </item>
-      <item> Strings </item>
-      <item> ManPages </item>
-      <item> SortedSetOfString </item>
-      <item> Sound </item>
-      <item> Matrix </item>
-      <item> Polygon </item>
-      <item> PointProcess </item>
-      <item> ParamCurve </item>
-      <item> Spectrum </item>
-      <item> Ltas </item>
-      <item> Spectrogram </item>
-      <item> Formant </item>
-      <item> Excitation </item>
-      <item> Cochleagram </item>
-      <item> VocalTract </item>
-      <item> FormantPoint </item>
-      <item> FormantTier </item>
-      <item> FormantGrid </item>
-      <item> Label </item>
-      <item> Tier </item>
-      <item> Autosegment </item>
-      <item> Intensity </item>
-      <item> Pitch </item>
-      <item> Harmonicity </item>
-      <item> Transition </item>
-      <item> RealPoint </item>
-      <item> RealTier </item>
-      <item> PitchTier </item>
-      <item> IntensityTier </item>
-      <item> DurationTier </item>
-      <item> AmplitudeTier </item>
-      <item> SpectrumTier </item>
-      <item> Manipulation </item>
-      <item> TextPoint </item>
-      <item> TextInterval </item>
-      <item> TextTier </item>
-      <item> IntervalTier </item>
-      <item> TextGrid </item>
-      <item> LongSound </item>
-      <item> WordList </item>
-      <item> SpellingChecker </item>
-      <item> Movie </item>
-      <item> Corpus </item>
-      <item> TableOfReal </item>
-      <item> Distributions </item>
-      <item> PairDistribution </item>
-      <item> Table </item>
-      <item> LinearRegression </item>
-      <item> LogisticRegression </item>
-      <item> Art </item>
-      <item> Artword </item>
-      <item> Speaker </item>
-      <item> Activation </item>
-      <item> BarkFilter </item>
-      <item> Categories </item>
-      <item> Cepstrum </item>
-      <item> CCA </item>
-      <item> ChebyshevSeries </item>
-      <item> ClassificationTable </item>
-      <item> Confusion </item>
-      <item> Correlation </item>
-      <item> Covariance </item>
-      <item> Discriminant </item>
-      <item> DTW </item>
-      <item> Eigen </item>
-      <item> Excitations </item>
-      <item> FormantFilter </item>
-      <item> Index </item>
-      <item> KlattTable </item>
-      <item> Permutation </item>
-      <item> ISpline </item>
-      <item> LegendreSeries </item>
-      <item> MelFilter </item>
-      <item> MSpline </item>
-      <item> Pattern </item>
-      <item> PCA </item>
-      <item> Polynomial </item>
-      <item> Roots </item>
-      <item> SimpleString </item>
-      <item> StringsIndex </item>
-      <item> SpeechSynthesizer </item>
-      <item> SPINET </item>
-      <item> SSCP </item>
-      <item> SVD </item>
-      <item> AffineTransform </item>
-      <item> Procrustes </item>
-      <item> ContingencyTable </item>
-      <item> Dissimilarity </item>
-      <item> Similarity </item>
-      <item> Configuration </item>
-      <item> Distance </item>
-      <item> Salience </item>
-      <item> ScalarProduct </item>
-      <item> Weight </item>
-      <item> KlattGrid </item>
-      <item> HMM </item>
-      <item> HMM_State </item>
-      <item> HMM_Observation </item>
-      <item> HMM_ObservationSequence </item>
-      <item> HMM_StateSequence </item>
-      <item> GaussianMixture </item>
-      <item> Diagonalizer </item>
-      <item> MixingMatrix </item>
-      <item> CrossCorrelationTable </item>
-      <item> CrossCorrelationTables </item>
-      <item> Network </item>
-      <item> OTGrammar </item>
-      <item> OTHistory </item>
-      <item> OTMulti </item>
-      <item> FFNet </item>
-      <item> Cepstrumc </item>
-      <item> LPC </item>
-      <item> LFCC </item>
-      <item> MFCC </item>
-      <item> ExperimentMFC </item>
-      <item> ResultsMFC </item>
-      <item> EEG </item>
-      <item> ERPTier </item>
-      <item> ERP </item>
-      <item> KNN </item>
-      <item> FeatureWeights </item>
+      <item>Collection</item>
+      <item>Strings</item>
+      <item>ManPages</item>
+      <item>SortedSetOfString</item>
+      <item>Sound</item>
+      <item>Matrix</item>
+      <item>Polygon</item>
+      <item>PointProcess</item>
+      <item>ParamCurve</item>
+      <item>Spectrum</item>
+      <item>Ltas</item>
+      <item>Spectrogram</item>
+      <item>Formant</item>
+      <item>Excitation</item>
+      <item>Cochleagram</item>
+      <item>VocalTract</item>
+      <item>FormantPoint</item>
+      <item>FormantTier</item>
+      <item>FormantGrid</item>
+      <item>Label</item>
+      <item>Tier</item>
+      <item>Autosegment</item>
+      <item>Intensity</item>
+      <item>Pitch</item>
+      <item>Harmonicity</item>
+      <item>Transition</item>
+      <item>RealPoint</item>
+      <item>RealTier</item>
+      <item>PitchTier</item>
+      <item>IntensityTier</item>
+      <item>DurationTier</item>
+      <item>AmplitudeTier</item>
+      <item>SpectrumTier</item>
+      <item>Manipulation</item>
+      <item>TextPoint</item>
+      <item>TextInterval</item>
+      <item>TextTier</item>
+      <item>IntervalTier</item>
+      <item>TextGrid</item>
+      <item>LongSound</item>
+      <item>WordList</item>
+      <item>SpellingChecker</item>
+      <item>Movie</item>
+      <item>Corpus</item>
+      <item>TableOfReal</item>
+      <item>Distributions</item>
+      <item>PairDistribution</item>
+      <item>Table</item>
+      <item>LinearRegression</item>
+      <item>LogisticRegression</item>
+      <item>Art</item>
+      <item>Artword</item>
+      <item>Speaker</item>
+      <item>Activation</item>
+      <item>BarkFilter</item>
+      <item>Categories</item>
+      <item>Cepstrum</item>
+      <item>CCA</item>
+      <item>ChebyshevSeries</item>
+      <item>ClassificationTable</item>
+      <item>Confusion</item>
+      <item>Correlation</item>
+      <item>Covariance</item>
+      <item>Discriminant</item>
+      <item>DTW</item>
+      <item>Eigen</item>
+      <item>Excitations</item>
+      <item>FormantFilter</item>
+      <item>Index</item>
+      <item>KlattTable</item>
+      <item>Permutation</item>
+      <item>ISpline</item>
+      <item>LegendreSeries</item>
+      <item>MelFilter</item>
+      <item>MSpline</item>
+      <item>Pattern</item>
+      <item>PCA</item>
+      <item>Polynomial</item>
+      <item>Roots</item>
+      <item>SimpleString</item>
+      <item>StringsIndex</item>
+      <item>SpeechSynthesizer</item>
+      <item>SPINET</item>
+      <item>SSCP</item>
+      <item>SVD</item>
+      <item>AffineTransform</item>
+      <item>Procrustes</item>
+      <item>ContingencyTable</item>
+      <item>Dissimilarity</item>
+      <item>Similarity</item>
+      <item>Configuration</item>
+      <item>Distance</item>
+      <item>Salience</item>
+      <item>ScalarProduct</item>
+      <item>Weight</item>
+      <item>KlattGrid</item>
+      <item>HMM</item>
+      <item>HMM_State</item>
+      <item>HMM_Observation</item>
+      <item>HMM_ObservationSequence</item>
+      <item>HMM_StateSequence</item>
+      <item>GaussianMixture</item>
+      <item>Diagonalizer</item>
+      <item>MixingMatrix</item>
+      <item>CrossCorrelationTable</item>
+      <item>CrossCorrelationTables</item>
+      <item>Network</item>
+      <item>OTGrammar</item>
+      <item>OTHistory</item>
+      <item>OTMulti</item>
+      <item>FFNet</item>
+      <item>Cepstrumc</item>
+      <item>LPC</item>
+      <item>LFCC</item>
+      <item>MFCC</item>
+      <item>ExperimentMFC</item>
+      <item>ResultsMFC</item>
+      <item>EEG</item>
+      <item>ERPTier</item>
+      <item>ERP</item>
+      <item>KNN</item>
+      <item>FeatureWeights</item>
     </list>
     <list name="stringDirectives">
       <item>echo</item>
@@ -211,17 +218,21 @@
       <item>printline</item>
       <item>pause</item>
     </list>
-    <list name="directives">
-      <item>clearinfo</item>
-      <item>execute</item>
+    <list name='objectDirectives'>
       <item>minus</item>
       <item>plus</item>
       <item>select</item>
+      <item>editor</item>
+    </list>
+    <list name="directives">
+      <item>clearinfo</item>
+      <item>execute</item>
       <item>sendpraat</item>
     </list>
     <list name="commands">
       <item>Autocorrelate</item>
       <item>Change</item>
+      <item>Close</item>
       <item>Combine</item>
       <item>Concatenate</item>
       <item>Convert</item>
@@ -257,6 +268,7 @@
       <item>Pitch</item>
       <item>Play</item>
       <item>Pre-emphasize</item>
+      <item>Read</item>
       <item>Record</item>
       <item>Remove</item>
       <item>Rename</item>
@@ -273,31 +285,31 @@
       <item>To</item>
     </list>
     <list name="operators">
-      <item> = </item>
-      <item> != </item>
-      <item> &gt;&lt; </item>
-      <item> += </item>
-      <item> -= </item>
-      <item> *= </item>
-      <item> /= </item>
-      <item> + </item>
-      <item> - </item>
-      <item> * </item>
-      <item> / </item>
-      <item> % </item>
-      <item> ^ </item>
-      <item> &lt; </item>
-      <item> &lt;= </item>
-      <item> &gt; </item>
-      <item> &gt;= </item>
-      <item> and </item>
-      <item> &amp; </item>
-      <item> or </item>
-      <item> | </item>
-      <item> not </item>
-      <item> ! </item>
+      <item>=</item>
+      <item>!=</item>
+      <item>&gt;&lt;</item>
+      <item>+=</item>
+      <item>-=</item>
+      <item>*=</item>
+      <item>/=</item>
+      <item>+</item>
+      <item>-</item>
+      <item>*</item>
+      <item>/</item>
+      <item>%</item>
+      <item>^</item>
+      <item>&lt;</item>
+      <item>&lt;=</item>
+      <item>&gt;</item>
+      <item>&gt;=</item>
+      <item>and</item>
+      <item>&amp;</item>
+      <item>or</item>
+      <item>|</item>
+      <item>not</item>
+      <item>!</item>
     </list>
-    <list name="numerical_functions">
+    <list name="functions">
       <item>abs</item>
       <item>round</item>
       <item>floor</item>
@@ -368,7 +380,6 @@
       <item>selected</item>
       <item>numberOfSelected</item>
       <item>variableExists</item>
-      <!--String functions that return numbers-->
       <item>index</item>
       <item>rindex</item>
       <item>startsWith</item>
@@ -376,51 +387,93 @@
       <item>index_regex</item>
       <item>rindex_regex</item>
       <item>replace_regex</item>
-    </list>
-    <list name="string_functions">
+      <item>length</item>
       <item>extractWord$</item>
       <item>extractLine$</item>
-      <item>length$</item>
       <item>left$</item>
       <item>right$</item>
       <item>mid$</item>
       <item>replace$</item>
       <item>selected$</item>
+      <item>beginPause</item>
+      <item>endPause</item>
     </list>
     <contexts>
       <context attribute="Normal Text" lineEndContext="#pop" name="Normal Text" >
-        <DetectChar attribute="Comments" char="#" firstNonSpace="true" context="comments"/>
-        <keyword attribute="Commands" context="commands" String="commands" />
-        <keyword attribute="Keyword" context="#stay" String="keywords" />
-        <keyword attribute="Keyword" context="#stay" String="directives" />
-        <keyword attribute="Keyword" context="stringDirectives" String="stringDirectives" />
-        <keyword attribute="Operator" context="#stay" String="operators" />
-        <keyword attribute="Functions" context="#stay" String="numerical_functions" />
-        <keyword attribute="Functions" context="#stay" String="string_functions" />
-        <DetectChar attribute="String" context="string" char="&quot;" />
+        <RegExpr context="#stay" attribute="Keyword" String='\bfor\b' beginRegion='forBlock' />
+        <RegExpr context="#stay" attribute="Keyword" String='\bendfor\b' endRegion='forBlock' />
+        <RegExpr context="#stay" attribute="Keyword" String='\bif\b' beginRegion='ifBlock' />
+        <RegExpr context="#stay" attribute="Keyword" String='\bendif\b' endRegion='ifBlock' />
+        <RegExpr context="#stay" attribute="Keyword" String='\bform\b' beginRegion='forRegion' />
+        <RegExpr context="#stay" attribute="Keyword" String='\bendform\b' endRegion='forRegion' />
+        <RegExpr context="#stay" attribute="Keyword" String='\bprocedure\b' beginRegion='procRegion' />
+        <RegExpr context="#stay" attribute="Keyword" String='\bendproc\b' endRegion='procRegion' />
+        <RegExpr context="#stay" attribute="Keyword" String='\bwhile\b' beginRegion='whileRegion' />
+        <RegExpr context="#stay" attribute="Keyword" String='\bendwhile\b' endRegion='whileRegion' />
+        <RegExpr context="#stay" attribute="Keyword" String='\brepeat\b' beginRegion='repeatRegion' />
+        <RegExpr context="#stay" attribute="Keyword" String='\buntil\b' endRegion='untilRegion' />
+        
+        <StringDetect String='View &amp; Edit' attribute="Keyword" context="#stay" />
+
+        <keyword    attribute="Commands"  context="commands"         String="commands" />
+        <keyword    attribute="Keyword"   context="#stay"            String="keywords" />
+        <keyword    attribute="Keyword"   context="#stay"            String="directives" />
+        <keyword    attribute="Keyword"   context="stringDirectives" String="stringDirectives" />
+        <keyword    attribute="Keyword"   context="objectDirectives" String="objectDirectives" />
+        <keyword    attribute="Functions" context="#stay"            String="functions" />
+
+        <DetectChar attribute="Comments"  context="comments"           char="#" />
+        <DetectChar attribute="String"    context="string"             char="&quot;" />
+        <DetectChar attribute="Normal Text"  context="expansion" char="'" />
       </context>
-      <context attribute="String" lineEndContext="#pop" name="string" >
+
+      <context name="string" attribute="String" lineEndContext="#pop" >
         <DetectChar attribute="String" context="#pop" char="&quot;" />
+        <DetectChar attribute="Normal Text"  context="expansion" char="'" />
       </context>
-      <context attribute="Commands" lineEndContext="#pop" name="commands" >
-        <StringDetect attribute="Commands" context="#pop" String="..." />
+
+      <context name="commands" attribute="Commands" lineEndContext="#pop" >
+        <StringDetect attribute="Commands" context="commandArguments" String="..." />
       </context>
-      <context attribute="Keyword" lineEndContext="#pop" name="directives" >
+      
+      <context name="commandArguments" attribute="Normal Text" lineEndContext="#pop" >
+        <keyword    attribute="Keyword"   context="#stay"            String="methods" />
+        <DetectChar attribute="Normal Text"  context="expansion" char="'" />
+        <DetectChar attribute="String"    context="string"             char="&quot;" />
       </context>
-      <context attribute="Keyword" lineEndContext="#pop" name="stringDirectives" >
+
+      <context name="directives" attribute="Keyword" lineEndContext="#pop" >
+      </context>
+
+      <context name="stringDirectives" attribute="Keyword" lineEndContext="#pop" >
         <DetectChar attribute="String" context="string" char=' ' />
       </context>
-      <context attribute="Comments" lineEndContext="#pop" name="comments" >
+
+      <context name="objectDirectives" attribute="Normal Text" lineEndContext="#pop" >
+        <keyword    attribute="Object"  context="#stay"         String="objects" />
+        <DetectChar attribute="Normal Text"  context="expansion" char="'" />
       </context>
+      
+      <context name="comments" attribute="Comments" lineEndContext="#pop" >
+      </context>
+
+      <context name="expansion" attribute="Expansion" lineEndContext="#pop" >
+        <DetectChar attribute="Normal Text"  context="#pop"  char="'"/>
+        <DetectChar attribute="String"  context="#pop#pop"  char='"'/>
+      </context>
+
     </contexts>
     <itemDatas>
       <itemData name="Normal Text" defStyleNum="dsNormal" />
-      <itemData name="Keyword" defStyleNum="dsKeyword" />
-      <itemData name="String" defStyleNum="dsString" />
-      <itemData name="Commands" defStyleNum="dsFunction" />
-      <itemData name="Functions" defStyleNum="dsFunction" />
-      <itemData name="Comments" defStyleNum="dsComment" />
-      <itemData name="Operator" defStyleNum="dsKeyword" color="#008000"/>
+      <itemData name="Object"    defStyleNum="dsDataType" />
+      <itemData name="Variable"    defStyleNum="dsNormal" />
+      <itemData name="Keyword"     defStyleNum="dsKeyword" />
+      <itemData name="Expansion"                    defStyleNum="dsString" color="#FF6C6C" selColor="#FF6C6C" bold="0" italic="0" />
+      <itemData name="String"     defStyleNum="dsString" />
+      <itemData name="Commands"    defStyleNum="dsFunction" />
+      <itemData name="Functions"   defStyleNum="dsFunction" />
+      <itemData name="Comments"    defStyleNum="dsComment" />
+      <itemData name="Operator"    defStyleNum="dsKeyword" color="#008000"/>
     </itemDatas>
   </highlighting>
   <general>
