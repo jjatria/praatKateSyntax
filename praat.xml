@@ -2,14 +2,19 @@
 <!DOCTYPE language SYSTEM "language.dtd">
 <!--
   Prat syntax highlighting for Kate (and derivatives)
-  v.0.11
+  v.0.12
   Author: Jose Joaquin Atria (j.atria.11@ucl.ac.uk)
 
   =TODO=
   - Tighten context definitions and rules
-  - Pretty much everything else
+  - Highlight final unquoted strings in commands like Text...
+    (Not sure if this is worth the effort...)
+  - Include missing commands
 
   =Changes=
+  - 0.12: * Included some Picture Window commands
+          * Changed naming scheme to temporal, more standard version
+          * Fixed expansions for string and other contexts
   - 0.11: * Gave up on variable identification
           * Improved context definitions and identification rules
           * Tidied up part of the code
@@ -50,6 +55,18 @@
       <item>Sinc700</item>
       <item>Square</item>
       <item>Welch</item>
+      <item>left</item>
+      <item>centre</item>
+      <item>right</item>
+      <item>bottom</item>
+      <item>half</item>
+      <item>top</item>
+      <item>Times</item>
+      <item>Helvetica</item>
+      <item>Palatino</item>
+      <item>Courier</item>
+      <item>yes</item>
+      <item>no</item>
     </list>
     <list name="keywords">
       <item>from</item>
@@ -211,13 +228,6 @@
       <item>KNN</item>
       <item>FeatureWeights</item>
     </list>
-    <list name="stringDirectives">
-      <item>echo</item>
-      <item>exit</item>
-      <item>print</item>
-      <item>printline</item>
-      <item>pause</item>
-    </list>
     <list name='objectDirectives'>
       <item>minus</item>
       <item>plus</item>
@@ -225,33 +235,49 @@
       <item>editor</item>
     </list>
     <list name="directives">
+      <item>echo</item>
+      <item>exit</item>
+      <item>print</item>
+      <item>printline</item>
+      <item>pause</item>
       <item>clearinfo</item>
       <item>execute</item>
       <item>sendpraat</item>
     </list>
     <list name="commands">
+      <item>Append</item>
+      <item>Arrow</item>
       <item>Autocorrelate</item>
+      <item>Axes</item>
       <item>Change</item>
       <item>Close</item>
+      <item>Colour</item>
       <item>Combine</item>
       <item>Concatenate</item>
       <item>Convert</item>
       <item>Convolve</item>
       <item>Copy</item>
       <item>Count</item>
+      <item>Courier</item>
       <item>Create</item>
-      <item>Cross-correlate</item>
-      <item>De-emphasize</item>
+      <item>Cross</item>
+      <item>Dashed</item>
+      <item>De</item>
       <item>Deepen</item>
+      <item>Dotted</item>
       <item>Down</item>
       <item>Draw</item>
       <item>Duplicate</item>
+      <item>Erase</item>
       <item>Extend</item>
       <item>Extract</item>
       <item>Filter</item>
       <item>Filtering</item>
       <item>Formula</item>
+      <item>Font</item>
       <item>Get</item>
+      <item>Helvetica</item>
+      <item>Horizontal</item>
       <item>Hum</item>
       <item>Info</item>
       <item>Insert</item>
@@ -260,14 +286,22 @@
       <item>Is</item>
       <item>Kill</item>
       <item>Lengthen</item>
+      <item>Line</item>
       <item>List</item>
+      <item>Logarithmic</item>
+      <item>Marks</item>
       <item>Merge</item>
       <item>Multiply</item>
+      <item>One</item>
       <item>Override</item>
       <item>Paint</item>
+      <item>Palatino</item>
+      <item>Picture</item>
       <item>Pitch</item>
       <item>Play</item>
-      <item>Pre-emphasize</item>
+      <item>PostScript</item>
+      <item>Pre</item>
+      <item>Randomize</item>
       <item>Read</item>
       <item>Record</item>
       <item>Remove</item>
@@ -276,15 +310,39 @@
       <item>Resample</item>
       <item>Reverse</item>
       <item>Scale</item>
+      <item>Select</item>
       <item>Set</item>
       <item>Shift</item>
       <item>Smooth</item>
+      <item>Solid</item>
+      <item>Sort</item>
       <item>Sound</item>
       <item>Speckle</item>
       <item>Subtract</item>
+      <item>Text</item>
+      <item>Times</item>
       <item>To</item>
+      <item>Vertical</item>
+<!--       Colors -->
+      <item>White</item>
+      <item>Black</item>
+      <item>Red</item>
+      <item>Green></item>
+      <item>Blue</item>
+      <item>Yellow</item>
+      <item>Cyan</item>
+      <item>Magenta</item>
+      <item>Maroon</item>
+      <item>Lime</item>
+      <item>Navy</item>
+      <item>Teal</item>
+      <item>Purple</item>
+      <item>Olive</item>
+      <item>Pink</item>
+      <item>Silver</item>
+      <item>Grey</item>
     </list>
-    <list name="operators">
+<!--    <list name="operators">
       <item>=</item>
       <item>!=</item>
       <item>&gt;&lt;</item>
@@ -308,7 +366,7 @@
       <item>|</item>
       <item>not</item>
       <item>!</item>
-    </list>
+    </list>-->
     <list name="functions">
       <item>abs</item>
       <item>round</item>
@@ -397,83 +455,98 @@
       <item>selected$</item>
       <item>beginPause</item>
       <item>endPause</item>
+      <item>demoClickedIn</item>
+      <item>demoClicked</item>
+      <item>chooseDirectory$</item>
+      <item>demoShow</item>
+      <item>demoWaitForInput</item>
     </list>
     <contexts>
-      <context attribute="Normal Text" lineEndContext="#pop" name="Normal Text" >
-        <RegExpr context="#stay" attribute="Keyword" String='\bfor\b' beginRegion='forBlock' />
-        <RegExpr context="#stay" attribute="Keyword" String='\bendfor\b' endRegion='forBlock' />
-        <RegExpr context="#stay" attribute="Keyword" String='\bif\b' beginRegion='ifBlock' />
-        <RegExpr context="#stay" attribute="Keyword" String='\bendif\b' endRegion='ifBlock' />
-        <RegExpr context="#stay" attribute="Keyword" String='\bform\b' beginRegion='forRegion' />
-        <RegExpr context="#stay" attribute="Keyword" String='\bendform\b' endRegion='forRegion' />
-        <RegExpr context="#stay" attribute="Keyword" String='\bprocedure\b' beginRegion='procRegion' />
-        <RegExpr context="#stay" attribute="Keyword" String='\bendproc\b' endRegion='procRegion' />
-        <RegExpr context="#stay" attribute="Keyword" String='\bwhile\b' beginRegion='whileRegion' />
-        <RegExpr context="#stay" attribute="Keyword" String='\bendwhile\b' endRegion='whileRegion' />
-        <RegExpr context="#stay" attribute="Keyword" String='\brepeat\b' beginRegion='repeatRegion' />
-        <RegExpr context="#stay" attribute="Keyword" String='\buntil\b' endRegion='untilRegion' />
+      <context name="Normal_CTxt" attribute="normal" lineEndContext="#pop"  >
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\bfor\b'       beginRegion='forBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendfor\b'      endRegion='forBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\bif\b'        beginRegion='ifBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendif\b'       endRegion='ifBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\bform\b'      beginRegion='forBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendform\b'     endRegion='forBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\bwhile\b'     beginRegion='whileBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendwhile\b'    endRegion='whileBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\brepeat\b'    beginRegion='repeatBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\buntil\b'       endRegion='untilBlock' />
+        <RegExpr      attribute="keyword"   context="Command_CTxt"          String='\bdemo\b' />
         
-        <StringDetect String='View &amp; Edit' attribute="Keyword" context="#stay" />
+        <StringDetect attribute="keyword"   context="#stay"                 String='View &amp; Edit' />
+        <StringDetect attribute="keyword"   context="Label_CTxt"            String='label ' />
+        <StringDetect attribute="keyword"   context="Label_CTxt"            String='goto ' />
+        <StringDetect attribute="keyword"   context="Function_CTxt"         String='call' />
+        <RegExpr      attribute="keyword"   context="Function_CTxt"         String='\bprocedure\b' beginRegion='procBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendproc\b'     endRegion='procBlock' />
 
-        <keyword    attribute="Commands"  context="commands"         String="commands" />
-        <keyword    attribute="Keyword"   context="#stay"            String="keywords" />
-        <keyword    attribute="Keyword"   context="#stay"            String="directives" />
-        <keyword    attribute="Keyword"   context="stringDirectives" String="stringDirectives" />
-        <keyword    attribute="Keyword"   context="objectDirectives" String="objectDirectives" />
-        <keyword    attribute="Functions" context="#stay"            String="functions" />
+        <keyword      attribute="command"   context="Command_CTxt"          String="commands" />
+        <keyword      attribute="keyword"   context="#stay"                 String="keywords" />
+        <keyword      attribute="keyword"   context="Directives_CTxt"       String="directives" />
+        <keyword      attribute="keyword"   context="ObjectDirectives_CTxt" String="objectDirectives" />
+        <keyword      attribute="function"  context="#stay"                 String="functions" />
 
-        <DetectChar attribute="Comments"  context="comments"           char="#" />
-        <DetectChar attribute="String"    context="string"             char="&quot;" />
-        <DetectChar attribute="Normal Text"  context="expansion" char="'" />
+        <DetectChar   attribute="comment"   context="Comment_CTxt"            char="#" />
+        <DetectChar   attribute="string"    context="String_CTxt"             char="&quot;" />
+        <RegExpr      attribute="expansion" context="#stay"                 String="'[.a-zA-Z0-9]+\$?(:[0-9]+)?'" />
       </context>
 
-      <context name="string" attribute="String" lineEndContext="#pop" >
-        <DetectChar attribute="String" context="#pop" char="&quot;" />
-        <DetectChar attribute="Normal Text"  context="expansion" char="'" />
+      <context name="String_CTxt" attribute="string" lineEndContext="#pop" >
+        <RegExpr      attribute="expansion" context="#stay"                 String="'[.a-zA-Z0-9]+\$?(:[0-9]+)?'" />
+        <DetectChar   attribute="string"    context="#pop"                    char="&quot;" />
       </context>
 
-      <context name="commands" attribute="Commands" lineEndContext="#pop" >
-        <StringDetect attribute="Commands" context="commandArguments" String="..." />
-      </context>
-      
-      <context name="commandArguments" attribute="Normal Text" lineEndContext="#pop" >
-        <keyword    attribute="Keyword"   context="#stay"            String="methods" />
-        <DetectChar attribute="Normal Text"  context="expansion" char="'" />
-        <DetectChar attribute="String"    context="string"             char="&quot;" />
-      </context>
-
-      <context name="directives" attribute="Keyword" lineEndContext="#pop" >
-      </context>
-
-      <context name="stringDirectives" attribute="Keyword" lineEndContext="#pop" >
-        <DetectChar attribute="String" context="string" char=' ' />
-      </context>
-
-      <context name="objectDirectives" attribute="Normal Text" lineEndContext="#pop" >
-        <keyword    attribute="Object"  context="#stay"         String="objects" />
-        <DetectChar attribute="Normal Text"  context="expansion" char="'" />
+      <context name="Command_CTxt" attribute="command" lineEndContext="#pop" >
+        <StringDetect attribute="command"  context="CmdArgs_CTxt"           String="..." />
       </context>
       
-      <context name="comments" attribute="Comments" lineEndContext="#pop" >
+      <context name="CmdArgs_CTxt" attribute="normal" lineEndContext="#pop" >
+        <keyword      attribute="keyword"   context="#stay"                 String="methods" />
+        <keyword      attribute="function"  context="#stay"                 String="functions" />
+        <RegExpr      attribute="keyword"   context="InlineIf_CTxt"         String="\bif\b" />
+        <RegExpr      attribute="expansion" context="#stay"                 String="'[.a-zA-Z0-9]+\$?(:[0-9]+)?'" />
+        <DetectChar   attribute="string"    context="String_CTxt"             char="&quot;" />
+      </context>
+     
+      <context name="InlineIf_CTxt" attribute="normal" lineEndContext="#pop" >
+        <RegExpr      attribute="keyword"   context="#stay"                 String="(then|else)" />
+        <RegExpr      attribute="object"    context="#stay"                 String="self" />
+        <RegExpr      attribute="keyword"   context="#pop"                  String="fi" />
       </context>
 
-      <context name="expansion" attribute="Expansion" lineEndContext="#pop" >
-        <DetectChar attribute="Normal Text"  context="#pop"  char="'"/>
-        <DetectChar attribute="String"  context="#pop#pop"  char='"'/>
+      <context name="Directives_CTxt" attribute="keyword" lineEndContext="#pop" >
+        <DetectChar   attribute="string"    context="String_CTxt"            char=' ' />
+      </context>
+
+      <context name="ObjectDirectives_CTxt" attribute="normal" lineEndContext="#pop" >
+        <keyword      attribute="object"    context="#stay"                 String="objects" />
+        <RegExpr      attribute="expansion" context="#stay"                 String="'[.a-zA-Z0-9]+\$?(:[0-9]+)?'" />
+      </context>
+      
+      <context name="Comment_CTxt" attribute="comment" lineEndContext="#pop" >
+      </context>
+      
+      <context name="Label_CTxt" attribute="object" lineEndContext="#pop" >
+        <DetectChar  attribute="normal"     context="#pop"                    char=" " />
+      </context>
+
+      <context name="Function_CTxt" attribute="function" lineEndContext="#pop" >
       </context>
 
     </contexts>
     <itemDatas>
-      <itemData name="Normal Text" defStyleNum="dsNormal" />
-      <itemData name="Object"    defStyleNum="dsDataType" />
-      <itemData name="Variable"    defStyleNum="dsNormal" />
-      <itemData name="Keyword"     defStyleNum="dsKeyword" />
-      <itemData name="Expansion"                    defStyleNum="dsString" color="#FF6C6C" selColor="#FF6C6C" bold="0" italic="0" />
-      <itemData name="String"     defStyleNum="dsString" />
-      <itemData name="Commands"    defStyleNum="dsFunction" />
-      <itemData name="Functions"   defStyleNum="dsFunction" />
-      <itemData name="Comments"    defStyleNum="dsComment" />
-      <itemData name="Operator"    defStyleNum="dsKeyword" color="#008000"/>
+      <itemData name="normal"    defStyleNum="dsNormal" />
+      <itemData name="object"    defStyleNum="dsDataType" />
+      <itemData name="datatype"  defStyleNum="dsDataType" />
+      <itemData name="variable"  defStyleNum="dsNormal" />
+      <itemData name="keyword"   defStyleNum="dsKeyword" />
+      <itemData name="expansion" defStyleNum="dsString" color="#FF6C6C" selColor="#FF6C6C" bold="0" italic="0" />
+      <itemData name="string"    defStyleNum="dsString" />
+      <itemData name="command"   defStyleNum="dsFunction" />
+      <itemData name="function"  defStyleNum="dsFunction" />
+      <itemData name="comment"   defStyleNum="dsComment" />
     </itemDatas>
   </highlighting>
   <general>
