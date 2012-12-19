@@ -1,36 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE language SYSTEM "language.dtd">
-
-<!-- This doesn't seem to work as expected...
-[
-  <!ENTITY fullexpansion  "'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'"        >
-  <!ENTITY shortexpansion "([.a-zA-Z0-9]+\$?(:[0-9]+)?)'"         >
-  <!ENTITY escapes        "(\\[^\\%#^_][^\\%#^_{&quot;]|\\[%#^_])">
-]>-->
-
 <!--
   Prat syntax highlighting for Kate (and derivatives)
-  v.0.13
+  v.0.14
   Author: Jose Joaquin Atria (j.atria.11@ucl.ac.uk)
 
-  =TODO=
+  =TODO=  
+  - Add other special format strings:
+    * \~^?
+  - Handle Praat's conections with the outside world
+  - Detect lines continuing from ...
   - Tighten context definitions and rules
+  - Improve error detection:
+    * Open blocks
+    * Broken lines
+    * Illegal contexts (such as bare quoted strings)
+    * ...
   - Highlight final unquoted strings in commands like Text...
-    (Not sure if this is worth the effort...)
-  - Include missing commands
+    (Not sure if this is worth the effort)
+  - Include missing commands and functions
 
   =Changes=
+  - 0.14: * '_' as weak delimiter (needed for object names like
+            'HMM_Observation') and "'" as strong delimiter
+          * Additional demo functions
+          * Added lower-case versions of colors
+          * Improved function detection
+          * Added predefined variables as data types
+          * Added colon comments
+          * Better handling of object directives
+            (Is there a nicer way?)
   - 0.13: * Included rules and definitions for escapes and
             formatted strings
           * Added rudimentary error detection (missing block ends)
           * Improved highlighting of expanded variables (single
             quotes are now excluded)
+          * Changed naming scheme again, this time for good
   - 0.12: * Included some Picture Window commands
           * Changed naming scheme to temporal, more standard version
           * Fixed expansions for string and other contexts
   - 0.11: * Gave up on variable identification
           * Improved context definitions and identification rules
           * Tidied up part of the code
+          
+  =Bugs=
+  - Character escapes and string formatting are highlighted in every
+    quoted string, even though for Praat they only make sense in strings
+    that will be sent to the Picture Window. The problem is how to
+    detect only these.
   
 This language definition is free software: you can redistribute it
 and/or modify it under the terms of the GNU General Public License
@@ -67,6 +84,12 @@ A copy of the GNU General Public License is also available at
       <item>Sinc700</item>
       <item>Square</item>
       <item>Welch</item>
+      <item>Left</item>
+      <item>Centre</item>
+      <item>Right</item>
+      <item>Bottom</item>
+      <item>Half</item>
+      <item>Top</item>
       <item>left</item>
       <item>centre</item>
       <item>right</item>
@@ -98,7 +121,17 @@ A copy of the GNU General Public License is also available at
       <item>proc</item>
       <item>endproc</item>
       <item>form</item>
-      <item>endform</item>
+      <item>nocheck</item>
+      <item>endeditor</item>
+      <item>noprogress</item>
+      <item>assert</item>
+      <item>nowarn</item>
+      <item>and</item>
+      <item>or</item>
+      <item>not</item>
+      <item>warn</item>
+    </list>
+    <list name='formTypes'>
       <item>word</item>
       <item>text</item>
       <item>choice</item>
@@ -112,9 +145,6 @@ A copy of the GNU General Public License is also available at
       <item>boolean</item>
       <item>optionmenu</item>
       <item>option</item>
-      <item>warn</item>
-      <item>nocheck</item>
-      <item>endeditor</item>
     </list>
     <list name="objects">
       <item>Collection</item>
@@ -240,11 +270,22 @@ A copy of the GNU General Public License is also available at
       <item>KNN</item>
       <item>FeatureWeights</item>
     </list>
-    <list name='objectDirectives'>
+<!--    <list name='objectDirectives'>
       <item>minus</item>
       <item>plus</item>
       <item>select</item>
       <item>editor</item>
+    </list>-->
+    <list name='systemDirectives'>  
+      <item>system</item>
+      <item>system_nocheck</item>
+      <item>sendsocket</item>
+    </list>
+    <list name='fileDirectives'>
+      <item>filedelete</item>
+      <item>fileappend</item>
+      <item>fileappendinfo</item>
+      <item>include</item>
     </list>
     <list name="directives">
       <item>echo</item>
@@ -255,8 +296,10 @@ A copy of the GNU General Public License is also available at
       <item>clearinfo</item>
       <item>execute</item>
       <item>sendpraat</item>
+      <item>stopwatch</item>
     </list>
     <list name="commands">
+      <item>Add</item>
       <item>Append</item>
       <item>Arrow</item>
       <item>Autocorrelate</item>
@@ -280,6 +323,7 @@ A copy of the GNU General Public License is also available at
       <item>Down</item>
       <item>Draw</item>
       <item>Duplicate</item>
+      <item>Edit</item>
       <item>Erase</item>
       <item>Extend</item>
       <item>Extract</item>
@@ -303,6 +347,7 @@ A copy of the GNU General Public License is also available at
       <item>Logarithmic</item>
       <item>Marks</item>
       <item>Merge</item>
+      <item>Move</item>
       <item>Multiply</item>
       <item>One</item>
       <item>Override</item>
@@ -310,6 +355,7 @@ A copy of the GNU General Public License is also available at
       <item>Palatino</item>
       <item>Picture</item>
       <item>Pitch</item>
+      <item>Plain</item>
       <item>Play</item>
       <item>PostScript</item>
       <item>Pre</item>
@@ -325,6 +371,7 @@ A copy of the GNU General Public License is also available at
       <item>Select</item>
       <item>Set</item>
       <item>Shift</item>
+      <item>Show</item>
       <item>Smooth</item>
       <item>Solid</item>
       <item>Sort</item>
@@ -335,7 +382,11 @@ A copy of the GNU General Public License is also available at
       <item>Times</item>
       <item>To</item>
       <item>Vertical</item>
-<!--       Colors -->
+      <item>View</item>
+      <item>Write</item>
+      <item>Zoom</item>
+    </list>
+    <list name='colors'>
       <item>White</item>
       <item>Black</item>
       <item>Red</item>
@@ -353,6 +404,39 @@ A copy of the GNU General Public License is also available at
       <item>Pink</item>
       <item>Silver</item>
       <item>Grey</item>
+      <item>white</item>
+      <item>black</item>
+      <item>red</item>
+      <item>green></item>
+      <item>blue</item>
+      <item>yellow</item>
+      <item>cyan</item>
+      <item>magenta</item>
+      <item>maroon</item>
+      <item>lime</item>
+      <item>navy</item>
+      <item>teal</item>
+      <item>purple</item>
+      <item>olive</item>
+      <item>pink</item>
+      <item>silver</item>
+      <item>grey</item>
+    </list>
+    <list name='predefinedVariables'>
+      <item>pi</item>
+      <item>macintosh</item>
+      <item>undefined</item>
+      <item>windows</item>
+      <item>unix</item>
+      <item>praatVersion</item>
+      <item>newline$</item>
+      <item>tab$</item>
+      <item>shellDirectory$</item>
+      <item>homeDirectory$</item>
+      <item>preferencesDirectory$</item>
+      <item>temporaryDirectory$</item>
+      <item>defaultDirectory$</item>
+      <item>praatVersion$</item>
     </list>
 <!--    <list name="operators">
       <item>=</item>
@@ -456,7 +540,7 @@ A copy of the GNU General Public License is also available at
       <item>endsWith</item>
       <item>index_regex</item>
       <item>rindex_regex</item>
-      <item>replace_regex</item>
+      <item>replace_regex$</item>
       <item>length</item>
       <item>extractWord$</item>
       <item>extractLine$</item>
@@ -472,6 +556,22 @@ A copy of the GNU General Public License is also available at
       <item>chooseDirectory$</item>
       <item>demoShow</item>
       <item>demoWaitForInput</item>
+      <item>demoKeyPressed</item>
+      <item>demoKey$</item>
+      <item>demoX</item>
+      <item>demoY</item>
+      <item>demoWindowTitle</item>
+      <item>demoExtraControlKeyPressed</item>
+      <item>demoShiftKeyPressed</item>
+      <item>demoCommandKeyPressed</item>
+      <item>demoOptionKeyPressed</item>
+      <item>createDirectory</item>
+      <item>demoInput</item>
+      <item>environment$</item>
+      <item>extractNumber</item>
+<!--       File functions -->
+      <item>fileReadable</item>
+      <item>deleteFile</item>
     </list>
     <contexts>
       <context name="Normal" attribute="normal" lineEndContext="#pop"  >
@@ -479,35 +579,51 @@ A copy of the GNU General Public License is also available at
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendfor\b'      endRegion='forBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bif\b'        beginRegion='ifBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendif\b'       endRegion='ifBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\bform\b'      beginRegion='forBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendform\b'     endRegion='forBlock' />
+        <RegExpr      attribute="keyword"   context="In Form"               String='\bform\b'      beginRegion='formBlock' firstNonSpace="true" />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bwhile\b'     beginRegion='whileBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendwhile\b'    endRegion='whileBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\brepeat\b'    beginRegion='repeatBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\buntil\b'       endRegion='untilBlock' />
         <RegExpr      attribute="keyword"   context="Command"               String='\bdemo\b' />
         
+        <keyword      attribute="variable"  context="#stay"                 String='predefinedVariables' />
         <StringDetect attribute="keyword"   context="#stay"                 String='View &amp; Edit' />
         <StringDetect attribute="keyword"   context="Label"                 String='label ' />
         <StringDetect attribute="keyword"   context="Label"                 String='goto ' />
-        <StringDetect attribute="keyword"   context="Function"              String='call' />
-        <RegExpr      attribute="keyword"   context="Function"              String='\bprocedure\b' beginRegion='procBlock' />
+        <RegExpr      attribute="keyword"   context="As Function"           String='\bcall +' />
+        <RegExpr      attribute="keyword"   context="As Function"           String='\bprocedure +' beginRegion='procBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendproc\b'     endRegion='procBlock' />
 
         <keyword      attribute="command"   context="Command"               String="commands" />
+        <keyword      attribute="command"   context="Command"               String="colors" />
         <keyword      attribute="keyword"   context="#stay"                 String="keywords" />
         <keyword      attribute="keyword"   context="Directives"            String="directives" />
-        <keyword      attribute="keyword"   context="Object Directives"     String="objectDirectives" />
-        <keyword      attribute="function"  context="#stay"                 String="functions" />
+<!--         <keyword      attribute="keyword"   context="Object Directives"     String="objectDirectives" /> -->
+        <keyword      attribute="keyword"   context="System Directives"     String="systemDirectives" />
+        <keyword      attribute="keyword"   context="#stay"                 String="fileDirectives" />
+        
+        <RegExpr      attribute="keyword"   context="Object"                String='(minus|plus|select|editor) +' />
+        
+        <RegExpr      attribute="normal"    context="Find Function"         String="([a-zA-Z_]+\$?) *\(" lookAhead='true' />
 
         <DetectChar   attribute="comment"   context="Comment"                 char="#" />
+        <DetectChar   attribute="comment"   context="Comment"                 char=";" />
         <DetectChar   attribute="string"    context="Quoted String"           char="&quot;" />
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+      </context>
+
+      <context name="In Form" attribute="normal" lineEndContext="#stay" >
+        <keyword      attribute="keyword"   context="#stay"                String="formTypes" />
+        <RegExpr      attribute="keyword"   context="#pop"                 String='\bendform\b'     endRegion='formBlock' />
       </context>
 
       <context name="Bare String" attribute="string" lineEndContext="#pop" >
-        <RegExpr      attribute="escape"    context="#stay" String="(\\[^\\%#^_][^\\%#^_{&quot;]|\\[%#^_])" />
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+      </context>
+      
+      <context name="Quoted String" attribute="string" lineEndContext="Missing Quote" >
+        <IncludeRules                       context="Bare String" />
+        <RegExpr      attribute="escape"    context="#stay"                 String="(\\[^\\%#^_ ][^\\%#^_ {&quot;]|\\[%#^_])" />
         <StringDetect attribute="formatted" context="Italic String"         String="%%"/>
         <StringDetect attribute="formatted" context="Bold String"           String="##"/>
         <StringDetect attribute="formatted" context="Superscripted String"  String="^^"/>
@@ -519,10 +635,6 @@ A copy of the GNU General Public License is also available at
         <RegExpr      attribute="formatted" context="#stay"                 String="_[\w]" />
         <RegExpr      attribute="formatted" context="#stay"                 String="\^[\w]" />
         <RegExpr      attribute="formatted" context="#stay"                 String="#%[\w]" />
-      </context>
-      
-      <context name="Quoted String" attribute="string" lineEndContext="Missing Quote" >
-        <IncludeRules                       context="Bare String" />
         <DetectChar   attribute="string"    context="#pop"                    char="&quot;" />
       </context>
 
@@ -552,8 +664,9 @@ A copy of the GNU General Public License is also available at
       <context name="Command Arguments" attribute="normal" lineEndContext="#pop" >
         <keyword      attribute="keyword"   context="#stay"                 String="methods" />
         <keyword      attribute="function"  context="#stay"                 String="functions" />
+        <keyword      attribute="keyword"   context="#stay"                 String="colors" />
         <RegExpr      attribute="keyword"   context="Inline if"             String="\bif\b" />
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
         <DetectChar   attribute="string"    context="Quoted String"           char="&quot;" />
       </context>
      
@@ -567,9 +680,13 @@ A copy of the GNU General Public License is also available at
         <DetectChar   attribute="string"    context="Bare String"             char=' ' />
       </context>
 
-      <context name="Object Directives" attribute="normal" lineEndContext="#pop" >
+      <context name="Object" attribute="normal" lineEndContext="#pop" >
         <keyword      attribute="object"    context="#stay"                 String="objects" />
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+        <DetectChar   attribute="normal"    context="#pop"                    char=" " />
+      </context>
+
+      <context name="System Directives" attribute="system" lineEndContext="#pop" >
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
       </context>
       
       <context name="Comment" attribute="comment" lineEndContext="#pop" >
@@ -579,11 +696,17 @@ A copy of the GNU General Public License is also available at
         <DetectChar   attribute="normal"    context="#pop"                    char=" " />
       </context>
 
-      <context name="Function" attribute="function" lineEndContext="#pop" >
+      <context name="Find Function" attribute="normal" lineEndContext="#pop" >
+        <keyword      attribute="function"  context="#stay"                 String="functions" />
+        <DetectChar   attribute="normal"    context="#pop"                    char="(" />
+      </context>
+
+      <context name="As Function" attribute="function" lineEndContext="#pop" >
+        <DetectChar   attribute="normal"    context="Command Arguments"       char=" " />
       </context>
 
       <context name="Into Expansion" attribute="normal" lineEndContext="#pop" >
-        <RegExpr      attribute="normal"    context="Expansion Proper"      String="([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true" />
+        <RegExpr      attribute="normal"    context="Expansion Proper"      String="([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true" />
       </context>
       
       <context name="Expansion Proper" attribute="expansion" lineEndContext="#pop" >
@@ -594,6 +717,8 @@ A copy of the GNU General Public License is also available at
     <itemDatas>
       <itemData name="normal"    defStyleNum="dsNormal" />
       <itemData name="object"    defStyleNum="dsDataType" />
+      <itemData name="system"    defStyleNum="dsDataType" />
+      <itemData name="variable"  defStyleNum="dsDataType" />
       <itemData name="keyword"   defStyleNum="dsKeyword" />
       <itemData name="expansion" defStyleNum="dsString" color="#FF6C6C" selColor="#FF6C6C" bold="0" italic="0" />
       <itemData name="string"    defStyleNum="dsString" />
@@ -609,6 +734,6 @@ A copy of the GNU General Public License is also available at
     <comments>
       <comment name="singleLine" start="#" />
     </comments>
-    <keywords casesensitive="1" />
+    <keywords casesensitive="1" weakDeliminator="_" additionalDeliminator="'" />
   </general>
 </language>
