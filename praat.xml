@@ -501,7 +501,7 @@ A copy of the GNU General Public License is also available at
         <keyword      attribute="function"  context="#stay"                 String="functions" />
 
         <DetectChar   attribute="comment"   context="Comment"                 char="#" />
-        <DetectChar   attribute="string"    context="Quoted String"                  char="&quot;" />
+        <DetectChar   attribute="string"    context="Quoted String"           char="&quot;" />
         <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
       </context>
 
@@ -554,7 +554,7 @@ A copy of the GNU General Public License is also available at
         <keyword      attribute="function"  context="#stay"                 String="functions" />
         <RegExpr      attribute="keyword"   context="Inline if"             String="\bif\b" />
         <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
-        <DetectChar   attribute="string"    context="Quoted String"                  char="&quot;" />
+        <DetectChar   attribute="string"    context="Quoted String"           char="&quot;" />
       </context>
      
       <context name="Inline if" attribute="normal" lineEndContext="#pop" >
