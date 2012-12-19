@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE language SYSTEM "language.dtd">
+
+<!-- This doesn't seem to work as expected...
+[
+  <!ENTITY fullexpansion  "'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'"        >
+  <!ENTITY shortexpansion "([.a-zA-Z0-9]+\$?(:[0-9]+)?)'"         >
+  <!ENTITY escapes        "(\\[^\\%#^_][^\\%#^_{&quot;]|\\[%#^_])">
+]>-->
+
 <!--
   Prat syntax highlighting for Kate (and derivatives)
-  v.0.12
+  v.0.13
   Author: Jose Joaquin Atria (j.atria.11@ucl.ac.uk)
 
   =TODO=
   - Tighten context definitions and rules
   - Highlight final unquoted strings in commands like Text...
     (Not sure if this is worth the effort...)
-  - Include missing commands
+  - Add missing commands
 
   =Changes=
+  - 0.13: * Included rules and definitions for escapes and
+            formatted strings
+          * Added rudimentary error detection (missing block ends)
+          * Improved highlighting of expanded variables (single
+            quotes are now excluded)
   - 0.12: * Included some Picture Window commands
           * Changed naming scheme to temporal, more standard version
           * Fixed expansions for string and other contexts
@@ -462,7 +475,7 @@
       <item>demoWaitForInput</item>
     </list>
     <contexts>
-      <context name="Normal_CTxt" attribute="normal" lineEndContext="#pop"  >
+      <context name="Normal" attribute="normal" lineEndContext="#pop"  >
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bfor\b'       beginRegion='forBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendfor\b'      endRegion='forBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bif\b'        beginRegion='ifBlock' />
@@ -473,80 +486,124 @@
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendwhile\b'    endRegion='whileBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\brepeat\b'    beginRegion='repeatBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\buntil\b'       endRegion='untilBlock' />
-        <RegExpr      attribute="keyword"   context="Command_CTxt"          String='\bdemo\b' />
+        <RegExpr      attribute="keyword"   context="Command"               String='\bdemo\b' />
         
         <StringDetect attribute="keyword"   context="#stay"                 String='View &amp; Edit' />
-        <StringDetect attribute="keyword"   context="Label_CTxt"            String='label ' />
-        <StringDetect attribute="keyword"   context="Label_CTxt"            String='goto ' />
-        <StringDetect attribute="keyword"   context="Function_CTxt"         String='call' />
-        <RegExpr      attribute="keyword"   context="Function_CTxt"         String='\bprocedure\b' beginRegion='procBlock' />
+        <StringDetect attribute="keyword"   context="Label"                 String='label ' />
+        <StringDetect attribute="keyword"   context="Label"                 String='goto ' />
+        <StringDetect attribute="keyword"   context="Function"              String='call' />
+        <RegExpr      attribute="keyword"   context="Function"              String='\bprocedure\b' beginRegion='procBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendproc\b'     endRegion='procBlock' />
 
-        <keyword      attribute="command"   context="Command_CTxt"          String="commands" />
+        <keyword      attribute="command"   context="Command"               String="commands" />
         <keyword      attribute="keyword"   context="#stay"                 String="keywords" />
-        <keyword      attribute="keyword"   context="Directives_CTxt"       String="directives" />
-        <keyword      attribute="keyword"   context="ObjectDirectives_CTxt" String="objectDirectives" />
+        <keyword      attribute="keyword"   context="Directives"            String="directives" />
+        <keyword      attribute="keyword"   context="Object Directives"     String="objectDirectives" />
         <keyword      attribute="function"  context="#stay"                 String="functions" />
 
-        <DetectChar   attribute="comment"   context="Comment_CTxt"            char="#" />
-        <DetectChar   attribute="string"    context="String_CTxt"             char="&quot;" />
-        <RegExpr      attribute="expansion" context="#stay"                 String="'[.a-zA-Z0-9]+\$?(:[0-9]+)?'" />
+        <DetectChar   attribute="comment"   context="Comment"                 char="#" />
+        <DetectChar   attribute="string"    context="Quoted String"                  char="&quot;" />
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
       </context>
 
-      <context name="String_CTxt" attribute="string" lineEndContext="#pop" >
-        <RegExpr      attribute="expansion" context="#stay"                 String="'[.a-zA-Z0-9]+\$?(:[0-9]+)?'" />
+      <context name="Bare String" attribute="string" lineEndContext="#pop" >
+        <RegExpr      attribute="escape"    context="#stay" String="(\\[^\\%#^_][^\\%#^_{&quot;]|\\[%#^_])" />
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+        <StringDetect attribute="formatted" context="Italic String"         String="%%"/>
+        <StringDetect attribute="formatted" context="Bold String"           String="##"/>
+        <StringDetect attribute="formatted" context="Superscripted String"  String="^^"/>
+        <StringDetect attribute="formatted" context="Underscripted String"  String="__"/>
+        
+        <StringDetect attribute="formatted" context="Small Caps"            String="\s{" />
+        <RegExpr      attribute="formatted" context="#stay"                 String="%[\w]" />
+        <RegExpr      attribute="formatted" context="#stay"                 String="#[\w]" />
+        <RegExpr      attribute="formatted" context="#stay"                 String="_[\w]" />
+        <RegExpr      attribute="formatted" context="#stay"                 String="\^[\w]" />
+        <RegExpr      attribute="formatted" context="#stay"                 String="#%[\w]" />
+      </context>
+      
+      <context name="Quoted String" attribute="string" lineEndContext="Missing Quote" >
+        <IncludeRules                       context="Bare String" />
         <DetectChar   attribute="string"    context="#pop"                    char="&quot;" />
       </context>
 
-      <context name="Command_CTxt" attribute="command" lineEndContext="#pop" >
-        <StringDetect attribute="command"  context="CmdArgs_CTxt"           String="..." />
+      <context name="Small Caps" attribute="formatted" lineEndContext="Missing Quote" >
+        <DetectChar   attribute="formatted" context="#pop"                    char="}" />
+      </context>
+      <context name="Italic String" attribute="formatted" lineEndContext="Missing Quote" >
+        <DetectChar   attribute="formatted" context="#pop"                    char="%" />
+      </context>
+      <context name="Bold String" attribute="formatted" lineEndContext="Missing Quote" >
+        <DetectChar   attribute="formatted" context="#pop"                    char="#" />
+      </context>
+      <context name="Superscripted String" attribute="formatted" lineEndContext="Missing Quote" >
+        <DetectChar   attribute="formatted" context="#pop"                    char="^" />
+      </context>
+      <context name="Underscripted String" attribute="formatted" lineEndContext="Missing Quote" >
+        <DetectChar   attribute="formatted" context="#pop"                    char="_" />
+      </context>
+
+      <context name="Command" attribute="command" lineEndContext="#pop" >
+        <StringDetect attribute="command"   context="Command Arguments"     String="..." />
+      </context>
+
+      <context name="Missing Quote" attribute="error" lineEndContext="#pop#pop" >
       </context>
       
-      <context name="CmdArgs_CTxt" attribute="normal" lineEndContext="#pop" >
+      <context name="Command Arguments" attribute="normal" lineEndContext="#pop" >
         <keyword      attribute="keyword"   context="#stay"                 String="methods" />
         <keyword      attribute="function"  context="#stay"                 String="functions" />
-        <RegExpr      attribute="keyword"   context="InlineIf_CTxt"         String="\bif\b" />
-        <RegExpr      attribute="expansion" context="#stay"                 String="'[.a-zA-Z0-9]+\$?(:[0-9]+)?'" />
-        <DetectChar   attribute="string"    context="String_CTxt"             char="&quot;" />
+        <RegExpr      attribute="keyword"   context="Inline if"             String="\bif\b" />
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+        <DetectChar   attribute="string"    context="Quoted String"                  char="&quot;" />
       </context>
      
-      <context name="InlineIf_CTxt" attribute="normal" lineEndContext="#pop" >
+      <context name="Inline if" attribute="normal" lineEndContext="#pop" >
         <RegExpr      attribute="keyword"   context="#stay"                 String="(then|else)" />
         <RegExpr      attribute="object"    context="#stay"                 String="self" />
         <RegExpr      attribute="keyword"   context="#pop"                  String="fi" />
       </context>
 
-      <context name="Directives_CTxt" attribute="keyword" lineEndContext="#pop" >
-        <DetectChar   attribute="string"    context="String_CTxt"            char=' ' />
+      <context name="Directives" attribute="keyword" lineEndContext="#pop" >
+        <DetectChar   attribute="string"    context="Bare String"             char=' ' />
       </context>
 
-      <context name="ObjectDirectives_CTxt" attribute="normal" lineEndContext="#pop" >
+      <context name="Object Directives" attribute="normal" lineEndContext="#pop" >
         <keyword      attribute="object"    context="#stay"                 String="objects" />
-        <RegExpr      attribute="expansion" context="#stay"                 String="'[.a-zA-Z0-9]+\$?(:[0-9]+)?'" />
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true"/>
       </context>
       
-      <context name="Comment_CTxt" attribute="comment" lineEndContext="#pop" >
+      <context name="Comment" attribute="comment" lineEndContext="#pop" >
       </context>
       
-      <context name="Label_CTxt" attribute="object" lineEndContext="#pop" >
-        <DetectChar  attribute="normal"     context="#pop"                    char=" " />
+      <context name="Label" attribute="object" lineEndContext="#pop" >
+        <DetectChar   attribute="normal"    context="#pop"                    char=" " />
       </context>
 
-      <context name="Function_CTxt" attribute="function" lineEndContext="#pop" >
+      <context name="Function" attribute="function" lineEndContext="#pop" >
       </context>
 
+      <context name="Into Expansion" attribute="normal" lineEndContext="#pop" >
+        <RegExpr      attribute="normal"    context="Expansion Proper"      String="([.a-zA-Z0-9]+\$?(:[0-9]+)?)'" lookAhead="true" />
+      </context>
+      
+      <context name="Expansion Proper" attribute="expansion" lineEndContext="#pop" >
+        <StringDetect attribute="expansion" context="#stay"                 String="%1" dynamic="true" />
+        <DetectChar   attribute="normal"    context="#pop#pop"                char="'" />
+      </context>
     </contexts>
     <itemDatas>
       <itemData name="normal"    defStyleNum="dsNormal" />
       <itemData name="object"    defStyleNum="dsDataType" />
-      <itemData name="datatype"  defStyleNum="dsDataType" />
-      <itemData name="variable"  defStyleNum="dsNormal" />
       <itemData name="keyword"   defStyleNum="dsKeyword" />
       <itemData name="expansion" defStyleNum="dsString" color="#FF6C6C" selColor="#FF6C6C" bold="0" italic="0" />
       <itemData name="string"    defStyleNum="dsString" />
+      <itemData name="escape"    defStyleNum="dsOthers" />
+      <itemData name="formatted" defStyleNum="dsOthers" />
       <itemData name="command"   defStyleNum="dsFunction" />
       <itemData name="function"  defStyleNum="dsFunction" />
       <itemData name="comment"   defStyleNum="dsComment" />
+      <itemData name="error"     defStyleNum="dsError" />
     </itemDatas>
   </highlighting>
   <general>
