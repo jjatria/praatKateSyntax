@@ -2,7 +2,7 @@
 <!DOCTYPE language SYSTEM "language.dtd">
 <!--
   Prat syntax highlighting for Kate (and derivatives)
-  v.0.14
+  v.0.15
   Author: Jose Joaquin Atria (j.atria.11@ucl.ac.uk)
 
   =TODO=  
@@ -21,6 +21,10 @@
   - Include missing commands and functions
 
   =Changes=
+  - 0.15: * Detection of missing command arguments
+            (lines ending with trailing ldots)
+          * Added some missing commands and methods
+          * Variable expansion in Object context.
   - 0.14: * '_' as weak delimiter (needed for object names like
             'HMM_Observation') and "'" as strong delimiter
           * Additional demo functions
@@ -48,6 +52,8 @@
     quoted string, even though for Praat they only make sense in strings
     that will be sent to the Picture Window. The problem is how to
     detect only these.
+  - Lines continuing from the previous via initial ldots (...) are not
+    taken into account.
   
 This language definition is free software: you can redistribute it
 and/or modify it under the terms of the GNU General Public License
@@ -66,42 +72,47 @@ A copy of the GNU General Public License is also available at
   <highlighting>
     <list name="methods">
       <item>Bark</item>
+      <item>Bars</item>
       <item>Bartlett</item>
+      <item>Bottom</item>
+      <item>Centre</item>
+      <item>Courier</item>
       <item>Cubic</item>
       <item>Gaussian</item>
+      <item>Half</item>
       <item>Hamming</item>
       <item>Hanning</item>
+      <item>Helvetica</item>
       <item>Hertz</item>
       <item>Kaiser2</item>
+      <item>Left</item>
       <item>Linear</item>
       <item>Nearest</item>
       <item>None</item>
+      <item>Palatino</item>
       <item>Parabolic</item>
       <item>Rectangular</item>
+      <item>Right</item>
       <item>Semitones</item>
       <item>Sinc</item>
       <item>Sinc70</item>
       <item>Sinc700</item>
       <item>Square</item>
-      <item>Welch</item>
-      <item>Left</item>
-      <item>Centre</item>
-      <item>Right</item>
-      <item>Bottom</item>
-      <item>Half</item>
-      <item>Top</item>
-      <item>left</item>
-      <item>centre</item>
-      <item>right</item>
-      <item>bottom</item>
-      <item>half</item>
-      <item>top</item>
       <item>Times</item>
-      <item>Helvetica</item>
-      <item>Palatino</item>
-      <item>Courier</item>
-      <item>yes</item>
+      <item>Top</item>
+      <item>Welch</item>
+      <item>bottom</item>
+      <item>centre</item>
+      <item>dB</item>
+      <item>energy</item>
+      <item>half</item>
+      <item>left</item>
       <item>no</item>
+      <item>rectangular</item>
+      <item>right</item>
+      <item>sones</item>
+      <item>top</item>
+      <item>yes</item>
     </list>
     <list name="keywords">
       <item>from</item>
@@ -308,6 +319,7 @@ A copy of the GNU General Public License is also available at
       <item>Close</item>
       <item>Colour</item>
       <item>Combine</item>
+      <item>Compute</item>
       <item>Concatenate</item>
       <item>Convert</item>
       <item>Convolve</item>
@@ -367,7 +379,9 @@ A copy of the GNU General Public License is also available at
       <item>Replace</item>
       <item>Resample</item>
       <item>Reverse</item>
+      <item>Save</item>
       <item>Scale</item>
+      <item>Scatter</item>
       <item>Select</item>
       <item>Set</item>
       <item>Shift</item>
@@ -390,7 +404,7 @@ A copy of the GNU General Public License is also available at
       <item>White</item>
       <item>Black</item>
       <item>Red</item>
-      <item>Green></item>
+      <item>Green</item>
       <item>Blue</item>
       <item>Yellow</item>
       <item>Cyan</item>
@@ -407,7 +421,7 @@ A copy of the GNU General Public License is also available at
       <item>white</item>
       <item>black</item>
       <item>red</item>
-      <item>green></item>
+      <item>green</item>
       <item>blue</item>
       <item>yellow</item>
       <item>cyan</item>
@@ -579,6 +593,8 @@ A copy of the GNU General Public License is also available at
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendfor\b'      endRegion='forBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bif\b'        beginRegion='ifBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendif\b'       endRegion='ifBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\belsif\b'       endRegion='ifBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='\belif\b'        endRegion='ifBlock' />
         <RegExpr      attribute="keyword"   context="In Form"               String='\bform\b'      beginRegion='formBlock' firstNonSpace="true" />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bwhile\b'     beginRegion='whileBlock' />
         <RegExpr      attribute="keyword"   context="#stay"                 String='\bendwhile\b'    endRegion='whileBlock' />
@@ -600,7 +616,7 @@ A copy of the GNU General Public License is also available at
         <keyword      attribute="keyword"   context="Directives"            String="directives" />
 <!--         <keyword      attribute="keyword"   context="Object Directives"     String="objectDirectives" /> -->
         <keyword      attribute="keyword"   context="System Directives"     String="systemDirectives" />
-        <keyword      attribute="keyword"   context="#stay"                 String="fileDirectives" />
+        <keyword      attribute="keyword"   context="Filename"              String="fileDirectives" />
         
         <RegExpr      attribute="keyword"   context="Object"                String='(minus|plus|select|editor) +' />
         
@@ -613,8 +629,8 @@ A copy of the GNU General Public License is also available at
       </context>
 
       <context name="In Form" attribute="normal" lineEndContext="#stay" >
-        <keyword      attribute="keyword"   context="#stay"                String="formTypes" />
-        <RegExpr      attribute="keyword"   context="#pop"                 String='\bendform\b'     endRegion='formBlock' />
+        <keyword      attribute="keyword"   context="#stay"                 String="formTypes" />
+        <RegExpr      attribute="keyword"   context="#pop"                  String='\bendform\b'     endRegion='formBlock' />
       </context>
 
       <context name="Bare String" attribute="string" lineEndContext="#pop" >
@@ -655,13 +671,16 @@ A copy of the GNU General Public License is also available at
       </context>
 
       <context name="Command" attribute="command" lineEndContext="#pop" >
-        <StringDetect attribute="command"   context="Command Arguments"     String="..." />
+        <RegExpr      attribute="error"     context="#stay"                 String="\.{1,2}\b" />
+        <StringDetect attribute="command"   context="Command Arguments"     String="..." lookAhead="true"/>
       </context>
 
       <context name="Missing Quote" attribute="error" lineEndContext="#pop#pop" >
       </context>
       
       <context name="Command Arguments" attribute="normal" lineEndContext="#pop" >
+        <RegExpr      attribute="error"     context="Missing Quote"         String="\.\.\.\s*$" />
+        <StringDetect attribute="command"   context="#stay"                 String="..." />
         <keyword      attribute="keyword"   context="#stay"                 String="methods" />
         <keyword      attribute="function"  context="#stay"                 String="functions" />
         <keyword      attribute="keyword"   context="#stay"                 String="colors" />
@@ -683,10 +702,14 @@ A copy of the GNU General Public License is also available at
       <context name="Object" attribute="normal" lineEndContext="#pop" >
         <keyword      attribute="object"    context="#stay"                 String="objects" />
         <DetectChar   attribute="normal"    context="#pop"                    char=" " />
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
       </context>
 
       <context name="System Directives" attribute="system" lineEndContext="#pop" >
         <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+      </context>
+      
+      <context name="Filename" attribute="normal" lineEndContext="#pop" >
       </context>
       
       <context name="Comment" attribute="comment" lineEndContext="#pop" >
