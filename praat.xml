@@ -68,7 +68,7 @@ Boston, MA 02110-1301, USA.
 A copy of the GNU General Public License is also available at
 <http://www.gnu.org/licenses/>.
 -->
-<language name="Praat" version="5.3.04-0.1" kateversion="2.4" section="Scripts" extensions="*.Praat;*.praat;*.psc;*.praat-script;*.praatscript" author="Jose J. Atria (j.atria.11@ucl.ac.uk)" license="LGPL">
+<language name="Praat" version="5.3.04-0.1" kateversion="2.4" section="Scripts" extensions="*.Praat;*.praat;*.psc;*.praat-script;*.praatscript;*.proc" author="Jose J. Atria (j.atria.11@ucl.ac.uk)" license="LGPL">
   <highlighting>
     <list name="methods">
       <item>Bark</item>
@@ -142,7 +142,7 @@ A copy of the GNU General Public License is also available at
       <item>not</item>
       <item>warn</item>
     </list>
-    <list name='formTypes'>
+    <list name="formTypes">
       <item>word</item>
       <item>text</item>
       <item>choice</item>
@@ -478,6 +478,14 @@ A copy of the GNU General Public License is also available at
       <item>!</item>
     </list>-->
     <list name="functions">
+      <item>writeInfo</item>
+      <item>writeInfoLine</item>
+      <item>appendInfo</item>
+      <item>appendInfoLine</item>
+      <item>writeFile</item>
+      <item>writeFileLine</item>
+      <item>appendFile</item>
+      <item>appendFileLine</item>
       <item>abs</item>
       <item>round</item>
       <item>floor</item>
@@ -586,6 +594,13 @@ A copy of the GNU General Public License is also available at
 <!--       File functions -->
       <item>fileReadable</item>
       <item>deleteFile</item>
+<!--       Object functions -->
+      <item>selectObject</item>
+      <item>removeObject</item>
+      <item>plusObject</item>
+      <item>minusObject</item>
+      <item>runScript</item>
+      <item>exitScript</item>
     </list>
     <contexts>
       <context name="Normal" attribute="normal" lineEndContext="#pop"  >
@@ -672,10 +687,22 @@ A copy of the GNU General Public License is also available at
 
       <context name="Command" attribute="command" lineEndContext="#pop" >
         <RegExpr      attribute="error"     context="#stay"                 String="\.{1,2}\b" />
-        <StringDetect attribute="command"   context="Command Arguments"     String="..." lookAhead="true"/>
+        <StringDetect attribute="command"   context="Shorthand Command Arguments"     String="..." lookAhead="true"/>
+        <DetectChar   attribute="command"   context="Command Arguments"       char=":" lookAhead="true"/>
       </context>
 
       <context name="Missing Quote" attribute="error" lineEndContext="#pop#pop" >
+      </context>
+      
+      <context name="Shorthand Command Arguments" attribute="normal" lineEndContext="#pop" >
+        <RegExpr      attribute="error"     context="Missing Quote"         String="\.\.\.\s*$" />
+        <StringDetect attribute="command"   context="#stay"                 String="..." />
+        <keyword      attribute="keyword"   context="#stay"                 String="methods" />
+        <keyword      attribute="function"  context="#stay"                 String="functions" />
+        <keyword      attribute="keyword"   context="#stay"                 String="colors" />
+        <RegExpr      attribute="keyword"   context="Inline if"             String="\bif\b" />
+        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+        <DetectChar   attribute="string"    context="Quoted String"           char="&quot;" />
       </context>
       
       <context name="Command Arguments" attribute="normal" lineEndContext="#pop" >
@@ -690,7 +717,8 @@ A copy of the GNU General Public License is also available at
       </context>
      
       <context name="Inline if" attribute="normal" lineEndContext="#pop" >
-        <RegExpr      attribute="keyword"   context="#stay"                 String="(then|else)" />
+<!--         <StringDetect attribute="keyword"   context="#stay"                 String="then" /> -->
+<!--         <StringDetect attribute="keyword"   context="#stay"                 String="else" /> -->
         <RegExpr      attribute="object"    context="#stay"                 String="self" />
         <RegExpr      attribute="keyword"   context="#pop"                  String="fi" />
       </context>
@@ -725,7 +753,7 @@ A copy of the GNU General Public License is also available at
       </context>
 
       <context name="As Function" attribute="function" lineEndContext="#pop" >
-        <DetectChar   attribute="normal"    context="Command Arguments"       char=" " />
+        <DetectChar   attribute="normal"    context="Shorthand Command Arguments"       char=" " />
       </context>
 
       <context name="Into Expansion" attribute="normal" lineEndContext="#pop" >
