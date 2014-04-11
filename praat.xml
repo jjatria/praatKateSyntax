@@ -604,18 +604,16 @@ A copy of the GNU General Public License is also available at
     </list>
     <contexts>
       <context name="Normal" attribute="normal" lineEndContext="#pop"  >
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\bfor\b'       beginRegion='forBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendfor\b'      endRegion='forBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\bif\b'        beginRegion='ifBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendif\b'       endRegion='ifBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\belsif\b'       endRegion='ifBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\belif\b'        endRegion='ifBlock' />
-        <RegExpr      attribute="keyword"   context="In Form"               String='\bform\b'      beginRegion='formBlock' firstNonSpace="true" />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\bwhile\b'     beginRegion='whileBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendwhile\b'    endRegion='whileBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\brepeat\b'    beginRegion='repeatBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\buntil\b'       endRegion='untilBlock' />
-        <RegExpr      attribute="keyword"   context="Command"               String='\bdemo\b' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*for\b'       beginRegion='forBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*endfor\b'      endRegion='forBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*if\b'        beginRegion='ifBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*endif\b'       endRegion='ifBlock' />
+        <RegExpr      attribute="keyword"   context="In Form"               String='^\s*form\b'      beginRegion='formBlock' firstNonSpace="true" />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*while\b'     beginRegion='whileBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*endwhile\b'    endRegion='whileBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*repeat\b'    beginRegion='repeatBlock' />
+        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*until\b'       endRegion='untilBlock' />
+        <RegExpr      attribute="keyword"   context="Command"               String='^\s*demo\b' />
         
         <keyword      attribute="variable"  context="#stay"                 String='predefinedVariables' />
         <StringDetect attribute="keyword"   context="#stay"                 String='View &amp; Edit' />
