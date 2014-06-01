@@ -1,222 +1,115 @@
-define(function(require, exports, module) {
-"use strict";
+form Highlighter test
+  sentence My_sentence This should all be a string
+  text My_text This should also all be a string
+  word My_word Only the first word is a string, the rest is invalid
+  boolean Binary 1
+  boolean Text no
+  boolean Quoted "yes"
+  comment This should be a string
+  real left_Range -123.6
+  positive right_Range_max 3.3
+  integer Int 4
+  natural Nat 4
+endform
 
-var oop = require("../lib/oop");
-var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
+# old-style procedure call
+call oldStyle "quoted" 2 unquoted string
+assert oldStyle.local = 1
 
-var PraatHighlightRules = function() {
+# New-style procedure call with parens
+@newStyle("quoted", 2, "quoted string")
+if praatVersion >= 5364 
+  # New-style procedure call with colon
+  @newStyle: "quoted", 2, "quoted string"
+endif
+assert newStyle.local = 1
 
-    var keywords = (
-        "if|then|else|elsif|elif|endif|fi|" +
-        "endfor|endproc|" + // 'for' and 'procedure' defined below
-        "while|endwhile|" +
-        "repeat|until|" +
-        "select|plus|minus|" +
-        "assert"
-    );
+# if-block with built-in variables
+if windows
+  # We are on Windows
+elsif unix = 1 or !macintosh
+  # We are on Linux
+else macintosh == 1
+  # We are on Mac
+endif
 
-//     var buildinConstants = ("ARGV|ENV|INC|SIG");
+# inline if with inline comment
+var = if macintosh = 1 then 0 else 1 fi ; This is an inline comment
 
-    var predefinedVariables = (
-        "macintosh|windows|unix|" +
-        "praatVersion|praatVersion\\$" +
-        "pi|undefined|" +
-        "newline\\$|tab\\$|" +
-        "shellDirectory\\$|homeDirectory\\$|preferencesDirectory\\$|" +
-        "temporaryDirectory\\$|defaultDirectory\\$"
-    );
+# for-loop with explicit from using local variable
+# and paren-style function calls and variable interpolation
+n = numberOfSelected("Sound")
+for i from newStyle.local to n
+  sound'i' = selected("Sound", i)
+  sound[i] = sound'i'
+endfor
+
+for i from 1 to n
+  # Different styles of object selection
+  select sound'i'
+  sound = selected()
+  sound$ = selected$("Sound")
+  select Sound 'sound$'
+  selectObject(sound[i])
+  selectObject: sound
+  
+  # New-style standalone command call
+  Rename: "SomeName"
+
+  # Command call with assignment
+  duration = Get total duration
+  
+  # Multi-line command with modifier
+  pitch = noprogress To Pitch (ac): 0, 75, 15, "no",
+    ...0.03, 0.45, 0.01, 0.35, 0.14, 600
     
-    var functions = (
-//      Math functions
-        "writeInfo|writeInfoLine|appendInfo|appendInfoLine|" +
-        "writeFile|writeFileLine|appendFile|appendFileLine|" +
-        "abs|round|floor|ceiling|min|max|imin|imax|" +
-        "sqrt|sin|cos|tan|arcsin|arccos|arctan|arctan2|sinc|sincpi|" +
-        "exp|ln|log10|log2|" +
-        "sinh|cosh|tanh|arcsinh|arccosh|actanh|" +
-        "sigmoid|invSigmoid|erf|erfc|" +
-        "randomUniform|randomInteger|randomGauss|randomPoisson|" +
-        "lnGamma|gaussP|gaussQ|invGaussQ|" +
-        "chiSquareP|chiSquareQ|invChiSquareQ|studentP|studentQ|invStudentQ|" +
-        "fisherP|fisherQ|invFisherQ|" +
-        "binomialP|binomialQ|invBinomialP|invBinomialQ|" +
-        "hertzToBark|barkToHerz|" +
-        "hertzToMel|melToHertz|" +
-        "hertzToSemitones|semitonesToHerz|" +
-        "erb|hertzToErb|erbToHertz|" +
-        "phonToDifferenceLimens|differenceLimensToPhon|" +
-        "beta|besselI|besselK|" +
-//      String functions
-        "selected|selected$|numberOfSelected|variableExists|"+
-        "index|rindex|startsWith|endsWith|"+
-        "index_regex|rindex_regex|replace_regex$|"+
-        "length|extractWord$|extractLine$|extractNumber|" +
-        "left$|right$|mid$|replace$|" +
-//      Pause functions
-        "beginPause|endPause|" +
-//      Demo functions
-        "demoShow|demoWindowTitle|demoInput|demoWaitForInput|" +
-        "demoClicked|demoClickedIn|demoX|demoY|" +
-        "demoKeyPressed|demoKey$|" +
-        "demoExtraControlKeyPressed|demoShiftKeyPressed|"+
-        "demoCommandKeyPressed|demoOptionKeyPressed|" +
-//      File functions
-        "environment$|" +
-        "chooseDirectory$|createDirectory|fileReadable|deleteFile|" +
-        "selectObject|removeObject|plusObject|minusObject|" +
-        "runScript|exitScript"
-    );
+  # Old-style command with assignment
+  minimum = Get minimum... 0 0 "Hertz" Parabolic
 
-    var objectTypes = (
-        "Collection|Strings|ManPages|SortedSetOfString|Sound|Matrix|Polygon|" +
-        "PointProcess|ParamCurve|Spectrum|Ltas|Spectrogram|Formant|" +
-        "Excitation|Cochleagram|VocalTract|FormantPoint|FormantTier|" +
-        "FormantGrid|Label|Tier|Autosegment|Intensity|Pitch|Harmonicity|" +
-        "Transition|RealPoint|RealTier|PitchTier|IntensityTier|DurationTier|" +
-        "AmplitudeTier|SpectrumTier|Manipulation|TextPoint|TextInterval|" +
-        "TextTier|IntervalTier|TextGrid|LongSound|WordList|SpellingChecker|" +
-        "Movie|Corpus|TableOfReal|Distributions|PairDistribution|Table|" +
-        "LinearRegression|LogisticRegression|Art|Artword|Speaker|Activation|" +
-        "BarkFilter|Categories|Cepstrum|CCA|ChebyshevSeries|" +
-        "ClassificationTable|Confusion|Correlation|Covariance|Discriminant|" +
-        "DTW|Eigen|Excitations|FormantFilter|Index|KlattTable|Permutation|" +
-        "ISpline|LegendreSeries|MelFilter|MSpline|Pattern|PCA|Polynomial|" +
-        "Roots|SimpleString|StringsIndex|SpeechSynthesizer|SPINET|SSCP|SVD|" +
-        "AffineTransform|Procrustes|ContingencyTable|Dissimilarity|" +
-        "Similarity|Configuration|Distance|Salience|ScalarProduct|Weight|" +
-        "KlattGrid|HMM|HMM_State|HMM_Observation|HMM_ObservationSequence|" +
-        "HMM_StateSequence|GaussianMixture|Diagonalizer|MixingMatrix|" +
-        "CrossCorrelationTable|CrossCorrelationTables|Network|OTGrammar|" +
-        "OTHistory|OTMulti|FFNet|Cepstrumc|LPC|LFCC|MFCC|ExperimentMFC|" +
-        "ResultsMFC|EEG|ERPTier|ERP|KNN|FeatureWeights"
-    );
+  # New-style multi-line command call with broken strings
+  table = Create Table with column names: "table", 0,
+    ..."file subject speaker
+    ...f0 f1 f2 f3 " +
+    ..."duration response"
+  
+  removeObject: pitch, table
     
-    var keywordMapper = this.createKeywordMapper({
-        "keyword": keywords,
-//         "constant.language": buildinConstants,
-        "support.function": functions
-    }, "identifier");
-    
-    var inlineIf = this.createKeywordMapper({
-        "keyword": "(if|then|else|fi)",
-//         "constant.language": buildinConstants,
-        "support.function": functions
-    }, "identifier");
+  # Picture window commands
+  selectObject: sound
+  Select inner viewport: 1, 6, 0.5, 1.5
+  Black
+  Draw... 0 0 0 0 "no" Curve
+  Draw inner box
+  Text bottom: "yes", sound$
+  Erase all
+  
+  # Demo window commands
+  demo Erase all
+  demo Select inner viewport... 0 100 0 100
+  demo Axes... 0 100 0 100
+  demo Paint rectangle... white 0 100 0 100
+  demo Purple
+  demo Times
+  demo 24
+  # The "to" in "Click to finish" should not be a keyword
+  demo Text... 50 centre 50 half Click to finish
+  demoWaitForInput ( )
+  demo Erase all
+  demo Select inner viewport... 0 100 0 100
+  demo Axes... 0 100 0 100
+  demo Paint rectangle... purple 0 100 0 100
+  demo Yellow
+  demo Times
+  demo 24
+  demo Text... 50 centre 50 half Finished
+endfor
 
-    // regexp must not have capturing parentheses. Use (?:) instead.
-    // regexps are ordered -> the first match is used
+# Old-style procedure declaration
+procedure oldStyle .str1$ .num .str2$
+  .local = 1
+endproc
 
-    this.$rules = {
-        "start" : [
-            {
-                token : "entity.name.type",
-                regex : "(" + objectTypes + ")"
-            }, {
-                token : "variable.language",
-                regex : "(" + predefinedVariables + ")"
-            }, {
-                token : ["support.function", "text"],
-                regex : "((?:" + functions + ")\\$?)(\\s*(?::|\\())"
-            }, {
-                token : "keyword",
-                regex : /(\bfor\b)/,
-                next : "for"
-            }, {
-                token : "keyword",
-                regex : "(\\b(?:" + keywords + ")\\b)"
-            }, {
-                token : "string.interpolated",
-                regex : /'(?:[a-z][a-zA-Z0-9_]*)(?:\$|#|:[0-9]+)'/
-            }, {
-                token : "string",
-                regex : /"[^"]*"/
-            }, {
-                token : ["text", "keyword", "text", "entity.name.section"], // multi line string start
-                regex : /(^\s*)(\bform\b)(\s+)(.*)/,
-                next : "form"
-            }, {
-                token : "constant.numeric",
-                regex : /\b[+-]?\d+(?:(?:\.\d*)?(?:[eE][+-]?\d+)?)?\b/
-            }, {
-                token : ["entity.name.function", "text"],
-                regex : /(@\S+)(:|\s*\()/
-            }, {
-                token : ["text", "keyword", "text", "entity.name.function"],
-                regex : /(^\s*)(call)(\s+)(\S+)/
-            }, {
-                token : ["text", "text", "keyword.operator", "text", "keyword", "text", "keyword"],
-                regex : /(^\s*)(?:([a-z][a-zA-Z0-9_]*\$?\s+)(=)(\s+))?(?:((?:no)?warn|nocheck|noprogress)(\s+))?((?:[A-Z][^.:"]+)(?:$|(?:\.{3}|:)))/
-            }, {
-                token : ["text", "keyword", "text", "keyword"],
-                regex : /(^\s*)(?:(demo)?(\s+))((?:[A-Z][^.:"]+)(?:$|(?:\.{3}|:)))/
-            }, {
-                token : ["text", "keyword"],
-                regex : /(^\s*)(demo\b)/
-            }, {
-                token : "keyword.operator",
-                regex : /(?:\b((?:\+|-|\/|\*|<|>)=?|==?|!=|%|\^|\||and|or|not)\b)/
-            }, {
-                token : ["keyword", "text", "entity.name.function"],
-                regex : /(procedure)(\s+)(\S+)/
-            }, {
-                token : "comment",
-                regex : "#.*$"
-            }, {
-                token : "comment",
-                regex : ";.*$"
-            }, {
-                token : "text",
-                regex : /\s+/
-            }
-        ],
-        "form" : [
-            {
-                token : ["keyword", "text", "constant.numeric"],
-                regex : /((?:optionmenu|choice)\s+)(\S+:\s+)([0-9]+)/
-            }, {
-                token : ["keyword", "constant.numeric"],
-                regex : /((?:option|button)\s+)([+-]?\d+(?:(?:\.\d*)?(?:[eE][+-]?\d+)?)?\b)/
-            }, {
-                token : ["keyword", "string"],
-                regex : /((?:option|button)\s+)(.*)/
-            }, {
-                token : ["keyword", "text", "string"],
-                regex : /((?:sentence|text)\s+)(\S+\s*)(.*)/
-            }, {
-                token : ["keyword", "text", "string", "invalid.illegal"],
-                regex : /(word\s+)(\S+\s*)(\S+)?(\s.*)?/
-            }, {
-                token : ["keyword", "text", "constant.language"],
-                regex : /(boolean\s+)(\S+\s*)(0|1|"?(?:yes|no)"?)/
-            }, {
-                token : ["keyword", "text", "constant.numeric"],
-                regex : /((?:real|natural|positive|integer)\s+)(\S+\s*)([+-]?\d+(?:(?:\.\d*)?(?:[eE][+-]?\d+)?)?\b)/
-            }, {
-                token : ["keyword", "string"],
-                regex : /(comment\s+)(.*)/
-            }, {
-                token : "keyword",
-                regex : 'endform',
-                next : "start"
-            }
-        ],
-        "for" : [
-            {
-                token : ["keyword", "text", "constant.numeric", "text"],
-                regex : /(from|to)(\s+)([+-]?\d+(?:(?:\.\d*)?(?:[eE][+-]?\d+)?)?)(\s*)/
-            }, {
-                token : ["keyword", "text"],
-                regex : /(from|to)(\s+\S+\s*)/
-            }, {
-                token : "text",
-                regex : /$/,
-                next : "start"
-            }
-        ],
-    };
-};
-
-oop.inherits(PraatHighlightRules, TextHighlightRules);
-
-exports.PraatHighlightRules = PraatHighlightRules;
-});
+# New-style procedure declaration
+procedure newStyle (.str1$, .num, .str2$)
+  .local = 1
+endproc
