@@ -2,787 +2,650 @@
 <!DOCTYPE language SYSTEM "language.dtd">
 <!--
   Prat syntax highlighting for Kate (and derivatives)
-  v.0.15
+  v.0.16
   Author: Jose Joaquin Atria (j.atria.11@ucl.ac.uk)
 
-  =TODO=  
-  - Add other special format strings:
-    * \~^?
-  - Handle Praat's conections with the outside world
-  - Detect lines continuing from ...
-  - Tighten context definitions and rules
-  - Improve error detection:
-    * Open blocks
-    * Broken lines
-    * Illegal contexts (such as bare quoted strings)
-    * ...
-  - Highlight final unquoted strings in commands like Text...
-    (Not sure if this is worth the effort)
-  - Include missing commands and functions
-
-  =Changes=
-  - 0.15: * Detection of missing command arguments
-            (lines ending with trailing ldots)
-          * Added some missing commands and methods
-          * Variable expansion in Object context.
-  - 0.14: * '_' as weak delimiter (needed for object names like
-            'HMM_Observation') and "'" as strong delimiter
-          * Additional demo functions
-          * Added lower-case versions of colors
-          * Improved function detection
-          * Added predefined variables as data types
-          * Added colon comments
-          * Better handling of object directives
-            (Is there a nicer way?)
-  - 0.13: * Included rules and definitions for escapes and
-            formatted strings
-          * Added rudimentary error detection (missing block ends)
-          * Improved highlighting of expanded variables (single
-            quotes are now excluded)
-          * Changed naming scheme again, this time for good
-  - 0.12: * Included some Picture Window commands
-          * Changed naming scheme to temporal, more standard version
-          * Fixed expansions for string and other contexts
-  - 0.11: * Gave up on variable identification
-          * Improved context definitions and identification rules
-          * Tidied up part of the code
-          
   =Bugs=
-  - Character escapes and string formatting are highlighted in every
-    quoted string, even though for Praat they only make sense in strings
-    that will be sent to the Picture Window. The problem is how to
-    detect only these.
   - Lines continuing from the previous via initial ldots (...) are not
     taken into account.
-  
+
 This language definition is free software: you can redistribute it
 and/or modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation, either version 3 of
 the License, or (at your option) any later version.
 
 You should have received a copy of the GNU General Public License
-along with file; see the file COPYING. If not, write to 
+along with file; see the file COPYING. If not, write to
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301, USA.
 
 A copy of the GNU General Public License is also available at
 <http://www.gnu.org/licenses/>.
 -->
-<language name="Praat" version="5.3.04-0.1" kateversion="2.4" section="Scripts" extensions="*.Praat;*.praat;*.psc;*.praat-script;*.praatscript;*.proc" author="Jose J. Atria (j.atria.11@ucl.ac.uk)" license="LGPL">
+<language name="Praat" version="0.16" kateversion="2.4" section="Scripts" extensions="*.Praat;*.praat;*.psc;*.praat-script;*.praatscript;*.proc" author="Jose Joaquín Atria (j.atria.11@ucl.ac.uk)" license="LGPL">
   <highlighting>
-    <list name="methods">
-      <item>Bark</item>
-      <item>Bars</item>
-      <item>Bartlett</item>
-      <item>Bottom</item>
-      <item>Centre</item>
-      <item>Courier</item>
-      <item>Cubic</item>
-      <item>Gaussian</item>
-      <item>Half</item>
-      <item>Hamming</item>
-      <item>Hanning</item>
-      <item>Helvetica</item>
-      <item>Hertz</item>
-      <item>Kaiser2</item>
-      <item>Left</item>
-      <item>Linear</item>
-      <item>Nearest</item>
-      <item>None</item>
-      <item>Palatino</item>
-      <item>Parabolic</item>
-      <item>Rectangular</item>
-      <item>Right</item>
-      <item>Semitones</item>
-      <item>Sinc</item>
-      <item>Sinc70</item>
-      <item>Sinc700</item>
-      <item>Square</item>
-      <item>Times</item>
-      <item>Top</item>
-      <item>Welch</item>
-      <item>bottom</item>
-      <item>centre</item>
-      <item>dB</item>
-      <item>energy</item>
-      <item>half</item>
-      <item>left</item>
-      <item>no</item>
-      <item>rectangular</item>
-      <item>right</item>
-      <item>sones</item>
-      <item>top</item>
-      <item>yes</item>
-    </list>
     <list name="keywords">
-      <item>from</item>
-      <item>to</item>
-      <item>if</item>
+      <item>assert</item>
+      <item>clearinfo</item>
+      <item>demo</item>
+      <item>editor</item>
+      <item>elif</item>
       <item>else</item>
       <item>elsif</item>
-      <item>elif</item>
+      <item>endeditor</item>
+      <item>endfor</item>
       <item>endif</item>
+      <item>endproc</item>
+      <item>endwhile</item>
       <item>fi</item>
+      <item>for</item>
+      <item>from</item>
+      <item>if</item>
+      <item>minus</item>
+      <item>nocheck</item>
+      <item>noprogress</item>
+      <item>nowarn</item>
+      <item>plus</item>
+      <item>procedure</item>
       <item>repeat</item>
+      <item>select</item>
+      <item>stopwatch</item>
+      <item>then</item>
+      <item>to</item>
       <item>until</item>
       <item>while</item>
-      <item>endwhile</item>
-      <item>for</item>
-      <item>endfor</item>
-      <item>proc</item>
-      <item>endproc</item>
-      <item>form</item>
-      <item>nocheck</item>
-      <item>endeditor</item>
-      <item>noprogress</item>
-      <item>assert</item>
-      <item>nowarn</item>
-      <item>and</item>
-      <item>or</item>
-      <item>not</item>
-      <item>warn</item>
     </list>
-    <list name="formTypes">
-      <item>word</item>
-      <item>text</item>
-      <item>choice</item>
-      <item>button</item>
-      <item>comment</item>
-      <item>real</item>
-      <item>natural</item>
-      <item>positive</item>
-      <item>integer</item>
-      <item>sentence</item>
+    <list name="functions_string">
+      <item>backslashTrigraphsToUnicode$</item>
+      <item>chooseDirectory$</item>
+      <item>chooseReadFile$</item>
+      <item>chooseWriteFile$</item>
+      <item>date$</item>
+      <item>demoKey$</item>
+      <item>do$</item>
+      <item>environment$</item>
+      <item>extractLine$</item>
+      <item>extractWord$</item>
+      <item>fixed$</item>
+      <item>info$</item>
+      <item>left$</item>
+      <item>mid$</item>
+      <item>percent$</item>
+      <item>readFile$</item>
+      <item>replace$</item>
+      <item>replace_regex$</item>
+      <item>right$</item>
+      <item>selected$</item>
+      <item>string$</item>
+    </list>
+    <list name="functions_numeric">
+      <item>abs</item>
+      <item>appendFile</item>
+      <item>appendFileLine</item>
+      <item>appendInfo</item>
+      <item>appendInfoLine</item>
+      <item>arccos</item>
+      <item>arccosh</item>
+      <item>arcsin</item>
+      <item>arcsinh</item>
+      <item>arctan</item>
+      <item>arctan2</item>
+      <item>arctanh</item>
+      <item>barkToHertz</item>
+      <item>beginPause</item>
+      <item>beginSendPraat</item>
+      <item>besselI</item>
+      <item>besselK</item>
+      <item>beta</item>
+      <item>beta2</item>
+      <item>binomialP</item>
+      <item>binomialQ</item>
       <item>boolean</item>
-      <item>optionmenu</item>
+      <item>ceiling</item>
+      <item>chiSquareP</item>
+      <item>chiSquareQ</item>
+      <item>choice</item>
+      <item>comment</item>
+      <item>cos</item>
+      <item>cosh</item>
+      <item>createDirectory</item>
+      <item>deleteFile</item>
+      <item>demoClicked</item>
+      <item>demoClickedIn</item>
+      <item>demoCommandKeyPressed</item>
+      <item>demoExtraControlKeyPressed</item>
+      <item>demoInput</item>
+      <item>demoKeyPressed</item>
+      <item>demoOptionKeyPressed</item>
+      <item>demoShiftKeyPressed</item>
+      <item>demoShow</item>
+      <item>demoWaitForInput</item>
+      <item>demoWindowTitle</item>
+      <item>demoX</item>
+      <item>demoY</item>
+      <item>differenceLimensToPhon</item>
+      <item>do</item>
+      <item>editor</item>
+      <item>endPause</item>
+      <item>endSendPraat</item>
+      <item>endsWith</item>
+      <item>erb</item>
+      <item>erbToHertz</item>
+      <item>erf</item>
+      <item>erfc</item>
+      <item>exitScript</item>
+      <item>exp</item>
+      <item>extractNumber</item>
+      <item>fileReadable</item>
+      <item>fisherP</item>
+      <item>fisherQ</item>
+      <item>floor</item>
+      <item>gaussP</item>
+      <item>gaussQ</item>
+      <item>hertzToBark</item>
+      <item>hertzToErb</item>
+      <item>hertzToMel</item>
+      <item>hertzToSemitones</item>
+      <item>imax</item>
+      <item>imin</item>
+      <item>incompleteBeta</item>
+      <item>incompleteGammaP</item>
+      <item>index</item>
+      <item>index_regex</item>
+      <item>invBinomialP</item>
+      <item>invBinomialQ</item>
+      <item>invChiSquareQ</item>
+      <item>invFisherQ</item>
+      <item>invGaussQ</item>
+      <item>invSigmoid</item>
+      <item>invStudentQ</item>
+      <item>length</item>
+      <item>ln</item>
+      <item>lnBeta</item>
+      <item>lnGamma</item>
+      <item>log10</item>
+      <item>log2</item>
+      <item>max</item>
+      <item>melToHertz</item>
+      <item>min</item>
+      <item>minusObject</item>
+      <item>natural</item>
+      <item>number</item>
+      <item>numberOfColumns</item>
+      <item>numberOfRows</item>
+      <item>numberOfSelected</item>
+      <item>objectsAreIdentical</item>
       <item>option</item>
+      <item>optionMenu</item>
+      <item>pauseScript</item>
+      <item>phonToDifferenceLimens</item>
+      <item>plusObject</item>
+      <item>positive</item>
+      <item>randomBinomial</item>
+      <item>randomGauss</item>
+      <item>randomInteger</item>
+      <item>randomPoisson</item>
+      <item>randomUniform</item>
+      <item>real</item>
+      <item>readFile</item>
+      <item>removeObject</item>
+      <item>rindex</item>
+      <item>rindex_regex</item>
+      <item>round</item>
+      <item>runScript</item>
+      <item>runSystem</item>
+      <item>runSystem_nocheck</item>
+      <item>selectObject</item>
+      <item>selected</item>
+      <item>semitonesToHertz</item>
+      <item>sentencetext</item>
+      <item>sigmoid</item>
+      <item>sin</item>
+      <item>sinc</item>
+      <item>sincpi</item>
+      <item>sinh</item>
+      <item>soundPressureToPhon</item>
+      <item>sqrt</item>
+      <item>startsWith</item>
+      <item>studentP</item>
+      <item>studentQ</item>
+      <item>tan</item>
+      <item>tanh</item>
+      <item>variableExists</item>
+      <item>word</item>
+      <item>writeFile</item>
+      <item>writeFileLine</item>
+      <item>writeInfo</item>
+      <item>writeInfoLine</item>
+  </list>
+    <list name="functions_array">
+      <item>linear#</item>
+      <item>randomGauss#</item>
+      <item>randomInteger#</item>
+      <item>randomUniform#</item>
+      <item>zero#</item>
     </list>
     <list name="objects">
-      <item>Collection</item>
-      <item>Strings</item>
-      <item>ManPages</item>
-      <item>SortedSetOfString</item>
-      <item>Sound</item>
-      <item>Matrix</item>
-      <item>Polygon</item>
-      <item>PointProcess</item>
-      <item>ParamCurve</item>
-      <item>Spectrum</item>
-      <item>Ltas</item>
-      <item>Spectrogram</item>
-      <item>Formant</item>
-      <item>Excitation</item>
-      <item>Cochleagram</item>
-      <item>VocalTract</item>
-      <item>FormantPoint</item>
-      <item>FormantTier</item>
-      <item>FormantGrid</item>
-      <item>Label</item>
-      <item>Tier</item>
-      <item>Autosegment</item>
-      <item>Intensity</item>
-      <item>Pitch</item>
-      <item>Harmonicity</item>
-      <item>Transition</item>
-      <item>RealPoint</item>
-      <item>RealTier</item>
-      <item>PitchTier</item>
-      <item>IntensityTier</item>
-      <item>DurationTier</item>
+      <item>Activation</item>
+      <item>AffineTransform</item>
       <item>AmplitudeTier</item>
-      <item>SpectrumTier</item>
-      <item>Manipulation</item>
-      <item>TextPoint</item>
-      <item>TextInterval</item>
-      <item>TextTier</item>
-      <item>IntervalTier</item>
-      <item>TextGrid</item>
-      <item>LongSound</item>
-      <item>WordList</item>
-      <item>SpellingChecker</item>
-      <item>Movie</item>
-      <item>Corpus</item>
-      <item>TableOfReal</item>
-      <item>Distributions</item>
-      <item>PairDistribution</item>
-      <item>Table</item>
-      <item>LinearRegression</item>
-      <item>LogisticRegression</item>
       <item>Art</item>
       <item>Artword</item>
-      <item>Speaker</item>
-      <item>Activation</item>
+      <item>Autosegment</item>
       <item>BarkFilter</item>
-      <item>Categories</item>
-      <item>Cepstrum</item>
+      <item>BarkSpectrogram</item>
       <item>CCA</item>
+      <item>Categories</item>
+      <item>Cepstrogram</item>
+      <item>Cepstrum</item>
+      <item>Cepstrumc</item>
       <item>ChebyshevSeries</item>
       <item>ClassificationTable</item>
+      <item>Cochleagram</item>
+      <item>Collection</item>
+      <item>ComplexSpectrogram</item>
+      <item>Configuration</item>
       <item>Confusion</item>
+      <item>ContingencyTable</item>
+      <item>Corpus</item>
       <item>Correlation</item>
       <item>Covariance</item>
-      <item>Discriminant</item>
-      <item>DTW</item>
-      <item>Eigen</item>
-      <item>Excitations</item>
-      <item>FormantFilter</item>
-      <item>Index</item>
-      <item>KlattTable</item>
-      <item>Permutation</item>
-      <item>ISpline</item>
-      <item>LegendreSeries</item>
-      <item>MelFilter</item>
-      <item>MSpline</item>
-      <item>Pattern</item>
-      <item>PCA</item>
-      <item>Polynomial</item>
-      <item>Roots</item>
-      <item>SimpleString</item>
-      <item>StringsIndex</item>
-      <item>SpeechSynthesizer</item>
-      <item>SPINET</item>
-      <item>SSCP</item>
-      <item>SVD</item>
-      <item>AffineTransform</item>
-      <item>Procrustes</item>
-      <item>ContingencyTable</item>
-      <item>Dissimilarity</item>
-      <item>Similarity</item>
-      <item>Configuration</item>
-      <item>Distance</item>
-      <item>Salience</item>
-      <item>ScalarProduct</item>
-      <item>Weight</item>
-      <item>KlattGrid</item>
-      <item>HMM</item>
-      <item>HMM_State</item>
-      <item>HMM_Observation</item>
-      <item>HMM_ObservationSequence</item>
-      <item>HMM_StateSequence</item>
-      <item>GaussianMixture</item>
-      <item>Diagonalizer</item>
-      <item>MixingMatrix</item>
       <item>CrossCorrelationTable</item>
       <item>CrossCorrelationTables</item>
+      <item>DTW</item>
+      <item>DataModeler</item>
+      <item>Diagonalizer</item>
+      <item>Discriminant</item>
+      <item>Dissimilarity</item>
+      <item>Distance</item>
+      <item>Distributions</item>
+      <item>DurationTier</item>
+      <item>EEG</item>
+      <item>ERP</item>
+      <item>ERPTier</item>
+      <item>EditCostsTable</item>
+      <item>EditDistanceTable</item>
+      <item>Eigen</item>
+      <item>Excitation</item>
+      <item>Excitations</item>
+      <item>ExperimentMFC</item>
+      <item>FFNet</item>
+      <item>FeatureWeights</item>
+      <item>FileInMemory</item>
+      <item>FilesInMemory</item>
+      <item>Formant</item>
+      <item>FormantFilter</item>
+      <item>FormantGrid</item>
+      <item>FormantModeler</item>
+      <item>FormantPoint</item>
+      <item>FormantTier</item>
+      <item>GaussianMixture</item>
+      <item>HMM</item>
+      <item>HMMObservation</item>
+      <item>HMMObservationSequence</item>
+      <item>HMMState</item>
+      <item>HMMStateSequence</item>
+      <item>Harmonicity</item>
+      <item>ISpline</item>
+      <item>Index</item>
+      <item>Intensity</item>
+      <item>IntensityTier</item>
+      <item>IntervalTier</item>
+      <item>KNN</item>
+      <item>KlattGrid</item>
+      <item>KlattTable</item>
+      <item>LFCC</item>
+      <item>LPC</item>
+      <item>Label</item>
+      <item>LegendreSeries</item>
+      <item>LinearRegression</item>
+      <item>LogisticRegression</item>
+      <item>LongSound</item>
+      <item>Ltas</item>
+      <item>MFCC</item>
+      <item>MSpline</item>
+      <item>ManPages</item>
+      <item>Manipulation</item>
+      <item>Matrix</item>
+      <item>MelFilter</item>
+      <item>MelSpectrogram</item>
+      <item>MixingMatrix</item>
+      <item>Movie</item>
       <item>Network</item>
       <item>OTGrammar</item>
       <item>OTHistory</item>
       <item>OTMulti</item>
-      <item>FFNet</item>
-      <item>Cepstrumc</item>
-      <item>LPC</item>
-      <item>LFCC</item>
-      <item>MFCC</item>
-      <item>ExperimentMFC</item>
-      <item>ResultsMFC</item>
-      <item>EEG</item>
-      <item>ERPTier</item>
-      <item>ERP</item>
-      <item>KNN</item>
-      <item>FeatureWeights</item>
-    </list>
-<!--    <list name='objectDirectives'>
-      <item>minus</item>
-      <item>plus</item>
-      <item>select</item>
-      <item>editor</item>
-    </list>-->
-    <list name='systemDirectives'>  
-      <item>system</item>
-      <item>system_nocheck</item>
-      <item>sendsocket</item>
-    </list>
-    <list name='fileDirectives'>
-      <item>filedelete</item>
-      <item>fileappend</item>
-      <item>fileappendinfo</item>
-      <item>include</item>
-    </list>
-    <list name="directives">
-      <item>echo</item>
-      <item>exit</item>
-      <item>print</item>
-      <item>printline</item>
-      <item>pause</item>
-      <item>clearinfo</item>
-      <item>execute</item>
-      <item>sendpraat</item>
-      <item>stopwatch</item>
-    </list>
-    <list name="commands">
-      <item>Add</item>
-      <item>Append</item>
-      <item>Arrow</item>
-      <item>Autocorrelate</item>
-      <item>Axes</item>
-      <item>Change</item>
-      <item>Close</item>
-      <item>Colour</item>
-      <item>Combine</item>
-      <item>Compute</item>
-      <item>Concatenate</item>
-      <item>Convert</item>
-      <item>Convolve</item>
-      <item>Copy</item>
-      <item>Count</item>
-      <item>Courier</item>
-      <item>Create</item>
-      <item>Cross</item>
-      <item>Dashed</item>
-      <item>De</item>
-      <item>Deepen</item>
-      <item>Dotted</item>
-      <item>Down</item>
-      <item>Draw</item>
-      <item>Duplicate</item>
-      <item>Edit</item>
-      <item>Erase</item>
-      <item>Extend</item>
-      <item>Extract</item>
-      <item>Filter</item>
-      <item>Filtering</item>
-      <item>Formula</item>
-      <item>Font</item>
-      <item>Get</item>
-      <item>Helvetica</item>
-      <item>Horizontal</item>
-      <item>Hum</item>
-      <item>Info</item>
-      <item>Insert</item>
-      <item>Inspect</item>
-      <item>Interpolate</item>
-      <item>Is</item>
-      <item>Kill</item>
-      <item>Lengthen</item>
-      <item>Line</item>
-      <item>List</item>
-      <item>Logarithmic</item>
-      <item>Marks</item>
-      <item>Merge</item>
-      <item>Move</item>
-      <item>Multiply</item>
-      <item>One</item>
-      <item>Override</item>
-      <item>Paint</item>
-      <item>Palatino</item>
-      <item>Picture</item>
+      <item>PCA</item>
+      <item>PairDistribution</item>
+      <item>ParamCurve</item>
+      <item>Pattern</item>
+      <item>Permutation</item>
+      <item>Photo</item>
       <item>Pitch</item>
-      <item>Plain</item>
-      <item>Play</item>
-      <item>PostScript</item>
-      <item>Pre</item>
-      <item>Randomize</item>
-      <item>Read</item>
-      <item>Record</item>
-      <item>Remove</item>
-      <item>Rename</item>
-      <item>Replace</item>
-      <item>Resample</item>
-      <item>Reverse</item>
-      <item>Save</item>
-      <item>Scale</item>
-      <item>Scatter</item>
-      <item>Select</item>
-      <item>Set</item>
-      <item>Shift</item>
-      <item>Show</item>
-      <item>Smooth</item>
-      <item>Solid</item>
-      <item>Sort</item>
+      <item>PitchModeler</item>
+      <item>PitchTier</item>
+      <item>PointProcess</item>
+      <item>Polygon</item>
+      <item>Polynomial</item>
+      <item>PowerCepstrogram</item>
+      <item>PowerCepstrum</item>
+      <item>Procrustes</item>
+      <item>RealPoint</item>
+      <item>RealTier</item>
+      <item>ResultsMFC</item>
+      <item>Roots</item>
+      <item>SPINET</item>
+      <item>SSCP</item>
+      <item>SVD</item>
+      <item>Salience</item>
+      <item>ScalarProduct</item>
+      <item>Similarity</item>
+      <item>SimpleString</item>
+      <item>SortedSetOfString</item>
       <item>Sound</item>
-      <item>Speckle</item>
-      <item>Subtract</item>
-      <item>Text</item>
-      <item>Times</item>
-      <item>To</item>
-      <item>Vertical</item>
-      <item>View</item>
-      <item>Write</item>
-      <item>Zoom</item>
+      <item>Speaker</item>
+      <item>Spectrogram</item>
+      <item>Spectrum</item>
+      <item>SpectrumTier</item>
+      <item>SpeechSynthesizer</item>
+      <item>SpellingChecker</item>
+      <item>Strings</item>
+      <item>StringsIndex</item>
+      <item>Table</item>
+      <item>TableOfReal</item>
+      <item>TextGrid</item>
+      <item>TextInterval</item>
+      <item>TextPoint</item>
+      <item>TextTier</item>
+      <item>Tier</item>
+      <item>Transition</item>
+      <item>VocalTract</item>
+      <item>VocalTractTier</item>
+      <item>Weight</item>
+      <item>WordList</item>
     </list>
-    <list name='colors'>
-      <item>White</item>
-      <item>Black</item>
-      <item>Red</item>
-      <item>Green</item>
-      <item>Blue</item>
-      <item>Yellow</item>
-      <item>Cyan</item>
-      <item>Magenta</item>
-      <item>Maroon</item>
-      <item>Lime</item>
-      <item>Navy</item>
-      <item>Teal</item>
-      <item>Purple</item>
-      <item>Olive</item>
-      <item>Pink</item>
-      <item>Silver</item>
-      <item>Grey</item>
-      <item>white</item>
-      <item>black</item>
-      <item>red</item>
-      <item>green</item>
-      <item>blue</item>
-      <item>yellow</item>
-      <item>cyan</item>
-      <item>magenta</item>
-      <item>maroon</item>
-      <item>lime</item>
-      <item>navy</item>
-      <item>teal</item>
-      <item>purple</item>
-      <item>olive</item>
-      <item>pink</item>
-      <item>silver</item>
-      <item>grey</item>
-    </list>
-    <list name='predefinedVariables'>
-      <item>pi</item>
+    <list name="variables_numeric">
       <item>macintosh</item>
-      <item>undefined</item>
       <item>windows</item>
       <item>unix</item>
       <item>praatVersion</item>
-      <item>newline$</item>
+      <item>pi</item>
+      <item>e</item>
+      <item>undefined</item>
+   </list>
+    <list name="variables_string">
+      <item>praatVersion$</item>
       <item>tab$</item>
       <item>shellDirectory$</item>
       <item>homeDirectory$</item>
       <item>preferencesDirectory$</item>
+      <item>newline$</item>
       <item>temporaryDirectory$</item>
       <item>defaultDirectory$</item>
-      <item>praatVersion$</item>
-    </list>
-<!--    <list name="operators">
-      <item>=</item>
-      <item>!=</item>
-      <item>&gt;&lt;</item>
-      <item>+=</item>
-      <item>-=</item>
-      <item>*=</item>
-      <item>/=</item>
-      <item>+</item>
-      <item>-</item>
-      <item>*</item>
-      <item>/</item>
-      <item>%</item>
-      <item>^</item>
-      <item>&lt;</item>
-      <item>&lt;=</item>
-      <item>&gt;</item>
-      <item>&gt;=</item>
-      <item>and</item>
-      <item>&amp;</item>
-      <item>or</item>
-      <item>|</item>
-      <item>not</item>
-      <item>!</item>
-    </list>-->
-    <list name="functions">
-      <item>writeInfo</item>
-      <item>writeInfoLine</item>
-      <item>appendInfo</item>
-      <item>appendInfoLine</item>
-      <item>writeFile</item>
-      <item>writeFileLine</item>
-      <item>appendFile</item>
-      <item>appendFileLine</item>
-      <item>abs</item>
-      <item>round</item>
-      <item>floor</item>
-      <item>ceiling</item>
-      <item>sqrt</item>
-      <item>min</item>
-      <item>max</item>
-      <item>imin</item>
-      <item>imax</item>
-      <item>sin</item>
-      <item>cos</item>
-      <item>tan</item>
-      <item>arcsin</item>
-      <item>arccos</item>
-      <item>arctan</item>
-      <item>arctan2</item>
-      <item>sinc</item>
-      <item>sincpi</item>
-      <item>exp</item>
-      <item>ln</item>
-      <item>log10</item>
-      <item>log2</item>
-      <item>sinh</item>
-      <item>cosh</item>
-      <item>tanh</item>
-      <item>arcsinh</item>
-      <item>arccosh</item>
-      <item>actanh</item>
-      <item>sigmoid</item>
-      <item>invSigmoid</item>
-      <item>erf</item>
-      <item>erfc</item>
-      <item>randomUniform</item>
-      <item>randomInteger</item>
-      <item>randomGauss</item>
-      <item>randomPoisson</item>
-      <item>lnGamma</item>
-      <item>gaussP</item>
-      <item>gaussQ</item>
-      <item>invGaussQ</item>
-      <item>chiSquareP</item>
-      <item>chiSquareQ</item>
-      <item>invChiSquareQ</item>
-      <item>studentP</item>
-      <item>studentQ</item>
-      <item>invStudentQ</item>
-      <item>fisherP</item>
-      <item>fisherQ</item>
-      <item>invFisherQ</item>
-      <item>binomialP</item>
-      <item>binomialQ</item>
-      <item>invBinomialP</item>
-      <item>invBinomialQ</item>
-      <item>hertzToBark</item>
-      <item>barkToHerz</item>
-      <item>hertzToMel</item>
-      <item>melToHertz</item>
-      <item>hertzToSemitones</item>
-      <item>semitonesToHerz</item>
-      <item>erb</item>
-      <item>hertzToErb</item>
-      <item>erbToHertz</item>
-      <item>phonToDifferenceLimens</item>
-      <item>differenceLimensToPhon</item>
-      <item>beta</item>
-      <item>besselI</item>
-      <item>besselK</item>
-      <item>selected</item>
-      <item>numberOfSelected</item>
-      <item>variableExists</item>
-      <item>index</item>
-      <item>rindex</item>
-      <item>startsWith</item>
-      <item>endsWith</item>
-      <item>index_regex</item>
-      <item>rindex_regex</item>
-      <item>replace_regex$</item>
-      <item>length</item>
-      <item>extractWord$</item>
-      <item>extractLine$</item>
-      <item>left$</item>
-      <item>right$</item>
-      <item>mid$</item>
-      <item>replace$</item>
-      <item>selected$</item>
-      <item>beginPause</item>
-      <item>endPause</item>
-      <item>demoClickedIn</item>
-      <item>demoClicked</item>
-      <item>chooseDirectory$</item>
-      <item>demoShow</item>
-      <item>demoWaitForInput</item>
-      <item>demoKeyPressed</item>
-      <item>demoKey$</item>
-      <item>demoX</item>
-      <item>demoY</item>
-      <item>demoWindowTitle</item>
-      <item>demoExtraControlKeyPressed</item>
-      <item>demoShiftKeyPressed</item>
-      <item>demoCommandKeyPressed</item>
-      <item>demoOptionKeyPressed</item>
-      <item>createDirectory</item>
-      <item>demoInput</item>
-      <item>environment$</item>
-      <item>extractNumber</item>
-<!--       File functions -->
-      <item>fileReadable</item>
-      <item>deleteFile</item>
-<!--       Object functions -->
-      <item>selectObject</item>
-      <item>removeObject</item>
-      <item>plusObject</item>
-      <item>minusObject</item>
-      <item>runScript</item>
-      <item>exitScript</item>
     </list>
     <contexts>
       <context name="Normal" attribute="normal" lineEndContext="#pop"  >
-        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*for\b'       beginRegion='forBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*endfor\b'      endRegion='forBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*if\b'        beginRegion='ifBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*endif\b'       endRegion='ifBlock' />
-        <RegExpr      attribute="keyword"   context="In Form"               String='^\s*form\b'      beginRegion='formBlock' firstNonSpace="true" />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*while\b'     beginRegion='whileBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*endwhile\b'    endRegion='whileBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*repeat\b'    beginRegion='repeatBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='^\s*until\b'       endRegion='untilBlock' />
-        <RegExpr      attribute="keyword"   context="Command"               String='^\s*demo\b' />
-        
-        <keyword      attribute="variable"  context="#stay"                 String='predefinedVariables' />
-        <StringDetect attribute="keyword"   context="#stay"                 String='View &amp; Edit' />
-        <StringDetect attribute="keyword"   context="Label"                 String='label ' />
-        <StringDetect attribute="keyword"   context="Label"                 String='goto ' />
-        <RegExpr      attribute="keyword"   context="As Function"           String='\bcall +' />
-        <RegExpr      attribute="keyword"   context="As Function"           String='\bprocedure +' beginRegion='procBlock' />
-        <RegExpr      attribute="keyword"   context="#stay"                 String='\bendproc\b'     endRegion='procBlock' />
+        <DetectChar   char='#'              attribute="comment"  context="comment" firstNonSpace="true" />
 
-        <keyword      attribute="command"   context="Command"               String="commands" />
-        <keyword      attribute="command"   context="Command"               String="colors" />
-        <keyword      attribute="keyword"   context="#stay"                 String="keywords" />
-        <keyword      attribute="keyword"   context="Directives"            String="directives" />
-<!--         <keyword      attribute="keyword"   context="Object Directives"     String="objectDirectives" /> -->
-        <keyword      attribute="keyword"   context="System Directives"     String="systemDirectives" />
-        <keyword      attribute="keyword"   context="Filename"              String="fileDirectives" />
-        
-        <RegExpr      attribute="keyword"   context="Object"                String='(minus|plus|select|editor) +' />
-        
-        <RegExpr      attribute="normal"    context="Find Function"         String="([a-zA-Z_]+\$?) *\(" lookAhead='true' />
+        <IncludeRules context="function_check" />
 
-        <DetectChar   attribute="comment"   context="Comment"                 char="#" />
-        <DetectChar   attribute="comment"   context="Comment"                 char=";" />
-        <DetectChar   attribute="string"    context="Quoted String"           char="&quot;" />
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
-      </context>
+        <DetectChar   char='@'              attribute="function" context="procedure_call" />
+        <WordDetect String="call"           attribute="keyword"  context="procedure_call" firstNonSpace="true" />
 
-      <context name="In Form" attribute="normal" lineEndContext="#stay" >
-        <keyword      attribute="keyword"   context="#stay"                 String="formTypes" />
-        <RegExpr      attribute="keyword"   context="#pop"                  String='\bendform\b'     endRegion='formBlock' />
-      </context>
+        <WordDetect String="if"             attribute="keyword"  beginRegion="if" />
+        <WordDetect String="endif"          attribute="keyword"  endRegion="if" />
+        <WordDetect String="fi"             attribute="keyword"  endRegion="if" />
 
-      <context name="Bare String" attribute="string" lineEndContext="#pop" >
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
-      </context>
-      
-      <context name="Quoted String" attribute="string" lineEndContext="Missing Quote" >
-        <IncludeRules                       context="Bare String" />
-        <RegExpr      attribute="escape"    context="#stay"                 String="(\\[^\\%#^_ ][^\\%#^_ {&quot;]|\\[%#^_])" />
-        <StringDetect attribute="formatted" context="Italic String"         String="%%"/>
-        <StringDetect attribute="formatted" context="Bold String"           String="##"/>
-        <StringDetect attribute="formatted" context="Superscripted String"  String="^^"/>
-        <StringDetect attribute="formatted" context="Underscripted String"  String="__"/>
-        
-        <StringDetect attribute="formatted" context="Small Caps"            String="\s{" />
-        <RegExpr      attribute="formatted" context="#stay"                 String="%[\w]" />
-        <RegExpr      attribute="formatted" context="#stay"                 String="#[\w]" />
-        <RegExpr      attribute="formatted" context="#stay"                 String="_[\w]" />
-        <RegExpr      attribute="formatted" context="#stay"                 String="\^[\w]" />
-        <RegExpr      attribute="formatted" context="#stay"                 String="#%[\w]" />
-        <DetectChar   attribute="string"    context="#pop"                    char="&quot;" />
+        <WordDetect String="for"            attribute="keyword"  beginRegion="for" />
+        <WordDetect String="endfor"         attribute="keyword"  endRegion="for" />
+
+        <WordDetect String="procedure"      attribute="keyword"  beginRegion="procedure" />
+        <WordDetect String="endproc"        attribute="keyword"  endRegion="procedure" />
+
+        <WordDetect String="endeditor"      attribute="keyword"  endRegion="editor" />
+
+        <keyword    String="keywords"       attribute="keyword" />
+
+        <WordDetect String="printline"      attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="print"          attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="printtab"       attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="echo"           attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="exit"           attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="asserterror"    attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="pause"          attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="sendpraat"      attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="sendsocket"     attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="include"        attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="execute"        attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="system"         attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="system_nocheck" attribute="keyword"  context="string_unquoted" />
+        <WordDetect String="editor"         attribute="keyword"  context="string_unquoted" beginRegion="editor" />
+
+        <WordDetect attribute="keyword"   context="old_form_definition" String="form" firstNonSpace="true" beginRegion="form" />
+
+        <WordDetect attribute="keyword"   context="label"               String="goto" />
+        <WordDetect attribute="keyword"   context="label"               String="label" />
+
+        <DetectChar attribute="string"    context="string_quoted"         char='"' />
+        <IncludeRules context="expansion" />
+
+        <IncludeRules context="operator" />
+        <IncludeRules context="variable_name" />
+        <IncludeRules context="number" />
+
+        <RegExpr attribute="command" String="\b[A-Z]" context="command" />
+
+        <DetectChar   char=';' attribute="comment"  context="comment"        />
       </context>
 
-      <context name="Small Caps" attribute="formatted" lineEndContext="Missing Quote" >
-        <DetectChar   attribute="formatted" context="#pop"                    char="}" />
-      </context>
-      <context name="Italic String" attribute="formatted" lineEndContext="Missing Quote" >
-        <DetectChar   attribute="formatted" context="#pop"                    char="%" />
-      </context>
-      <context name="Bold String" attribute="formatted" lineEndContext="Missing Quote" >
-        <DetectChar   attribute="formatted" context="#pop"                    char="#" />
-      </context>
-      <context name="Superscripted String" attribute="formatted" lineEndContext="Missing Quote" >
-        <DetectChar   attribute="formatted" context="#pop"                    char="^" />
-      </context>
-      <context name="Underscripted String" attribute="formatted" lineEndContext="Missing Quote" >
-        <DetectChar   attribute="formatted" context="#pop"                    char="_" />
+      <context name="label" attribute="variable" lineEndContext="#pop" />
+
+      <context name="old_form_definition" attribute="string" lineEndContext="#pop!old_form" />
+
+      <context name="old_form" attribute="normal" lineEndContext="#stay">
+        <WordDetect String="optionmenu" attribute="keyword" context="form-optionmenu-variable" />
+        <WordDetect String="option"     attribute="keyword" context="string_unquoted" />
+        <WordDetect String="button"     attribute="keyword" context="string_unquoted" />
+
+        <WordDetect String="sentence"   attribute="keyword" context="form-string-variable" />
+        <WordDetect String="text"       attribute="keyword" context="form-string-variable" />
+
+        <WordDetect String="word"       attribute="keyword" context="form-word-variable" />
+
+        <WordDetect String="comment"    attribute="keyword" context="string_unquoted" />
+
+        <WordDetect String="real"       attribute="keyword" context="number" />
+        <WordDetect String="natural"    attribute="keyword" context="number" />
+        <WordDetect String="positive"   attribute="keyword" context="number" />
+        <WordDetect String="integer"    attribute="keyword" context="number" />
+
+        <WordDetect String="boolean"    attribute="keyword" context="form-boolean-variable" />
+
+        <WordDetect String="endform"    attribute="keyword" context="#pop" endRegion="form" />
       </context>
 
-      <context name="Command" attribute="command" lineEndContext="#pop" >
-        <RegExpr      attribute="error"     context="#stay"                 String="\.{1,2}\b" />
-        <StringDetect attribute="command"   context="Shorthand Command Arguments"     String="..." lookAhead="true"/>
-        <DetectChar   attribute="command"   context="Command Arguments"       char=":" lookAhead="true"/>
+      <context name="operator" attribute="operator" lineEndContext="#pop" >
+        <Detect2Chars char="+"     char1="="     attribute="operator" />
+        <Detect2Chars char="-"     char1="="     attribute="operator" />
+        <Detect2Chars char="/"     char1="="     attribute="operator" />
+        <Detect2Chars char="*"     char1="="     attribute="operator" />
+        <Detect2Chars char="="     char1="="     attribute="operator" />
+        <Detect2Chars char="!"     char1="="     attribute="operator" />
+        <Detect2Chars char="&gt;"  char1="="     attribute="operator" />
+        <Detect2Chars char="&lt;"  char1="&gt;"  attribute="operator" />
+        <Detect2Chars char="&amp;" char1="&amp;" attribute="operator" />
+        <Detect2Chars char="|"     char1="|"     attribute="operator" />
+        <Detect2Chars char="*"     char1="*"     attribute="operator" />
+
+        <DetectChar   char="+"                   attribute="operator" />
+        <DetectChar   char="-"                   attribute="operator" />
+        <DetectChar   char="/"                   attribute="operator" />
+        <DetectChar   char="*"                   attribute="operator" />
+        <DetectChar   char="="                   attribute="operator" />
+        <DetectChar   char="!"                   attribute="operator" />
+        <DetectChar   char="&gt;"                attribute="operator" />
+        <DetectChar   char="&lt;"                attribute="operator" />
+        <DetectChar   char="|"                   attribute="operator" />
+        <DetectChar   char="&amp;"               attribute="operator" />
+        <DetectChar   char="^"                   attribute="operator" />
+
+        <WordDetect String="and"                 attribute="operator" />
+        <WordDetect String="or"                  attribute="operator" />
+        <WordDetect String="not"                 attribute="operator" />
+        <WordDetect String="div"                 attribute="operator" />
+        <WordDetect String="mod"                 attribute="operator" />
       </context>
 
-      <context name="Missing Quote" attribute="error" lineEndContext="#pop#pop" >
-      </context>
-      
-      <context name="Shorthand Command Arguments" attribute="normal" lineEndContext="#pop" >
-        <RegExpr      attribute="error"     context="Missing Quote"         String="\.\.\.\s*$" />
-        <StringDetect attribute="command"   context="#stay"                 String="..." />
-        <keyword      attribute="keyword"   context="#stay"                 String="methods" />
-        <keyword      attribute="function"  context="#stay"                 String="functions" />
-        <keyword      attribute="keyword"   context="#stay"                 String="colors" />
-        <RegExpr      attribute="keyword"   context="Inline if"             String="\bif\b" />
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
-        <DetectChar   attribute="string"    context="Quoted String"           char="&quot;" />
-      </context>
-      
-      <context name="Command Arguments" attribute="normal" lineEndContext="#pop" >
-        <RegExpr      attribute="error"     context="Missing Quote"         String="\.\.\.\s*$" />
-        <StringDetect attribute="command"   context="#stay"                 String="..." />
-        <keyword      attribute="keyword"   context="#stay"                 String="methods" />
-        <keyword      attribute="function"  context="#stay"                 String="functions" />
-        <keyword      attribute="keyword"   context="#stay"                 String="colors" />
-        <RegExpr      attribute="keyword"   context="Inline if"             String="\bif\b" />
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
-        <DetectChar   attribute="string"    context="Quoted String"           char="&quot;" />
-      </context>
-     
-      <context name="Inline if" attribute="normal" lineEndContext="#pop" >
-<!--         <StringDetect attribute="keyword"   context="#stay"                 String="then" /> -->
-<!--         <StringDetect attribute="keyword"   context="#stay"                 String="else" /> -->
-        <RegExpr      attribute="object"    context="#stay"                 String="self" />
-        <RegExpr      attribute="keyword"   context="#pop"                  String="fi" />
+      <context name="command" attribute="command" lineEndContext="#pop" >
+        <IncludeRules context="expansion" />
+        <StringDetect String="..." attribute="command" context="old_arguments" />
+        <DetectChar     char=":"   attribute="command" context="#pop" />
       </context>
 
-      <context name="Directives" attribute="keyword" lineEndContext="#pop" >
-        <DetectChar   attribute="string"    context="Bare String"             char=' ' />
+      <context name="old_arguments" attribute="normal" lineEndContext="#pop#pop" >
+        <IncludeRules context="variable_name" />
+        <IncludeRules context="operator" />
+        <IncludeRules context="number" />
+        <DetectChar char='"' attribute="string" context="string_quoted" />
       </context>
 
-      <context name="Object" attribute="normal" lineEndContext="#pop" >
-        <keyword      attribute="object"    context="#stay"                 String="objects" />
-        <DetectChar   attribute="normal"    context="#pop"                    char=" " />
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
+      <context name="variable_name" attribute="normal" lineEndContext="#pop" >
+        <IncludeRules context="operator" />
+        <IncludeRules context="number" />
+        <keyword      String="variables_numeric" attribute="variable"  />
+        <keyword      String="variables_string"  attribute="variable" />
+
+        <StringDetect String="Object_"           attribute="object.attribute" context="object_attributes"   />
+        <keyword      String="objects"           attribute="object.attribute" context="object_attributes"   />
       </context>
 
-      <context name="System Directives" attribute="system" lineEndContext="#pop" >
-        <RegExpr      attribute="normal"    context="Into Expansion"        String="'([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true"/>
-      </context>
-      
-      <context name="Filename" attribute="normal" lineEndContext="#pop" >
-      </context>
-      
-      <context name="Comment" attribute="comment" lineEndContext="#pop" >
-      </context>
-      
-      <context name="Label" attribute="object" lineEndContext="#pop" >
-        <DetectChar   attribute="normal"    context="#pop"                    char=" " />
+      <context name="object_attributes" attribute="object.attribute" lineEndContext="#pop#pop" >
+        <StringDetect String=".ncol" attribute="object.attribute" context="#pop#pop" />
+        <StringDetect String=".nrow" attribute="object.attribute" context="#pop#pop" />
+        <StringDetect String=".xmin" attribute="object.attribute" context="#pop#pop" />
+        <StringDetect String=".ymin" attribute="object.attribute" context="#pop#pop" />
+        <StringDetect String=".xmax" attribute="object.attribute" context="#pop#pop" />
+        <StringDetect String=".ymax" attribute="object.attribute" context="#pop#pop" />
+        <StringDetect String=".nx"   attribute="object.attribute" context="#pop#pop" />
+        <StringDetect String=".ny"   attribute="object.attribute" context="#pop#pop" />
+        <StringDetect String=".dx"   attribute="object.attribute" context="#pop#pop" />
+        <StringDetect String=".dy"   attribute="object.attribute" context="#pop#pop" />
+
+        <IncludeRules context="expansion" />
+
+        <DetectChar     char="$"     attribute="object.attribute" />
+        <DetectChar     char="["     attribute="normal"           context="#pop#pop" />
       </context>
 
-      <context name="Find Function" attribute="normal" lineEndContext="#pop" >
-        <keyword      attribute="function"  context="#stay"                 String="functions" />
-        <DetectChar   attribute="normal"    context="#pop"                    char="(" />
+      <context name="form-optionmenu-variable" attribute="normal" lineEndContext="#pop" >
+        <DetectChar char=":" attribute="normal" context="form-optionmenu-default" />
       </context>
 
-      <context name="As Function" attribute="function" lineEndContext="#pop" >
-        <DetectChar   attribute="normal"    context="Shorthand Command Arguments"       char=" " />
+      <context name="form-optionmenu-default" attribute="normal" lineEndContext="#pop" >
+        <IncludeRules context="number" />
       </context>
 
-      <context name="Into Expansion" attribute="normal" lineEndContext="#pop" >
-        <RegExpr      attribute="normal"    context="Expansion Proper"      String="([.a-zA-Z0-9_]+\$?(:[0-9]+)?)'" lookAhead="true" />
+      <context name="form-boolean-variable" attribute="normal" lineEndContext="#pop" >
+        <RegExpr String="\b\w+\b" attribute="normal" context="form-boolean-value" />
       </context>
-      
-      <context name="Expansion Proper" attribute="expansion" lineEndContext="#pop" >
-        <StringDetect attribute="expansion" context="#stay"                 String="%1" dynamic="true" />
-        <DetectChar   attribute="normal"    context="#pop#pop"                char="'" />
+
+      <context name="form-boolean-value" attribute="variable" lineEndContext="#pop" >
       </context>
+
+      <context name="number" attribute="normal" lineEndContext="#pop" >
+        <IncludeRules context="operator" />
+        <RegExpr String="\b\d+(\.\d*)?([eE][-+]?\d+)?%?" attribute="number" />
+      </context>
+
+      <context name="form-word-variable" attribute="normal" lineEndContext="#pop" >
+        <RegExpr String="\b\w+\b" attribute="normal" context="form-word-string" />
+      </context>
+
+      <context name="form-string-variable" attribute="normal" lineEndContext="#pop" >
+        <RegExpr String="\b\w+\b" attribute="normal" context="string_unquoted" />
+      </context>
+
+      <context name="form-word-string" attribute="string" lineEndContext="#pop" >
+        <RegExpr String="\b\w+\b" attribute="string" context="ignore" />
+      </context>
+
+      <context name="ignore" attribute="normal" lineEndContext="#pop" />
+
+      <context name="comment" attribute="comment" lineEndContext="#pop" />
+
+      <context name="string_quoted" attribute="string" lineEndContext="line_continuation_check" >
+        <IncludeRules context="string_unquoted" />
+        <DetectChar   char='"' attribute="string"    context="#pop" />
+      </context>
+
+      <context name="string_unquoted" attribute="string" lineEndContext="line_continuation_check" >
+        <IncludeRules context="expansion" />
+      </context>
+
+      <context name="expansion" attribute="normal" lineEndContext="#pop" >
+        <RangeDetect attribute="expansion" char="'" char1="'" />
+      </context>
+
+      <context name="line_continuation_check" attribute="normal" lineEndContext="#stay" >
+        <StringDetect String="..." attribute="number" context="#pop"     firstNonSpace="true" />
+        <RegExpr      String="."   attribute="normal" context="#pop#pop" lookAhead="true" />
+      </context>
+
+      <context name="function_check" attribute="normal" lineEndContext="#pop" >
+        <keyword String="functions_numeric" attribute="normal" context="function-numeric-check" lookAhead="true" />
+        <keyword String="functions_string"  attribute="normal" context="function-string-check"  lookAhead="true" />
+        <keyword String="functions_array"   attribute="normal" context="function-array-check"   lookAhead="true" />
+      </context>
+
+      <context name="function-array-check" attribute="normal" lineEndContext="#pop" >
+        <RegExpr    String="[a-zA-Z0-9_]+# *[:(]" attribute="normal" context="function_call" lookAhead="true" />
+        <DetectChar   char=" "                                       context="#pop#pop" />
+      </context>
+
+      <context name="function-string-check" attribute="normal" lineEndContext="#pop" >
+        <RegExpr    String="[a-zA-Z0-9_]+\$ *[:(]" attribute="normal" context="function_call" lookAhead="true" />
+        <DetectChar   char=" "                                        context="#pop#pop" />
+      </context>
+
+      <context name="function-numeric-check" attribute="normal" lineEndContext="#pop" >
+        <RegExpr    String="[a-zA-Z0-9_]+ *[:(]" attribute="normal"  context="function_call"            lookAhead="true" />
+        <WordDetect String="editor"              attribute="keyword" context="#pop#pop!string_unquoted" beginRegion="editor" />
+        <DetectChar char=" "                                         context="#pop#pop" />
+      </context>
+
+      <context name="function_call" attribute="function" lineEndContext="#pop" >
+        <WordDetect String="beginSendPraat" beginRegion="sendpraat" />
+        <WordDetect String="endSendPraat"     endRegion="sendpraat" />
+        <DetectChar   char=":" attribute="normal" context="#pop#pop#pop" />
+        <DetectChar   char="(" attribute="normal" context="#pop#pop#pop" />
+      </context>
+
+      <context name="procedure_call" attribute="function" lineEndContext="#pop" >
+        <DetectSpaces          attribute="normal" context="#pop" />
+        <DetectChar   char=":" attribute="normal" context="#pop" />
+        <DetectChar   char="(" attribute="normal" context="#pop" />
+      </context>
+
     </contexts>
     <itemDatas>
-      <itemData name="normal"    defStyleNum="dsNormal" />
-      <itemData name="object"    defStyleNum="dsDataType" />
-      <itemData name="system"    defStyleNum="dsDataType" />
-      <itemData name="variable"  defStyleNum="dsDataType" />
-      <itemData name="keyword"   defStyleNum="dsKeyword" />
-      <itemData name="expansion" defStyleNum="dsString" color="#FF6C6C" selColor="#FF6C6C" bold="0" italic="0" />
-      <itemData name="string"    defStyleNum="dsString" />
-      <itemData name="escape"    defStyleNum="dsOthers" />
-      <itemData name="formatted" defStyleNum="dsOthers" />
-      <itemData name="command"   defStyleNum="dsFunction" />
-      <itemData name="function"  defStyleNum="dsFunction" />
-      <itemData name="comment"   defStyleNum="dsComment" />
-      <itemData name="error"     defStyleNum="dsError" />
+      <itemData name="normal"           defStyleNum="dsNormal" />
+      <itemData name="number"           defStyleNum="dsDecVal" />
+      <itemData name="object.attribute" defStyleNum="dsDecVal" />
+      <itemData name="variable"         defStyleNum="dsDataType" />
+      <itemData name="keyword"          defStyleNum="dsKeyword" />
+      <itemData name="expansion"        defStyleNum="dsSpecialString" />
+      <itemData name="string"           defStyleNum="dsString" />
+      <itemData name="command"          defStyleNum="dsFunction" />
+      <itemData name="function"         defStyleNum="dsFunction" />
+      <itemData name="operator"         defStyleNum="dsOperator" />
+      <itemData name="comment"          defStyleNum="dsComment" />
+      <itemData name="error"            defStyleNum="dsError" />
     </itemDatas>
   </highlighting>
   <general>
     <comments>
       <comment name="singleLine" start="#" />
     </comments>
-    <keywords casesensitive="1" weakDeliminator="_" additionalDeliminator="'" />
+    <keywords casesensitive="true" weakDeliminator="#$" additionalDeliminator="_" />
   </general>
 </language>
