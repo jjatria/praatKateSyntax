@@ -33,7 +33,17 @@ selected from `Tools -> Highlighting -> Scripts -> Praat`.
 
 ## Known Issues
 
-* Lines broken into many with triple dots (...) are not properly regarded as a single line.
+* Broken unquoted strings continue past blank lines:
+
+      printline This is a string
+        ... this also
+
+        ... this shouldn't, but is.
+
+* Broken quoted strings continue past closing quotes:
+
+      a$ = "This is a string
+        ... this also" + but_also_this$
 
 ### License
 
