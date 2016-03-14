@@ -2,6 +2,8 @@
 
 #### Praat syntax highlighting for Kate
 
+![Graphic sample](highlighted_praat.png)
+
 ## Features
 * Accurate highlighting of most of Praat's commands,
   directives and functions, as well as predefined
