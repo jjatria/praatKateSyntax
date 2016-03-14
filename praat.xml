@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE language SYSTEM "language.dtd">
+<!DOCTYPE language SYSTEM "language.dtd"
+[
+  <!ENTITY B "([^a-zA-Z0-9\._]|$)">
+]>
 <!--
   Prat syntax highlighting for Kate (and derivatives)
   v.0.16
@@ -225,145 +228,6 @@ A copy of the GNU General Public License is also available at
       <item>randomUniform#</item>
       <item>zero#</item>
     </list>
-    <list name="objects">
-      <item>Activation</item>
-      <item>AffineTransform</item>
-      <item>AmplitudeTier</item>
-      <item>Art</item>
-      <item>Artword</item>
-      <item>Autosegment</item>
-      <item>BarkFilter</item>
-      <item>BarkSpectrogram</item>
-      <item>CCA</item>
-      <item>Categories</item>
-      <item>Cepstrogram</item>
-      <item>Cepstrum</item>
-      <item>Cepstrumc</item>
-      <item>ChebyshevSeries</item>
-      <item>ClassificationTable</item>
-      <item>Cochleagram</item>
-      <item>Collection</item>
-      <item>ComplexSpectrogram</item>
-      <item>Configuration</item>
-      <item>Confusion</item>
-      <item>ContingencyTable</item>
-      <item>Corpus</item>
-      <item>Correlation</item>
-      <item>Covariance</item>
-      <item>CrossCorrelationTable</item>
-      <item>CrossCorrelationTables</item>
-      <item>DTW</item>
-      <item>DataModeler</item>
-      <item>Diagonalizer</item>
-      <item>Discriminant</item>
-      <item>Dissimilarity</item>
-      <item>Distance</item>
-      <item>Distributions</item>
-      <item>DurationTier</item>
-      <item>EEG</item>
-      <item>ERP</item>
-      <item>ERPTier</item>
-      <item>EditCostsTable</item>
-      <item>EditDistanceTable</item>
-      <item>Eigen</item>
-      <item>Excitation</item>
-      <item>Excitations</item>
-      <item>ExperimentMFC</item>
-      <item>FFNet</item>
-      <item>FeatureWeights</item>
-      <item>FileInMemory</item>
-      <item>FilesInMemory</item>
-      <item>Formant</item>
-      <item>FormantFilter</item>
-      <item>FormantGrid</item>
-      <item>FormantModeler</item>
-      <item>FormantPoint</item>
-      <item>FormantTier</item>
-      <item>GaussianMixture</item>
-      <item>HMM</item>
-      <item>HMMObservation</item>
-      <item>HMMObservationSequence</item>
-      <item>HMMState</item>
-      <item>HMMStateSequence</item>
-      <item>Harmonicity</item>
-      <item>ISpline</item>
-      <item>Index</item>
-      <item>Intensity</item>
-      <item>IntensityTier</item>
-      <item>IntervalTier</item>
-      <item>KNN</item>
-      <item>KlattGrid</item>
-      <item>KlattTable</item>
-      <item>LFCC</item>
-      <item>LPC</item>
-      <item>Label</item>
-      <item>LegendreSeries</item>
-      <item>LinearRegression</item>
-      <item>LogisticRegression</item>
-      <item>LongSound</item>
-      <item>Ltas</item>
-      <item>MFCC</item>
-      <item>MSpline</item>
-      <item>ManPages</item>
-      <item>Manipulation</item>
-      <item>Matrix</item>
-      <item>MelFilter</item>
-      <item>MelSpectrogram</item>
-      <item>MixingMatrix</item>
-      <item>Movie</item>
-      <item>Network</item>
-      <item>OTGrammar</item>
-      <item>OTHistory</item>
-      <item>OTMulti</item>
-      <item>PCA</item>
-      <item>PairDistribution</item>
-      <item>ParamCurve</item>
-      <item>Pattern</item>
-      <item>Permutation</item>
-      <item>Photo</item>
-      <item>Pitch</item>
-      <item>PitchModeler</item>
-      <item>PitchTier</item>
-      <item>PointProcess</item>
-      <item>Polygon</item>
-      <item>Polynomial</item>
-      <item>PowerCepstrogram</item>
-      <item>PowerCepstrum</item>
-      <item>Procrustes</item>
-      <item>RealPoint</item>
-      <item>RealTier</item>
-      <item>ResultsMFC</item>
-      <item>Roots</item>
-      <item>SPINET</item>
-      <item>SSCP</item>
-      <item>SVD</item>
-      <item>Salience</item>
-      <item>ScalarProduct</item>
-      <item>Similarity</item>
-      <item>SimpleString</item>
-      <item>SortedSetOfString</item>
-      <item>Sound</item>
-      <item>Speaker</item>
-      <item>Spectrogram</item>
-      <item>Spectrum</item>
-      <item>SpectrumTier</item>
-      <item>SpeechSynthesizer</item>
-      <item>SpellingChecker</item>
-      <item>Strings</item>
-      <item>StringsIndex</item>
-      <item>Table</item>
-      <item>TableOfReal</item>
-      <item>TextGrid</item>
-      <item>TextInterval</item>
-      <item>TextPoint</item>
-      <item>TextTier</item>
-      <item>Tier</item>
-      <item>Transition</item>
-      <item>VocalTract</item>
-      <item>VocalTractTier</item>
-      <item>Weight</item>
-      <item>WordList</item>
-    </list>
     <list name="variables_numeric">
       <item>macintosh</item>
       <item>windows</item>
@@ -385,46 +249,46 @@ A copy of the GNU General Public License is also available at
     </list>
     <contexts>
       <context name="Normal" attribute="normal" lineEndContext="#pop"  >
-        <DetectChar   char='#'              attribute="comment"  context="comment" firstNonSpace="true" />
+        <DetectChar   char='#'                   attribute="comment"  context="comment" firstNonSpace="true" />
 
         <IncludeRules context="function_check" />
 
-        <DetectChar   char='@'                  attribute="function" context="procedure_call" firstNonSpace="true" />
-        <RegExpr    String="\bcall[\s$]"           attribute="keyword"  context="procedure_call" firstNonSpace="true" />
+        <DetectChar   char='@'                   attribute="function" context="procedure_call" firstNonSpace="true" />
+        <RegExpr    String="\bcall&B;"           attribute="keyword"  context="procedure_call" firstNonSpace="true" />
 
-        <RegExpr    String="\bif[\s$]"             attribute="keyword"  beginRegion="if" />
-        <RegExpr    String="\bendif[\s$]"          attribute="keyword"  endRegion="if" />
-        <RegExpr    String="\bfi[\s$]"             attribute="keyword"  endRegion="if" />
+        <RegExpr    String="\bif&B;"             attribute="keyword"  beginRegion="if" />
+        <RegExpr    String="\bendif&B;"          attribute="keyword"    endRegion="if" firstNonSpace="true" />
+        <RegExpr    String="\bfi&B;"             attribute="keyword"    endRegion="if" />
 
-        <RegExpr    String="\bfor[\s$]"            attribute="keyword"  beginRegion="for" />
-        <RegExpr    String="\bendfor[\s$]"         attribute="keyword"  endRegion="for" />
+        <RegExpr    String="\bfor&B;"            attribute="keyword"  beginRegion="for" />
+        <RegExpr    String="\bendfor&B;"         attribute="keyword"    endRegion="for" />
 
-        <RegExpr    String="\bprocedure[\s$]"      attribute="keyword"  beginRegion="procedure" />
-        <RegExpr    String="\bendproc[\s$]"        attribute="keyword"  endRegion="procedure" />
+        <RegExpr    String="\bprocedure&B;"      attribute="keyword"  beginRegion="procedure" />
+        <RegExpr    String="\bendproc&B;"        attribute="keyword"    endRegion="procedure" />
 
-        <RegExpr    String="\bendeditor[\s$]"      attribute="keyword"  endRegion="editor" />
+        <RegExpr    String="\bendeditor&B;"      attribute="keyword"    endRegion="editor" />
 
-        <keyword    String="keywords"         attribute="keyword" />
+        <keyword    String="keywords"            attribute="keyword" />
 
-        <RegExpr    String="\bprintline[\s$]"      attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bprint[\s$]"          attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bprinttab[\s$]"       attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\becho[\s$]"           attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bexit[\s$]"           attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\basserterror[\s$]"    attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bpause[\s$]"          attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bsendpraat[\s$]"      attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bsendsocket[\s$]"     attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\binclude[\s$]"        attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bexecute[\s$]"        attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bsystem[\s$]"         attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bsystem_nocheck[\s$]" attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\beditor[\s$]"         attribute="keyword"  context="string_unquoted" beginRegion="editor" />
+        <RegExpr    String="\bprintline&B;"      attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bprint&B;"          attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bprinttab&B;"       attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\becho&B;"           attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bexit&B;"           attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\basserterror&B;"    attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bpause&B;"          attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bsendpraat&B;"      attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bsendsocket&B;"     attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\binclude&B;"        attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bexecute&B;"        attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bsystem&B;"         attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bsystem_nocheck&B;" attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\beditor&B;"         attribute="keyword"  context="string_unquoted" beginRegion="editor" />
 
-        <RegExpr    String="\bform[\s$]"           attribute="keyword"  context="old_form_definition" firstNonSpace="true" beginRegion="form" />
+        <RegExpr    String="\bform&B;"           attribute="keyword"  context="old_form_definition" firstNonSpace="true" beginRegion="form" />
 
-        <RegExpr    String="\bgoto[\s$]"           attribute="keyword"  context="label" />
-        <RegExpr    String="\blabel[\s$]"          attribute="keyword"  context="label" />
+        <RegExpr    String="\bgoto&B;"           attribute="keyword"  context="label" />
+        <RegExpr    String="\blabel&B;"          attribute="keyword"  context="label" />
 
         <DetectChar   char='"'                attribute="string"   context="string_quoted" />
         <IncludeRules context="expansion" />
@@ -433,7 +297,7 @@ A copy of the GNU General Public License is also available at
         <IncludeRules context="variable_name" />
         <IncludeRules context="number" />
 
-        <RegExpr attribute="command" String="\b[A-Z]" context="command" />
+        <RegExpr    String="\b[A-Z]" attribute="command" context="command" />
 
         <DetectChar   char=';' attribute="comment"  context="comment"        />
       </context>
@@ -512,11 +376,11 @@ A copy of the GNU General Public License is also available at
       <context name="variable_name" attribute="normal" lineEndContext="#pop" >
         <IncludeRules context="operator" />
         <IncludeRules context="number" />
-        <keyword      String="variables_numeric" attribute="variable"  />
-        <keyword      String="variables_string"  attribute="variable" />
+        <keyword String="variables_numeric" attribute="variable"  />
+        <keyword String="variables_string"  attribute="variable" />
 
-        <StringDetect String="Object_"           attribute="object.attribute" context="object_attributes"   />
-        <keyword      String="objects"           attribute="object.attribute" context="object_attributes"   />
+        <RegExpr String="\b[A-Z][a-zA-Z]+_" attribute="object.attribute" context="object_attributes" />
+
       </context>
 
       <context name="object_attributes" attribute="object.attribute" lineEndContext="#pop#pop" >
@@ -587,10 +451,10 @@ A copy of the GNU General Public License is also available at
       </context>
 
       <context name="line_continuation_check" attribute="string" lineEndContext="#stay" >
-        <StringDetect String="..."     attribute="normal"   context="#pop"     firstNonSpace="true" />
-        <StringDetect String=".."                           context="#pop#pop" firstNonSpace="true" lookAhead="true" />
-        <StringDetect String="."                            context="#pop#pop" firstNonSpace="true" lookAhead="true" />
-        <RegExpr      String="[\w\d#]"                      context="#pop#pop" firstNonSpace="true" lookAhead="true" />
+        <StringDetect String="..."     attribute="normal" context="#pop"     firstNonSpace="true" />
+        <StringDetect String=".."                         context="#pop#pop" firstNonSpace="true" lookAhead="true" />
+        <StringDetect String="."                          context="#pop#pop" firstNonSpace="true" lookAhead="true" />
+        <RegExpr      String="[\w\d#@;]"                  context="#pop#pop" firstNonSpace="true" lookAhead="true" />
       </context>
 
       <context name="function_check" attribute="normal" lineEndContext="#pop" >
@@ -618,6 +482,10 @@ A copy of the GNU General Public License is also available at
       <context name="function_call" attribute="function" lineEndContext="#pop" >
         <WordDetect String="beginSendPraat" beginRegion="sendpraat" />
         <WordDetect String="endSendPraat"     endRegion="sendpraat" />
+
+        <WordDetect String="beginPause"     beginRegion="pause" />
+        <WordDetect String="endPause"         endRegion="pause" />
+
         <DetectChar   char=":" attribute="normal" context="#pop#pop#pop" />
         <DetectChar   char="(" attribute="normal" context="#pop#pop#pop" />
       </context>
@@ -641,13 +509,12 @@ A copy of the GNU General Public License is also available at
       <itemData name="function"         defStyleNum="dsFunction" />
       <itemData name="operator"         defStyleNum="dsOperator" />
       <itemData name="comment"          defStyleNum="dsComment" />
-      <itemData name="error"            defStyleNum="dsError" />
     </itemDatas>
   </highlighting>
   <general>
     <comments>
       <comment name="singleLine" start="#" />
     </comments>
-    <keywords casesensitive="true" weakDeliminator="#$" additionalDeliminator="_" />
+    <keywords casesensitive="true" weakDeliminator="_#$" />
   </general>
 </language>
