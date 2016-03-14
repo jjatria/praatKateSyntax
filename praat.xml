@@ -389,44 +389,44 @@ A copy of the GNU General Public License is also available at
 
         <IncludeRules context="function_check" />
 
-        <DetectChar   char='@'              attribute="function" context="procedure_call" />
-        <WordDetect String="call"           attribute="keyword"  context="procedure_call" firstNonSpace="true" />
+        <DetectChar   char='@'                  attribute="function" context="procedure_call" firstNonSpace="true" />
+        <RegExpr    String="\bcall[\s$]"           attribute="keyword"  context="procedure_call" firstNonSpace="true" />
 
-        <WordDetect String="if"             attribute="keyword"  beginRegion="if" />
-        <WordDetect String="endif"          attribute="keyword"  endRegion="if" />
-        <WordDetect String="fi"             attribute="keyword"  endRegion="if" />
+        <RegExpr    String="\bif[\s$]"             attribute="keyword"  beginRegion="if" />
+        <RegExpr    String="\bendif[\s$]"          attribute="keyword"  endRegion="if" />
+        <RegExpr    String="\bfi[\s$]"             attribute="keyword"  endRegion="if" />
 
-        <WordDetect String="for"            attribute="keyword"  beginRegion="for" />
-        <WordDetect String="endfor"         attribute="keyword"  endRegion="for" />
+        <RegExpr    String="\bfor[\s$]"            attribute="keyword"  beginRegion="for" />
+        <RegExpr    String="\bendfor[\s$]"         attribute="keyword"  endRegion="for" />
 
-        <WordDetect String="procedure"      attribute="keyword"  beginRegion="procedure" />
-        <WordDetect String="endproc"        attribute="keyword"  endRegion="procedure" />
+        <RegExpr    String="\bprocedure[\s$]"      attribute="keyword"  beginRegion="procedure" />
+        <RegExpr    String="\bendproc[\s$]"        attribute="keyword"  endRegion="procedure" />
 
-        <WordDetect String="endeditor"      attribute="keyword"  endRegion="editor" />
+        <RegExpr    String="\bendeditor[\s$]"      attribute="keyword"  endRegion="editor" />
 
-        <keyword    String="keywords"       attribute="keyword" />
+        <keyword    String="keywords"         attribute="keyword" />
 
-        <WordDetect String="printline"      attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="print"          attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="printtab"       attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="echo"           attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="exit"           attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="asserterror"    attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="pause"          attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="sendpraat"      attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="sendsocket"     attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="include"        attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="execute"        attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="system"         attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="system_nocheck" attribute="keyword"  context="string_unquoted" />
-        <WordDetect String="editor"         attribute="keyword"  context="string_unquoted" beginRegion="editor" />
+        <RegExpr    String="\bprintline[\s$]"      attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bprint[\s$]"          attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bprinttab[\s$]"       attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\becho[\s$]"           attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bexit[\s$]"           attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\basserterror[\s$]"    attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bpause[\s$]"          attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bsendpraat[\s$]"      attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bsendsocket[\s$]"     attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\binclude[\s$]"        attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bexecute[\s$]"        attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bsystem[\s$]"         attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\bsystem_nocheck[\s$]" attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="\beditor[\s$]"         attribute="keyword"  context="string_unquoted" beginRegion="editor" />
 
-        <WordDetect attribute="keyword"   context="old_form_definition" String="form" firstNonSpace="true" beginRegion="form" />
+        <RegExpr    String="\bform[\s$]"           attribute="keyword"  context="old_form_definition" firstNonSpace="true" beginRegion="form" />
 
-        <WordDetect attribute="keyword"   context="label"               String="goto" />
-        <WordDetect attribute="keyword"   context="label"               String="label" />
+        <RegExpr    String="\bgoto[\s$]"           attribute="keyword"  context="label" />
+        <RegExpr    String="\blabel[\s$]"          attribute="keyword"  context="label" />
 
-        <DetectChar attribute="string"    context="string_quoted"         char='"' />
+        <DetectChar   char='"'                attribute="string"   context="string_quoted" />
         <IncludeRules context="expansion" />
 
         <IncludeRules context="operator" />
