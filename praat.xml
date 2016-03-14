@@ -574,7 +574,7 @@ A copy of the GNU General Public License is also available at
       <context name="comment" attribute="comment" lineEndContext="#pop" />
 
       <context name="string_quoted" attribute="string" lineEndContext="line_continuation_check" >
-        <IncludeRules context="string_unquoted" />
+        <IncludeRules context="expansion" />
         <DetectChar   char='"' attribute="string"    context="#pop" />
       </context>
 
@@ -586,9 +586,11 @@ A copy of the GNU General Public License is also available at
         <RangeDetect attribute="expansion" char="'" char1="'" />
       </context>
 
-      <context name="line_continuation_check" attribute="normal" lineEndContext="#stay" >
-        <StringDetect String="..." attribute="number" context="#pop"     firstNonSpace="true" />
-        <RegExpr      String="."   attribute="normal" context="#pop#pop" lookAhead="true" />
+      <context name="line_continuation_check" attribute="string" lineEndContext="#stay" >
+        <StringDetect String="..."     attribute="normal"   context="#pop"     firstNonSpace="true" />
+        <StringDetect String=".."                           context="#pop#pop" firstNonSpace="true" lookAhead="true" />
+        <StringDetect String="."                            context="#pop#pop" firstNonSpace="true" lookAhead="true" />
+        <RegExpr      String="[\w\d#]"                      context="#pop#pop" firstNonSpace="true" lookAhead="true" />
       </context>
 
       <context name="function_check" attribute="normal" lineEndContext="#pop" >
