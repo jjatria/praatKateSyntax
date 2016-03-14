@@ -37,15 +37,15 @@ selected from `Tools -> Highlighting -> Scripts -> Praat`.
 
 * Broken unquoted strings continue past blank lines:
 
-      printline This is a string
-        ... this also
+        printline This is a string
+          ... this also
 
-        ... this shouldn't, but is.
+          ... this shouldn't, but is.
 
 * Broken quoted strings continue past closing quotes:
 
-      a$ = "This is a string
-        ... this also" + but_also_this$
+        a$ = "This is a string
+          ... this also" + but_also_this$
 
 ### License
 
