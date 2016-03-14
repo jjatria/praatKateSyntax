@@ -35,17 +35,9 @@ selected from `Tools -> Highlighting -> Scripts -> Praat`.
 
 ## Known Issues
 
-* Broken unquoted strings continue past blank lines:
+* [Broken unquoted strings continue past blank lines](https://github.com/jjatria/praatKateSyntax/issues/2)
 
-        printline This is a string
-          ... this also
-
-          ... this shouldn't, but is.
-
-* Broken quoted strings continue past closing quotes:
-
-        a$ = "This is a string
-          ... this also" + but_also_this$
+* [Broken quoted strings continue past closing quotes](https://github.com/jjatria/praatKateSyntax/issues/3)
 
 ### License
 
