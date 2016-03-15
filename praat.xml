@@ -275,6 +275,7 @@ A copy of the GNU General Public License is also available at
         <RegExpr    String="\bsystem&B;"         attribute="keyword"  context="string_unquoted" />
         <RegExpr    String="\bsystem_nocheck&B;" attribute="keyword"  context="string_unquoted" />
         <RegExpr    String="\beditor&B;"         attribute="keyword"  context="string_unquoted" beginRegion="editor" />
+        <RegExpr    String="\bendeditor&B;"      attribute="keyword"                              endRegion="editor" />
 
         <RegExpr    String="\bform&B;"           attribute="keyword"  context="old_form_definition" firstNonSpace="true" beginRegion="form" />
 
