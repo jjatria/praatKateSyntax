@@ -31,32 +31,19 @@ A copy of the GNU General Public License is also available at
       <item>assert</item>
       <item>clearinfo</item>
       <item>demo</item>
-      <item>editor</item>
       <item>elif</item>
       <item>else</item>
       <item>elsif</item>
-      <item>endeditor</item>
-      <item>endfor</item>
-      <item>endif</item>
-      <item>endproc</item>
-      <item>endwhile</item>
-      <item>fi</item>
-      <item>for</item>
       <item>from</item>
-      <item>if</item>
       <item>minus</item>
       <item>nocheck</item>
       <item>noprogress</item>
       <item>nowarn</item>
       <item>plus</item>
-      <item>procedure</item>
-      <item>repeat</item>
       <item>select</item>
       <item>stopwatch</item>
       <item>then</item>
       <item>to</item>
-      <item>until</item>
-      <item>while</item>
     </list>
     <list name="functions_string">
       <item>backslashTrigraphsToUnicode$</item>
