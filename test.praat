@@ -17,6 +17,9 @@ form Highlighter test
   natural Nat 4
 endform
 
+form.var = 10
+# This shouldn't be within a form context
+
 # External scripts
 include /path/to/file
 runScript: "/path/to/file"
