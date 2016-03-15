@@ -263,8 +263,11 @@ A copy of the GNU General Public License is also available at
         <RegExpr    String="\bfor&B;"            attribute="keyword"  beginRegion="for" />
         <RegExpr    String="\bendfor&B;"         attribute="keyword"    endRegion="for" />
 
-        <RegExpr    String="\bprocedure&B;"      attribute="keyword"  beginRegion="procedure" />
-        <RegExpr    String="\bendproc&B;"        attribute="keyword"    endRegion="procedure" />
+        <RegExpr    String="\bwhile&B;"          attribute="keyword"  beginRegion="while" />
+        <RegExpr    String="\bendwhile&B;"       attribute="keyword"    endRegion="while" />
+
+        <RegExpr    String="\brepeat&B;"         attribute="keyword"  beginRegion="repeat" />
+        <RegExpr    String="\buntil&B;"          attribute="keyword"    endRegion="repeat" />
 
         <RegExpr    String="\bendeditor&B;"      attribute="keyword"    endRegion="editor" />
 
