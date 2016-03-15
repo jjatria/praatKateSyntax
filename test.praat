@@ -144,7 +144,7 @@ while i < n
   # New-style multi-line command call with broken strings
   table = Create Table with column names: "table", 0,
     ..."file subject speaker
-    ...f0 f1 f2 f3 " +
+    ... f0 f1 f2 f3 " +
     ..."duration response"
 
   # Function call with trailing space
