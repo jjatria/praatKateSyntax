@@ -57,6 +57,10 @@ string$ = "Strings can be 'interpolated'"
 string$ = "But don't interpolate everything!"
 string$(10)
 
+repeat
+  string$ = string$ - right$(string$)
+until !length(string$)
+
 Text... 1 Right 0.2 Half many----hyphens
 Text... 1 Right -0.4 Bottom aحبيبa
 Text... 1 Right -0.6 Bottom 日本
@@ -91,7 +95,9 @@ for i from newStyle.local to n
   sound[i] = sound'i'
 endfor
 
-for i from 1 to n
+i = 1
+while i < n
+  i++
   # Different styles of object selection
   select sound'i'
   sound = selected()
@@ -160,7 +166,7 @@ for i from 1 to n
   demoWaitForInput ( )
   demo Erase all
   demo Text: 50, "centre", 50, "half", "Finished"
-endfor
+endwhile
 
 switch$ = if switch == 1 then "a" else
   ...     if switch == 2 then "b" else
