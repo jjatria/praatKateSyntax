@@ -376,21 +376,25 @@ A copy of the GNU General Public License is also available at
       </context>
 
       <context name="object_attributes" attribute="object.attribute" lineEndContext="#pop#pop" >
-        <StringDetect String=".ncol" attribute="object.attribute" context="#pop#pop" />
-        <StringDetect String=".nrow" attribute="object.attribute" context="#pop#pop" />
-        <StringDetect String=".xmin" attribute="object.attribute" context="#pop#pop" />
-        <StringDetect String=".ymin" attribute="object.attribute" context="#pop#pop" />
-        <StringDetect String=".xmax" attribute="object.attribute" context="#pop#pop" />
-        <StringDetect String=".ymax" attribute="object.attribute" context="#pop#pop" />
-        <StringDetect String=".nx"   attribute="object.attribute" context="#pop#pop" />
-        <StringDetect String=".ny"   attribute="object.attribute" context="#pop#pop" />
-        <StringDetect String=".dx"   attribute="object.attribute" context="#pop#pop" />
-        <StringDetect String=".dy"   attribute="object.attribute" context="#pop#pop" />
+        <DetectChar char="." attribute="object.attribute" context="#pop#pop!attribute_names" />
 
         <IncludeRules context="expansion" />
 
-        <DetectChar     char="$"     attribute="object.attribute" />
-        <DetectChar     char="["     attribute="normal"           context="#pop#pop" />
+        <DetectChar char="$" attribute="object.attribute" />
+        <DetectChar char="[" attribute="normal"           context="#pop#pop" />
+      </context>
+
+      <context name="attribute_names" attribute="normal" lineEndContext="#pop" >
+        <WordDetect String="ncol" attribute="object.attribute" context="#pop" />
+        <WordDetect String="nrow" attribute="object.attribute" context="#pop" />
+        <WordDetect String="xmin" attribute="object.attribute" context="#pop" />
+        <WordDetect String="ymin" attribute="object.attribute" context="#pop" />
+        <WordDetect String="xmax" attribute="object.attribute" context="#pop" />
+        <WordDetect String="ymax" attribute="object.attribute" context="#pop" />
+        <WordDetect String="nx"   attribute="object.attribute" context="#pop" />
+        <WordDetect String="ny"   attribute="object.attribute" context="#pop" />
+        <WordDetect String="dx"   attribute="object.attribute" context="#pop" />
+        <WordDetect String="dy"   attribute="object.attribute" context="#pop" />
       </context>
 
       <context name="form-optionmenu-variable" attribute="normal" lineEndContext="#pop" >
