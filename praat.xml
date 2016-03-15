@@ -321,35 +321,35 @@ A copy of the GNU General Public License is also available at
       </context>
 
       <context name="operator" attribute="operator" lineEndContext="#pop" >
-        <Detect2Chars char="+"     char1="="     attribute="operator" />
-        <Detect2Chars char="-"     char1="="     attribute="operator" />
-        <Detect2Chars char="/"     char1="="     attribute="operator" />
-        <Detect2Chars char="*"     char1="="     attribute="operator" />
-        <Detect2Chars char="="     char1="="     attribute="operator" />
-        <Detect2Chars char="!"     char1="="     attribute="operator" />
-        <Detect2Chars char="&gt;"  char1="="     attribute="operator" />
-        <Detect2Chars char="&lt;"  char1="&gt;"  attribute="operator" />
-        <Detect2Chars char="&amp;" char1="&amp;" attribute="operator" />
-        <Detect2Chars char="|"     char1="|"     attribute="operator" />
-        <Detect2Chars char="*"     char1="*"     attribute="operator" />
+        <StringDetect String="+="         attribute="operator" />
+        <StringDetect String="-="         attribute="operator" />
+        <StringDetect String="/="         attribute="operator" />
+        <StringDetect String="*="         attribute="operator" />
+        <StringDetect String="=="         attribute="operator" />
+        <StringDetect String="!="         attribute="operator" />
+        <StringDetect String="&gt;="      attribute="operator" />
+        <StringDetect String="&lt;&gt;"   attribute="operator" />
+        <StringDetect String="&amp;&amp;" attribute="operator" />
+        <StringDetect String="||"         attribute="operator" />
+        <StringDetect String="**"         attribute="operator" />
 
-        <DetectChar   char="+"                   attribute="operator" />
-        <DetectChar   char="-"                   attribute="operator" />
-        <DetectChar   char="/"                   attribute="operator" />
-        <DetectChar   char="*"                   attribute="operator" />
-        <DetectChar   char="="                   attribute="operator" />
-        <DetectChar   char="!"                   attribute="operator" />
-        <DetectChar   char="&gt;"                attribute="operator" />
-        <DetectChar   char="&lt;"                attribute="operator" />
-        <DetectChar   char="|"                   attribute="operator" />
-        <DetectChar   char="&amp;"               attribute="operator" />
-        <DetectChar   char="^"                   attribute="operator" />
+        <StringDetect String="+"          attribute="operator" />
+        <StringDetect String="-"          attribute="operator" />
+        <StringDetect String="/"          attribute="operator" />
+        <StringDetect String="*"          attribute="operator" />
+        <StringDetect String="="          attribute="operator" />
+        <StringDetect String="!"          attribute="operator" />
+        <StringDetect String="&gt;"       attribute="operator" />
+        <StringDetect String="&lt;"       attribute="operator" />
+        <StringDetect String="|"          attribute="operator" />
+        <StringDetect String="&amp;"      attribute="operator" />
+        <StringDetect String="^"          attribute="operator" />
 
-        <WordDetect String="and"                 attribute="operator" />
-        <WordDetect String="or"                  attribute="operator" />
-        <WordDetect String="not"                 attribute="operator" />
-        <WordDetect String="div"                 attribute="operator" />
-        <WordDetect String="mod"                 attribute="operator" />
+        <WordDetect String="and"          attribute="operator" />
+        <WordDetect String="or"           attribute="operator" />
+        <WordDetect String="not"          attribute="operator" />
+        <WordDetect String="div"          attribute="operator" />
+        <WordDetect String="mod"          attribute="operator" />
       </context>
 
       <context name="command" attribute="command" lineEndContext="#pop" >
