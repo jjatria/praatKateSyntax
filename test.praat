@@ -17,8 +17,11 @@ form Highlighter test
   natural Nat 4
 endform
 
+# Periods do not establish boundaries for keywords
 form.var = 10
-# This shouldn't be within a form context
+# Or operators
+not.an.operator$ = "Bad variable name"
+bad.or.not = 1
 
 # External scripts
 include /path/to/file
@@ -137,6 +140,8 @@ while i < n
   # Multi-line command with modifier
   pitch = noprogress To Pitch (ac): 0, 75, 15, "no",
     ...0.03, 0.45, 0.01, 0.35, 0.14, 600
+  # Formulas are strings
+  Formula: "if col = 1 then row * Object_'pitch'.dx + 'first' else self fi"
 
   # do-style command with assignment
   minimum = do("Get minimum...", 0, 0, "Hertz", "Parabolic")
