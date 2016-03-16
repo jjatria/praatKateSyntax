@@ -241,46 +241,46 @@ A copy of the GNU General Public License is also available at
         <IncludeRules context="function_check" />
 
         <DetectChar   char='@'                   attribute="function" context="procedure_name" firstNonSpace="true" />
-        <RegExpr    String="\bcall&B;"           attribute="keyword"  context="procedure_name" firstNonSpace="true" />
+        <RegExpr    String="&B;call&B;"           attribute="keyword"  context="procedure_name" firstNonSpace="true" />
 
-        <RegExpr    String="\bif&B;"             attribute="keyword"  beginRegion="if" />
-        <RegExpr    String="\bendif&B;"          attribute="keyword"    endRegion="if" firstNonSpace="true" />
-        <RegExpr    String="\bfi&B;"             attribute="keyword"    endRegion="if" />
+        <RegExpr    String="&B;if&B;"             attribute="keyword"  beginRegion="if" />
+        <RegExpr    String="&B;endif&B;"          attribute="keyword"    endRegion="if" firstNonSpace="true" />
+        <RegExpr    String="&B;fi&B;"             attribute="keyword"    endRegion="if" />
 
-        <RegExpr    String="\bfor&B;"            attribute="keyword"  beginRegion="for" />
-        <RegExpr    String="\bendfor&B;"         attribute="keyword"    endRegion="for" />
+        <RegExpr    String="&B;for&B;"            attribute="keyword"  beginRegion="for" />
+        <RegExpr    String="&B;endfor&B;"         attribute="keyword"    endRegion="for" />
 
-        <RegExpr    String="\bwhile&B;"          attribute="keyword"  beginRegion="while" />
-        <RegExpr    String="\bendwhile&B;"       attribute="keyword"    endRegion="while" />
+        <RegExpr    String="&B;while&B;"          attribute="keyword"  beginRegion="while" />
+        <RegExpr    String="&B;endwhile&B;"       attribute="keyword"    endRegion="while" />
 
-        <RegExpr    String="\brepeat&B;"         attribute="keyword"  beginRegion="repeat" />
-        <RegExpr    String="\buntil&B;"          attribute="keyword"    endRegion="repeat" />
+        <RegExpr    String="&B;repeat&B;"         attribute="keyword"  beginRegion="repeat" />
+        <RegExpr    String="&B;until&B;"          attribute="keyword"    endRegion="repeat" />
 
-        <RegExpr    String="\bprocedure&B;"      attribute="keyword"  context="procedure_name" beginRegion="procedure" />
-        <RegExpr    String="\bendproc&B;"        attribute="keyword"                             endRegion="procedure" />
+        <RegExpr    String="&B;procedure&B;"      attribute="keyword"  context="procedure_name" beginRegion="procedure" />
+        <RegExpr    String="&B;endproc&B;"        attribute="keyword"                             endRegion="procedure" />
 
         <keyword    String="keywords"            attribute="keyword" />
 
-        <RegExpr    String="\bprintline&B;"      attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bprint&B;"          attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bprinttab&B;"       attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\becho&B;"           attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bexit&B;"           attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\basserterror&B;"    attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bpause&B;"          attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bsendpraat&B;"      attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bsendsocket&B;"     attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\binclude&B;"        attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bexecute&B;"        attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bsystem&B;"         attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\bsystem_nocheck&B;" attribute="keyword"  context="string_unquoted" />
-        <RegExpr    String="\beditor&B;"         attribute="keyword"  context="string_unquoted" beginRegion="editor" />
-        <RegExpr    String="\bendeditor&B;"      attribute="keyword"                              endRegion="editor" />
+        <RegExpr    String="&B;printline&B;"      attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;print&B;"          attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;printtab&B;"       attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;echo&B;"           attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;exit&B;"           attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;asserterror&B;"    attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;pause&B;"          attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;sendpraat&B;"      attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;sendsocket&B;"     attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;include&B;"        attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;execute&B;"        attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;system&B;"         attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;system_nocheck&B;" attribute="keyword"  context="string_unquoted" />
+        <RegExpr    String="&B;editor&B;"         attribute="keyword"  context="string_unquoted" beginRegion="editor" />
+        <RegExpr    String="&B;endeditor&B;"      attribute="keyword"                              endRegion="editor" />
 
-        <RegExpr    String="\bform&B;"           attribute="keyword"  context="old_form_definition" firstNonSpace="true" beginRegion="form" />
+        <RegExpr    String="&B;form&B;"           attribute="keyword"  context="old_form_definition" firstNonSpace="true" beginRegion="form" />
 
-        <RegExpr    String="\bgoto&B;"           attribute="keyword"  context="label" />
-        <RegExpr    String="\blabel&B;"          attribute="keyword"  context="label" />
+        <RegExpr    String="&B;goto&B;"           attribute="keyword"  context="label" />
+        <RegExpr    String="&B;label&B;"          attribute="keyword"  context="label" />
 
         <DetectChar   char='"'                attribute="string"   context="string_quoted" />
         <IncludeRules context="expansion" />
@@ -299,25 +299,25 @@ A copy of the GNU General Public License is also available at
       <context name="old_form_definition" attribute="string" lineEndContext="#pop!old_form" />
 
       <context name="old_form" attribute="normal" lineEndContext="#stay">
-        <WordDetect String="optionmenu" attribute="keyword" context="form-optionmenu-variable" />
-        <WordDetect String="option"     attribute="keyword" context="string_unquoted" />
-        <WordDetect String="button"     attribute="keyword" context="string_unquoted" />
+        <RegExpr String="&B;optionmenu&B;" attribute="keyword" context="form-optionmenu-variable" />
+        <RegExpr String="&B;option&B;"     attribute="keyword" context="string_unquoted" />
+        <RegExpr String="&B;button&B;"     attribute="keyword" context="string_unquoted" />
 
-        <WordDetect String="sentence"   attribute="keyword" context="form-string-variable" />
-        <WordDetect String="text"       attribute="keyword" context="form-string-variable" />
+        <RegExpr String="&B;sentence&B;"   attribute="keyword" context="form-string-variable" />
+        <RegExpr String="&B;text&B;"       attribute="keyword" context="form-string-variable" />
 
-        <WordDetect String="word"       attribute="keyword" context="form-word-variable" />
+        <RegExpr String="&B;word&B;"       attribute="keyword" context="form-word-variable" />
 
-        <WordDetect String="comment"    attribute="keyword" context="string_unquoted" />
+        <RegExpr String="&B;comment&B;"    attribute="keyword" context="string_unquoted" />
 
-        <WordDetect String="real"       attribute="keyword" context="number" />
-        <WordDetect String="natural"    attribute="keyword" context="number" />
-        <WordDetect String="positive"   attribute="keyword" context="number" />
-        <WordDetect String="integer"    attribute="keyword" context="number" />
+        <RegExpr String="&B;real&B;"       attribute="keyword" context="number" />
+        <RegExpr String="&B;natural&B;"    attribute="keyword" context="number" />
+        <RegExpr String="&B;positive&B;"   attribute="keyword" context="number" />
+        <RegExpr String="&B;integer&B;"    attribute="keyword" context="number" />
 
-        <WordDetect String="boolean"    attribute="keyword" context="form-boolean-variable" />
+        <RegExpr String="&B;boolean&B;"    attribute="keyword" context="form-boolean-variable" />
 
-        <WordDetect String="endform"    attribute="keyword" context="#pop" endRegion="form" />
+        <RegExpr String="&B;endform&B;"    attribute="keyword" context="#pop" endRegion="form" />
       </context>
 
       <context name="operator" attribute="operator" lineEndContext="#pop" >
@@ -345,11 +345,11 @@ A copy of the GNU General Public License is also available at
         <StringDetect String="&amp;"      attribute="operator" />
         <StringDetect String="^"          attribute="operator" />
 
-        <WordDetect String="and"          attribute="operator" />
-        <WordDetect String="or"           attribute="operator" />
-        <WordDetect String="not"          attribute="operator" />
-        <WordDetect String="div"          attribute="operator" />
-        <WordDetect String="mod"          attribute="operator" />
+        <RegExpr String="&B;and&B;"        attribute="operator" />
+        <RegExpr String="&B;or&B;"         attribute="operator" />
+        <RegExpr String="&B;not&B;"        attribute="operator" />
+        <RegExpr String="&B;div&B;"        attribute="operator" />
+        <RegExpr String="&B;mod&B;"        attribute="operator" />
       </context>
 
       <context name="command" attribute="command" lineEndContext="#pop" >
@@ -385,16 +385,16 @@ A copy of the GNU General Public License is also available at
       </context>
 
       <context name="attribute_names" attribute="normal" lineEndContext="#pop" >
-        <WordDetect String="ncol" attribute="object.attribute" context="#pop" />
-        <WordDetect String="nrow" attribute="object.attribute" context="#pop" />
-        <WordDetect String="xmin" attribute="object.attribute" context="#pop" />
-        <WordDetect String="ymin" attribute="object.attribute" context="#pop" />
-        <WordDetect String="xmax" attribute="object.attribute" context="#pop" />
-        <WordDetect String="ymax" attribute="object.attribute" context="#pop" />
-        <WordDetect String="nx"   attribute="object.attribute" context="#pop" />
-        <WordDetect String="ny"   attribute="object.attribute" context="#pop" />
-        <WordDetect String="dx"   attribute="object.attribute" context="#pop" />
-        <WordDetect String="dy"   attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;ncol&B;" attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;nrow&B;" attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;xmin&B;" attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;ymin&B;" attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;xmax&B;" attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;ymax&B;" attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;nx&B;"   attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;ny&B;"   attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;dx&B;"   attribute="object.attribute" context="#pop" />
+        <RegExpr String="&B;dy&B;"   attribute="object.attribute" context="#pop" />
       </context>
 
       <context name="form-optionmenu-variable" attribute="normal" lineEndContext="#pop" >
@@ -471,16 +471,16 @@ A copy of the GNU General Public License is also available at
 
       <context name="function-numeric-check" attribute="normal" lineEndContext="#pop" >
         <RegExpr    String="[a-zA-Z0-9_]+ *[:(]" attribute="normal"  context="function_call"            lookAhead="true" />
-        <WordDetect String="editor"              attribute="keyword" context="#pop#pop!string_unquoted" beginRegion="editor" />
+        <RegExpr    String="&B;editor&B;"        attribute="keyword" context="#pop#pop!string_unquoted" beginRegion="editor" />
         <DetectChar char=" "                                         context="#pop#pop" />
       </context>
 
       <context name="function_call" attribute="function" lineEndContext="#pop" >
-        <WordDetect String="beginSendPraat" beginRegion="sendpraat" />
-        <WordDetect String="endSendPraat"     endRegion="sendpraat" />
+        <RegExpr String="&B;beginSendPraat&B;" beginRegion="sendpraat" />
+        <RegExpr String="&B;endSendPraat&B;"     endRegion="sendpraat" />
 
-        <WordDetect String="beginPause"     beginRegion="pause" />
-        <WordDetect String="endPause"         endRegion="pause" />
+        <RegExpr String="&B;beginPause&B;"     beginRegion="pause" />
+        <RegExpr String="&B;endPause&B;"         endRegion="pause" />
 
         <DetectChar   char=":" attribute="normal" context="#pop#pop#pop" />
         <DetectChar   char="(" attribute="normal" context="#pop#pop#pop" />
