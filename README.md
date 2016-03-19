@@ -35,9 +35,7 @@ selected from `Tools -> Highlighting -> Scripts -> Praat`.
 
 ## Known Issues
 
-* [Broken unquoted strings continue past blank lines](https://github.com/jjatria/praatKateSyntax/issues/2)
-
-* [Broken quoted strings continue past closing quotes](https://github.com/jjatria/praatKateSyntax/issues/3)
+* None! :)
 
 ### License
 
