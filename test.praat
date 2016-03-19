@@ -149,7 +149,7 @@ while i < n
   # New-style multi-line command call with broken strings
   table = Create Table with column names: "table", 0,
     ..."file subject speaker
-    ... f0 f1 f2 f3 " +
+    ... f0 f1 f2 f" + string$(3) + " " +
     ..."duration response"
 
   # Function call with trailing space
@@ -225,6 +225,11 @@ assert  a !=  b  &&  c
 assert  a <>  b  ||  c
 assert  a <   b  |   c
 assert  a >   b
+
+assert (a)or (b)
+assert (a) or(b)
+assert (a)and(b)
+
 assert "hello" =  "he" + "llo"
 assert "hello" == "hello world" - " world"
 
@@ -263,3 +268,15 @@ assert '_new_style.local'
 
 @proc: a, selected("string"), b
 # Comment
+
+for i to saveSelection.n
+  selectObject: saveSelection.id[i]
+  appendInfoLine: selected$()
+endfor
+
+@ok(if selected$("Sound") = "tone" then 1 else 0 fi,
+  ... "selected sound is tone")
+
+@ok_formula("selected$(""Sound"") = ""tone""", "selected sound is tone")
+
+
