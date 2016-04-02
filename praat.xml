@@ -142,6 +142,7 @@ A copy of the GNU General Public License is also available at
       <item>incompleteGammaP</item>
       <item>index</item>
       <item>index_regex</item>
+      <item>integer</item>
       <item>invBinomialP</item>
       <item>invBinomialQ</item>
       <item>invChiSquareQ</item>
@@ -188,6 +189,7 @@ A copy of the GNU General Public License is also available at
       <item>selectObject</item>
       <item>selected</item>
       <item>semitonesToHertz</item>
+      <item>sentence</item>
       <item>sentencetext</item>
       <item>sigmoid</item>
       <item>sin</item>
@@ -201,6 +203,7 @@ A copy of the GNU General Public License is also available at
       <item>studentQ</item>
       <item>tan</item>
       <item>tanh</item>
+      <item>text</item>
       <item>variableExists</item>
       <item>word</item>
       <item>writeFile</item>
