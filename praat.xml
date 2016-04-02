@@ -244,19 +244,21 @@ A copy of the GNU General Public License is also available at
         <IncludeRules context="function check" />
 
         <DetectChar char='@' attribute="function" context="procedure name" firstNonSpace="true" />
-        <RegExpr String="&B;?call&B;" attribute="keyword" context="function word to shorthand arguments" firstNonSpace="true" />
+
+        <RegExpr String="call&B;" attribute="keyword" context="function word to shorthand arguments" firstNonSpace="true" />
+        <RegExpr String="include&B;" attribute="keyword" context="unquoted string" firstNonSpace="true" />
 
         <RegExpr String="&B;?if&B;" attribute="keyword" beginRegion="if" />
         <RegExpr String="endif&B;" attribute="keyword" endRegion="if" firstNonSpace="true" />
         <RegExpr String="&B;?fi&B;" attribute="keyword" endRegion="if" />
 
-        <RegExpr String="&B;?for&B;" attribute="keyword" beginRegion="for" />
+        <RegExpr String="for&B;" attribute="keyword" beginRegion="for" firstNonSpace="true" />
         <RegExpr String="endfor&B;" attribute="keyword" endRegion="for" firstNonSpace="true" />
 
-        <RegExpr String="&B;?while&B;" attribute="keyword" beginRegion="while" />
+        <RegExpr String="while&B;" attribute="keyword" beginRegion="while" firstNonSpace="true" />
         <RegExpr String="endwhile&B;" attribute="keyword" endRegion="while" firstNonSpace="true" />
 
-        <RegExpr String="&B;?repeat&B;" attribute="keyword" beginRegion="repeat" />
+        <RegExpr String="repeat&B;" attribute="keyword" beginRegion="repeat" firstNonSpace="true" />
         <RegExpr String="until&B;" attribute="keyword" endRegion="repeat" firstNonSpace="true" />
 
         <RegExpr String="procedure&B;" attribute="keyword" context="procedure name" beginRegion="procedure" firstNonSpace="true" />
@@ -264,17 +266,15 @@ A copy of the GNU General Public License is also available at
 
         <keyword String="keywords" attribute="keyword" />
 
-        <RegExpr String="&B;?print(line|tab)?&B;" attribute="keyword" context="unquoted string" />
-        <RegExpr String="&B;?echo&B;" attribute="keyword" context="unquoted string" />
-        <RegExpr String="&B;?exit&B;" attribute="keyword" context="unquoted string" />
-        <RegExpr String="&B;?asserterror&B;" attribute="keyword" context="unquoted string" />
-        <RegExpr String="&B;?pause&B;" attribute="keyword" context="unquoted string" />
-        <RegExpr String="&B;?send(praat|socket)&B;" attribute="keyword" context="unquoted string" />
-        <RegExpr String="include&B;" attribute="keyword" context="unquoted string" firstNonSpace="true" />
-        <RegExpr String="&B;?execute&B;" attribute="keyword" context="unquoted string" />
-        <RegExpr String="&B;?system(_nocheck)?&B;" attribute="keyword" context="unquoted string" />
-        <RegExpr String="&B;?editor&B;" attribute="keyword" context="unquoted string" beginRegion="editor" />
-        <RegExpr String="&B;?endeditor&B;" attribute="keyword" endRegion="editor" />
+        <RegExpr String="&B;print(line|tab)?&B;" attribute="keyword" context="unquoted string" />
+        <RegExpr String="&B;echo&B;" attribute="keyword" context="unquoted string" />
+        <RegExpr String="&B;exit&B;" attribute="keyword" context="unquoted string" />
+        <RegExpr String="&B;asserterror&B;" attribute="keyword" context="unquoted string" />
+        <RegExpr String="&B;pause&B;" attribute="keyword" context="unquoted string" />
+        <RegExpr String="&B;send(praat|socket)&B;" attribute="keyword" context="unquoted string" />
+        <RegExpr String="&B;execute&B;" attribute="keyword" context="unquoted string" />
+        <RegExpr String="&B;editor&B;" attribute="keyword" context="unquoted string" beginRegion="editor" />
+        <RegExpr String="&B;endeditor&B;" attribute="keyword" endRegion="editor" />
 
         <RegExpr String="form&B;" attribute="keyword" context="old form definition" firstNonSpace="true" beginRegion="form" />
 
