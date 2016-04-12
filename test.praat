@@ -61,6 +61,7 @@ endif
 
 string$ = "Strings can be 'interpolated'"
 string$ = "But don't interpolate everything!"
+string$ = "interpolatin' " + "across" + " strings ain't cool either"
 string$(10)
 
 repeat

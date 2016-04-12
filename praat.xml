@@ -416,7 +416,7 @@ A copy of the GNU General Public License is also available at
       </context>
 
       <context name="expansion" attribute="normal" lineEndContext="#pop" >
-        <RangeDetect char="'" char1="'" attribute="expansion" />
+        <RegExpr String="'[^[]'&quot;]+'" attribute="expansion" />
       </context>
 
       <context name="broken unquoted string" attribute="string" lineEndContext="#stay" >
