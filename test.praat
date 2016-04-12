@@ -80,6 +80,12 @@ value$ = Table_'table'$[25, "f0"]
 fixed  = Sound_10.xmin
 fixed  = Object_foo.xmin
 fixed  = Procrustes_foo.nx
+var["vaa"] = 1 ; Hash
+
+# Special two-word keyword
+select all
+# Keyword with a predefined variable
+select  all
 
 # old-style procedure call
 call oldStyle "quoted" 2 unquoted string

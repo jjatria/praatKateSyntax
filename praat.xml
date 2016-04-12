@@ -270,6 +270,7 @@ A copy of the GNU General Public License is also available at
         <RegExpr String="procedure&B;" attribute="keyword" context="procedure name" beginRegion="procedure" firstNonSpace="true" />
         <RegExpr String="endproc&B;" attribute="keyword" endRegion="procedure" firstNonSpace="true" />
 
+        <StringDetect String="select all" attribute="keyword" firstNonSpace="true" />
         <keyword String="keywords" attribute="keyword" />
 
         <RegExpr String="&B;print(line|tab)?&B;" attribute="keyword" context="unquoted string" />
