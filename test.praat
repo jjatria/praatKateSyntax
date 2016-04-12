@@ -30,8 +30,7 @@ execute /path/to/file
 
 # Predefined variables
 a  = praatVersion
-a  = e
-a  = pi
+a  = e + pi * ( all+right) / left mod average + (mono - stereo)
 a$ = homeDirectory$ + tab$ + newline$
 a$ = temporaryDirectory$
 a$ = praatVersion$
@@ -40,6 +39,9 @@ a$ = homeDirectory$
 a$ = preferencesDirectory$
 a$ = defaultDirectory$
 nocheck selectObject: undefined
+# Not predefined variables
+a$ = e$
+a$ = pi$
 
 # Arrays are not comments
 a# = zero# (5, 6)

@@ -219,13 +219,19 @@ A copy of the GNU General Public License is also available at
       <item>zero#</item>
     </list>
     <list name="variables_numeric">
-      <item>macintosh</item>
-      <item>windows</item>
-      <item>unix</item>
-      <item>praatVersion</item>
-      <item>pi</item>
+      <item>all</item>
+      <item>average</item>
       <item>e</item>
+      <item>left</item>
+      <item>macintosh</item>
+      <item>mono</item>
+      <item>pi</item>
+      <item>praatVersion</item>
+      <item>right</item>
+      <item>stereo</item>
       <item>undefined</item>
+      <item>unix</item>
+      <item>windows</item>
    </list>
     <list name="variables_string">
       <item>praatVersion$</item>
