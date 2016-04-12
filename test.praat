@@ -133,7 +133,7 @@ endfor
 
 i = 1
 while i < n
-  i++
+  i += 1
   # Different styles of object selection
   select sound'i'
   sound = selected()
