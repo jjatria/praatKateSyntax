@@ -321,5 +321,3 @@ endfor
   ... "selected sound is tone")
 
 @ok_formula("selected$(""Sound"") = ""tone""", "selected sound is tone")
-
-

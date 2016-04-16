@@ -424,7 +424,7 @@ A copy of the GNU General Public License is also available at
       </context>
 
       <context name="expansion" attribute="normal" lineEndContext="#pop" >
-        <RegExpr String="'[^\[\]'&quot;]+(\[([\d,]+|&quot;[\w\d,]+&quot;)\])?'" attribute="expansion" />
+        <RegExpr String="'[^\[\]'&quot;]+(\[([\w\d,]+|&quot;[\w\d,]+&quot;)\])?'" attribute="expansion" />
       </context>
 
       <context name="broken unquoted string" attribute="string" lineEndContext="#stay" >
