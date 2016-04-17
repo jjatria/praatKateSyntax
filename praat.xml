@@ -305,6 +305,8 @@ A copy of the GNU General Public License is also available at
       <context name="old form definition" attribute="string" lineEndContext="#pop!old form" />
 
       <context name="old form" attribute="normal" lineEndContext="#stay">
+        <DetectChar char='#' attribute="comment" context="comment" firstNonSpace="true" />
+
         <RegExpr String="choice&B;" attribute="keyword" context="normal word with colon to number" firstNonSpace="true" />
         <RegExpr String="optionmenu&B;" attribute="keyword" context="normal word with colon to number" firstNonSpace="true" />
         <RegExpr String="option&B;" attribute="keyword" context="unquoted string" firstNonSpace="true" />
